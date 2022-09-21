@@ -1,7 +1,6 @@
 ﻿namespace MailService.Configurations
 {
-    internal class MailClientSettings
+    public class IMapClientSettings : ClientSettings
     {
-
     }
 }
