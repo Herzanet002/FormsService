@@ -1,5 +1,7 @@
-﻿using MailService.Configurations;
+﻿using MailService;
+using MailService.Configurations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace FormsService.Controllers
 {
@@ -7,18 +9,18 @@ namespace FormsService.Controllers
     [Route("/api/[controller]/")]
     public class HomeController : Controller
     {
-        private readonly IServiceProvider _serviceProvider;
-        public HomeController(IServiceProvider serviceProvider)
+        private readonly IOptionsMonitor<ClientSettings> _optionsDelegate;
+        public HomeController(IOptionsMonitor<ClientSettings> optionsDelegate)
         {
-            _serviceProvider = serviceProvider;
-            
+            _optionsDelegate = optionsDelegate;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var t = _serviceProvider.GetRequiredService<IMapClientConfigurations>();
-            return Ok();
+            var msc = new MailServiceClient(_optionsDelegate.CurrentValue);
+            var messages = await msc.ReceiveEmail();
+            return Ok(messages);
         }
     }
 }

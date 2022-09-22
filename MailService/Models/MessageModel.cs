@@ -2,7 +2,9 @@
 {
     public class MessageModel
     {
-        public string Name { get; set; } = string.Empty;
-        public string Address { get; set; } = string.Empty;
+        public string From { get; set; } = string.Empty;
+        public string Subject { get; set; } = string.Empty;
+        public string? Content { get; set; }
+        public DateTimeOffset Date { get; set; }
     }
 }

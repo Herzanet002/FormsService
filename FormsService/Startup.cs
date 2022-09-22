@@ -1,5 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 using System.Reflection;
+using MailService;
 using MailService.Configurations;
 using Microsoft.Extensions.Configuration;
 
@@ -20,9 +21,10 @@ namespace FormsService
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddMvc();
-            var t = Configuration.GetSection(nameof(IMapClientConfigurations));
-            //services.Configure<IMapClientConfigurations>());
-
+            services.Configure<ClientSettings>(
+                Configuration.GetSection(nameof(IMapClientConfigurations)));
+            //services.Configure<MailServiceClient>(Configuration);
+            //services.AddSingleton<MailServiceClient>();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

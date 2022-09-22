@@ -8,6 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="3.4.1" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 
 </Project>
