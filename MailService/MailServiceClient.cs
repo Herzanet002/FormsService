@@ -1,14 +1,11 @@
-﻿using MailService.Configurations;
-using Microsoft.Extensions.Options;
-using System.Net.Mail;
-using MailKit;
+﻿using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
+using MailService.Configurations;
 using MailService.Models;
 using MimeKit;
-using System.Text;
-using System.IO;
-using System;
+using System.Text.RegularExpressions;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace MailService
 {
@@ -38,10 +35,11 @@ namespace MailService
                 if (message.Envelope.Subject == "FormReply" &&
                     (message.Envelope.From.Mailboxes.Count(x => x.Domain == "forms-mailer.yaconnect.com") != 0))
                 {
-                    //var body = Encoding.UTF8.GetBytes(await inboxFolder.GetBodyPartAsync(message.UniqueId, message.HtmlBody));
+                    var body = await inboxFolder.GetBodyPartAsync(message.UniqueId, message.HtmlBody) as TextPart;
+                    var jsonPart = ParseHtml(body.Text);
                     messages.Add(new MessageModel
                     {
-                        //Content = message.HtmlBody != null ? body.ToString() : "",
+                        Content = message.HtmlBody.ToString(),
                         From = message.Envelope.From.ToString(),
                         Subject = message.Envelope.Subject,
                         Date = message.Envelope.Date!.Value
@@ -53,59 +51,17 @@ namespace MailService
             return messages;
         }
 
-        private async Task<MemoryStream> ReadMessage(IMailFolder myfolder)
+        private string ParseHtml(string htmlText)
         {
-            MemoryStream mstream = new MemoryStream();
-            MemoryStream endstream = new MemoryStream();
-            foreach (var summary in await myfolder.FetchAsync(await myfolder.SearchAsync(SearchQuery.All, CancellationToken.None),
-                         MessageSummaryItems.UniqueId | MessageSummaryItems.BodyStructure | MessageSummaryItems.Envelope))
-            {
+            var jsonString = htmlText.Split(new[] { '{', '}' }, StringSplitOptions.RemoveEmptyEntries)[1];
+            var unescaped = Regex.Unescape(jsonString);
+            var withoutQuot = Regex.Replace(unescaped, "&quot;", @"""");
+            var result = "{" + withoutQuot + "}";
 
+            var deserialized = JsonSerializer.Deserialize<MenuModel>(result);
 
-                if (summary.HtmlBody != null)
-                {
-
-                    var body = (MimePart)myfolder.GetBodyPart(summary.UniqueId, summary.HtmlBody);
-                    string charset = body.ContentType.Charset;
-                    body.Content.DecodeTo(mstream);
-                    byte[] mstreamBytes = mstream.ToArray();
-                    if (!charset.Contains("utf-8"))
-                    {
-                        Encoding utf8 = Encoding.GetEncoding("utf-8");
-                        Encoding anotherEnc = Encoding.GetEncoding(charset);
-                        byte[] utf8Bytes = Encoding.Convert(anotherEnc, utf8, mstreamBytes);
-                        endstream.Write(utf8Bytes, 0, utf8Bytes.Length);
-                    }
-                    else
-                    {
-                        endstream.Write(mstreamBytes, 0, mstreamBytes.Length);
-                    }
-
-                }
-                else
-                {
-                    var body = (MimePart)myfolder.GetBodyPart(summary.UniqueId, summary.TextBody);
-                    string charset = body.ContentType.Charset;
-                    body.Content.DecodeTo(mstream);
-                    byte[] mstreamBytes = mstream.ToArray();
-                    if (!charset.Contains("utf-8"))
-                    {
-                        Encoding utf8 = Encoding.GetEncoding("utf-8");
-                        Encoding anotherEnc = Encoding.GetEncoding(charset);
-                        byte[] utf8Bytes = Encoding.Convert(anotherEnc, utf8, mstreamBytes);
-                        endstream.Write(utf8Bytes, 0, utf8Bytes.Length);
-                    }
-                    else
-                    {
-                        endstream.Write(mstreamBytes, 0, mstreamBytes.Length);
-                    }
-
-
-                }
-                endstream.Seek(0, SeekOrigin.Begin);
-            }
-
-            return endstream;
+            return result;
         }
+
     }
 }

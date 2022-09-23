@@ -12,7 +12,7 @@ public class Program
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .WriteTo.Console()
             .Enrich.FromLogContext()
-            .WriteTo.File("logs/webCalcAPI_Logs.txt", rollingInterval: RollingInterval.Day)
+            .WriteTo.File("logs/formsService.txt", rollingInterval: RollingInterval.Day)
             .CreateLogger();
 
         try
