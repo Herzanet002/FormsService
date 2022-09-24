@@ -5,6 +5,8 @@ using MailService.Configurations;
 using MailService.Models;
 using MimeKit;
 using System.Text.RegularExpressions;
+using MailService.Models.MenuModels;
+using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace MailService
@@ -55,11 +57,13 @@ namespace MailService
         {
             var jsonString = htmlText.Split(new[] { '{', '}' }, StringSplitOptions.RemoveEmptyEntries)[1];
             var unescaped = Regex.Unescape(jsonString);
-            var withoutQuot = Regex.Replace(unescaped, "&quot;", @"""");
+            var withoutQuot = Regex.Replace(unescaped, "&quot;", @"""").Trim();
             var result = "{" + withoutQuot + "}";
 
+    
             var deserialized = JsonSerializer.Deserialize<MenuModel>(result);
-
+            var serialized = JsonSerializer.Serialize(deserialized);
+            var d2 = JsonSerializer.Deserialize<MenuModel>(serialized);
             return result;
         }
 

@@ -1,6 +1,9 @@
-﻿namespace MailService.Models.MenuModels
+﻿using System.Runtime.Serialization;
+
+namespace MailService.Models.MenuModels
 {
-    public class Salad 
+    
+    public class Salad : Dish
     {
     }
 }

@@ -1,12 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using MailService.Models.MenuModels;
+using System.Text.Json.Serialization;
+
 
 namespace MailService.Models
 {
     [Serializable]
     public class MenuModel
     {
-        public int Id { get; set; }
-
+      
         [JsonPropertyName("Сотрудник")]
         public string Name { get; set; }
 
@@ -14,12 +15,15 @@ namespace MailService.Models
         public string Location { get; set; }
 
         [JsonPropertyName("Салат")]
-        public string Salad { get; set; }
+        [JsonConverter(typeof(JsonDishConverter<Salad>))]
+        public Salad Salad { get; set; }
 
         [JsonPropertyName("Суп")]
-        public string Soup { get; set; }
-        [JsonPropertyName("Горячее")]
-        public string FirstCourse { get; set; }
+        [JsonConverter(typeof(JsonDishConverter<Soup>))]
+        public Soup Soup { get; set; }
 
+        [JsonPropertyName("Горячее")]
+        [JsonConverter(typeof(JsonDishConverter<FirstCourse>))]
+        public FirstCourse FirstCourse { get; set; }
     }
 }

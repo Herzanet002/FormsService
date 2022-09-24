@@ -5,9 +5,11 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6259C3EF-5B00-40C9-B15A-F5028C66C332}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailService", "MailService\MailService.csproj", "{E3617506-062A-4B71-B9F0-4C7DFCB53409}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailService", "MailService\MailService.csproj", "{E3617506-062A-4B71-B9F0-4C7DFCB53409}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsService", "FormsService\FormsService.csproj", "{728E9F6D-CFE9-4117-A8AA-14EFAC3E0F1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormsService", "FormsService\FormsService.csproj", "{728E9F6D-CFE9-4117-A8AA-14EFAC3E0F1A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{15FB1166-0279-4887-9F22-86EE42ECB708}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,5 @@
 ﻿namespace MailService.Models.MenuModels;
 
-public class FirstCourse 
+public class FirstCourse : Dish
 {
 }
