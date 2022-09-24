@@ -5,8 +5,6 @@ using MailService.Configurations;
 using MailService.Models;
 using MimeKit;
 using System.Text.RegularExpressions;
-using MailService.Models.MenuModels;
-using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace MailService
@@ -39,6 +37,7 @@ namespace MailService
                 {
                     var body = await inboxFolder.GetBodyPartAsync(message.UniqueId, message.HtmlBody) as TextPart;
                     var jsonPart = ParseHtml(body.Text);
+                    var deserialized = JsonSerializer.Deserialize<MenuModel>(jsonPart);
                     messages.Add(new MessageModel
                     {
                         Content = message.HtmlBody.ToString(),
@@ -55,16 +54,12 @@ namespace MailService
 
         private string ParseHtml(string htmlText)
         {
-            var jsonString = htmlText.Split(new[] { '{', '}' }, StringSplitOptions.RemoveEmptyEntries)[1];
+            Regex regex = new Regex("{(.*?)}", RegexOptions.Compiled);
+            var jsonString = regex.Match(htmlText).Value;
+
             var unescaped = Regex.Unescape(jsonString);
             var withoutQuot = Regex.Replace(unescaped, "&quot;", @"""").Trim();
-            var result = "{" + withoutQuot + "}";
-
-    
-            var deserialized = JsonSerializer.Deserialize<MenuModel>(result);
-            var serialized = JsonSerializer.Serialize(deserialized);
-            var d2 = JsonSerializer.Deserialize<MenuModel>(serialized);
-            return result;
+            return withoutQuot;
         }
 
     }
