@@ -1,9 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using MailService.Extensions;
 using System.Reflection;
-using MailService;
-using MailService.Configurations;
-using MailService.Extensions;
-using Microsoft.Extensions.Configuration;
 
 namespace FormsService
 {
@@ -21,10 +17,6 @@ namespace FormsService
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-            services.AddMvc();
-
-
-            //services.Configure<MailServiceClient>(Configuration);
 
             services.AddMailHostedService().
                 ConfigureMailService(Configuration);
@@ -32,11 +24,6 @@ namespace FormsService
             services
                 .AddEmailService()
                 .ConfigureEmailService(Configuration);
-
-            //services.AddSingleton<IMailServiceClient, MailServiceClient>();
-            //services.AddSingleton<MailHostedService>();
-            //services.AddScoped<IMailServiceClient, MailServiceClient>();
-            //services.AddHostedService<MailHostedService>();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

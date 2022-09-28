@@ -6,6 +6,7 @@ using MailService.Helpers;
 using MailService.Models;
 using Microsoft.Extensions.Logging;
 using MimeKit;
+using System.Runtime;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace MailService
@@ -13,8 +14,10 @@ namespace MailService
 
     public interface IMailServiceClient
     {
-        void Init(ClientSettings clientSettings);
+        void InitializeClient(ClientSettings clientSettings);
         Task<List<MessageModel>> ReceiveEmail();
+        Task ConnectAsync();
+        Task AuthenticateAsync();
     }
     public class MailServiceClient : IMailServiceClient
     {
@@ -26,15 +29,51 @@ namespace MailService
             _logger = logger;
             _imapClient = new ImapClient();
         }
+
+        public async Task ConnectAsync()
+        {
+            using var cancelTokenSource = new CancellationTokenSource();
+            var cancellationToken = cancelTokenSource.Token;
+            if (_clientSettings == null) throw new NullReferenceException(nameof(_clientSettings));
+            try
+            {
+                await _imapClient.ConnectAsync(_clientSettings.Host, _clientSettings.Port, _clientSettings.Ssl, cancellationToken);
+                _logger.LogInformation($"Connection successfully to mail server : {_clientSettings.Host}:{_clientSettings.Port}");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"An error when connecting to mail server: {_clientSettings.Host}:{_clientSettings.Port}");
+                throw;
+            }
+        }
+
+        public async Task AuthenticateAsync()
+        {
+            using var cancelTokenSource = new CancellationTokenSource();
+            var cancellationToken = cancelTokenSource.Token;
+            if (_clientSettings == null) throw new NullReferenceException(nameof(_clientSettings));
+
+            try
+            {
+                await _imapClient.AuthenticateAsync(_clientSettings.Login, _clientSettings.Password, cancellationToken);
+                await _imapClient.Inbox.OpenAsync(FolderAccess.ReadWrite, cancellationToken);
+                _logger.LogInformation($"Authenication successfully : {_clientSettings.Host}:{_clientSettings.Port}");
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, $"An error when authenticate to mail server: {_clientSettings.Host}:{_clientSettings.Port}");
+                throw;
+            }
+           
+        }
         public async Task<List<MessageModel>> ReceiveEmail()
         {
-            if (_clientSettings == null) throw (new ArgumentNullException(nameof(_clientSettings)));
-
-            await _imapClient.ConnectAsync(_clientSettings.Host, _clientSettings.Port, _clientSettings.Ssl);
-            await _imapClient.AuthenticateAsync(_clientSettings.Login, _clientSettings.Password);
-
+            await ConnectAsync();
+            
+            await AuthenticateAsync();
+            
             var inboxFolder = _imapClient.Inbox;
-            await inboxFolder.OpenAsync(access: FolderAccess.ReadWrite);
+
             var messages = new List<MessageModel>();
             var inboxMessages = await inboxFolder.FetchAsync(
                 await inboxFolder.SearchAsync(SearchQuery.All, CancellationToken.None),
@@ -67,7 +106,7 @@ namespace MailService
         }
 
 
-        public void Init(ClientSettings clientSettings)
+        public void InitializeClient(ClientSettings clientSettings)
         {
             _clientSettings = clientSettings;
         }
