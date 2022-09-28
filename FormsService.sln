@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormsService", "FormsServic
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{15FB1166-0279-4887-9F22-86EE42ECB708}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsService.Tests", "FormsService.Tests\FormsService.Tests.csproj", "{5E8FC664-BF76-49DD-8C59-E118F096C27F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormsService.Tests", "FormsService.Tests\FormsService.Tests.csproj", "{5E8FC664-BF76-49DD-8C59-E118F096C27F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

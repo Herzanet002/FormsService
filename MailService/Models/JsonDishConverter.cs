@@ -1,27 +1,28 @@
 ﻿using MailService.Models.MenuModels;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 
 namespace MailService.Models;
 
 public class JsonDishConverter<T> : JsonConverter<T> where T : Dish
 {
-    private static Dish? CreateDishInheritor(string readerString, string typeOfDish)
+    private static Dish? CreateDish(string readerString)
     {
-        var nameOfDish = readerString.Contains("нет", StringComparison.OrdinalIgnoreCase)
-            ? readerString.Replace("-", string.Empty).Trim()
+        //var regex = new Regex(@"[\w+\s*]+\/\s*\d+");
+
+        var nameOfDish = readerString.Contains("-Нет-", StringComparison.OrdinalIgnoreCase)
+            ? readerString.Trim()
             : readerString.Split("/")[0].Trim();
 
-        var dishPrice = readerString.Contains("нет", StringComparison.OrdinalIgnoreCase)
+        var dishPrice = readerString.Contains("-Нет-", StringComparison.OrdinalIgnoreCase)
             ? 0
             : int.Parse(readerString.Split("/")[1]);
 
-        return typeOfDish switch
+        return new Dish
         {
-            nameof(Salad) => new Salad { Name = nameOfDish, Price = dishPrice },
-            nameof(Soup) => new Soup { Name = nameOfDish, Price = dishPrice },
-            nameof(FirstCourse) => new FirstCourse { Name = nameOfDish, Price = dishPrice },
-            _ => null
+            Name = nameOfDish,
+            Price = dishPrice
         };
     }
 
@@ -29,7 +30,7 @@ public class JsonDishConverter<T> : JsonConverter<T> where T : Dish
     {
         if (reader.GetString() is not { } str) return null;
 
-        return CreateDishInheritor(str, typeToConvert.Name) as T;
+        return CreateDish(str) as T;
 
     }
 

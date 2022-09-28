@@ -15,15 +15,15 @@ namespace MailService.Models
         public string Location { get; set; }
 
         [JsonPropertyName("Салат")]
-        [JsonConverter(typeof(JsonDishConverter<Salad>))]
-        public Salad Salad { get; set; }
+        [JsonConverter(typeof(JsonDishConverter<Dish>))]
+        public Dish Salad { get; set; }
 
+        [JsonConverter(typeof(JsonDishConverter<Dish>))]
         [JsonPropertyName("Суп")]
-        [JsonConverter(typeof(JsonDishConverter<Soup>))]
-        public Soup Soup { get; set; }
+        public Dish Soup { get; set; }
 
         [JsonPropertyName("Горячее")]
-        [JsonConverter(typeof(JsonDishConverter<FirstCourse>))]
-        public FirstCourse FirstCourse { get; set; }
+        [JsonConverter(typeof(JsonDishConverter<Dish>))]
+        public Dish FirstCourse { get; set; }
     }
 }

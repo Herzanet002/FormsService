@@ -2,29 +2,38 @@
 using MailKit.Net.Imap;
 using MailKit.Search;
 using MailService.Configurations;
+using MailService.Helpers;
 using MailService.Models;
+using Microsoft.Extensions.Logging;
 using MimeKit;
 using JsonSerializer = System.Text.Json.JsonSerializer;
-using MailService.Helpers;
 
 namespace MailService
 {
-    public class MailServiceClient
+
+    public interface IMailServiceClient
     {
-        private readonly ClientSettings _clientSettings;
-
-        public MailServiceClient(ClientSettings clientSettings)
+        void Init(ClientSettings clientSettings);
+        Task<List<MessageModel>> ReceiveEmail();
+    }
+    public class MailServiceClient : IMailServiceClient
+    {
+        private readonly ILogger<MailServiceClient> _logger;
+        private readonly ImapClient _imapClient;
+        private ClientSettings? _clientSettings;
+        public MailServiceClient(ILogger<MailServiceClient> logger)
         {
-            _clientSettings = clientSettings;
+            _logger = logger;
+            _imapClient = new ImapClient();
         }
-
         public async Task<List<MessageModel>> ReceiveEmail()
         {
-            using var client = new ImapClient();
-            await client.ConnectAsync(_clientSettings.Host, _clientSettings.Port, _clientSettings.Ssl);
-            await client.AuthenticateAsync(_clientSettings.Login, _clientSettings.Password);
+            if (_clientSettings == null) throw (new ArgumentNullException(nameof(_clientSettings)));
 
-            var inboxFolder = client.Inbox;
+            await _imapClient.ConnectAsync(_clientSettings.Host, _clientSettings.Port, _clientSettings.Ssl);
+            await _imapClient.AuthenticateAsync(_clientSettings.Login, _clientSettings.Password);
+
+            var inboxFolder = _imapClient.Inbox;
             await inboxFolder.OpenAsync(access: FolderAccess.ReadWrite);
             var messages = new List<MessageModel>();
             var inboxMessages = await inboxFolder.FetchAsync(
@@ -40,13 +49,17 @@ namespace MailService
 
                 var jsonPart = body.Text.GetJsonFromHtml();
                 var deserialized = JsonSerializer.Deserialize<MenuModel>(jsonPart);
-                messages.Add(new MessageModel
+
+                var messageModel = new MessageModel
                 {
+                    UniqueId = message.UniqueId,
                     Content = message.HtmlBody.ToString(),
                     From = message.Envelope.From.ToString(),
                     Subject = message.Envelope.Subject,
                     Date = message.Envelope.Date!.Value
-                });
+                };
+                _logger.LogInformation($"Message in inbox folder: UniqID: {messageModel.UniqueId}, date: {messageModel.Date}");
+                messages.Add(messageModel);
                 //await inboxFolder.AddFlagsAsync(new[] { message.UniqueId }, MessageFlags.Deleted, true);
             }
             //await inboxFolder.ExpungeAsync();
@@ -54,6 +67,9 @@ namespace MailService
         }
 
 
-
+        public void Init(ClientSettings clientSettings)
+        {
+            _clientSettings = clientSettings;
+        }
     }
 }
