@@ -1,7 +1,6 @@
 ﻿using MailService.Models.MenuModels;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 
 namespace MailService.Models;
 
@@ -31,7 +30,6 @@ public class JsonDishConverter<T> : JsonConverter<T> where T : Dish
         if (reader.GetString() is not { } str) return null;
 
         return CreateDish(str) as T;
-
     }
 
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)

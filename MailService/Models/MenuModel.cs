@@ -1,13 +1,11 @@
 ﻿using MailService.Models.MenuModels;
 using System.Text.Json.Serialization;
 
-
 namespace MailService.Models
 {
     [Serializable]
     public class MenuModel
     {
-      
         [JsonPropertyName("Сотрудник")]
         public string Name { get; set; }
 

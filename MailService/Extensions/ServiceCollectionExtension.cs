@@ -1,4 +1,6 @@
 ﻿using MailService.Configurations;
+using MailService.Services;
+using MailService.Services.Hosted;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,27 +16,15 @@ namespace MailService.Extensions
             return services;
         }
 
-
         public static IServiceCollection AddMailHostedService(this IServiceCollection services)
         {
             services.AddHostedService<MailHostedService>();
-            //services.AddHostedService<IMailHostedService, MailHostedService>();
-
-            return services;
-        }
-        public static IServiceCollection ConfigureEmailService(this IServiceCollection services,
-            IConfiguration configuration)
-        {
-            services.Configure<ClientSettings>(
-                configuration.GetSection(nameof(IMapClientConfigurations)));
-
             return services;
         }
 
         public static IServiceCollection AddEmailService(this IServiceCollection services)
         {
             services.AddTransient<IMailServiceClient, MailServiceClient>();
-
             return services;
         }
     }

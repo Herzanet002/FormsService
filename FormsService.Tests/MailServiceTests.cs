@@ -5,7 +5,6 @@ namespace FormsService.Tests
         [Fact]
         public void Test1()
         {
-
         }
     }
 }

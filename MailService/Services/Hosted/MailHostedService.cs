@@ -4,13 +4,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace MailService
+namespace MailService.Services.Hosted
 {
-    public interface IMailHostedService
-    {
-
-    }
-    public class MailHostedService : BackgroundService, IMailHostedService
+    public class MailHostedService : BackgroundService
     {
         private readonly ILogger<MailHostedService> _logger;
         private readonly IServiceProvider _services;
@@ -22,6 +18,7 @@ namespace MailService
             _services = services;
             _clientSettings = optionsDelegate.CurrentValue;
         }
+
         public override Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation($"{nameof(MailHostedService)} stopped");
@@ -45,8 +42,6 @@ namespace MailService
                 await mailServiceClient.ReceiveEmail();
                 await Task.Delay(TimeSpan.FromSeconds(_clientSettings.EmailReadInterval), stoppingToken);
             } while (!stoppingToken.IsCancellationRequested);
-
-
         }
     }
 }

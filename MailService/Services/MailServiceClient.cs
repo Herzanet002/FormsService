@@ -6,24 +6,16 @@ using MailService.Helpers;
 using MailService.Models;
 using Microsoft.Extensions.Logging;
 using MimeKit;
-using System.Runtime;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace MailService
+namespace MailService.Services
 {
-
-    public interface IMailServiceClient
-    {
-        void InitializeClient(ClientSettings clientSettings);
-        Task<List<MessageModel>> ReceiveEmail();
-        Task ConnectAsync();
-        Task AuthenticateAsync();
-    }
     public class MailServiceClient : IMailServiceClient
     {
         private readonly ILogger<MailServiceClient> _logger;
         private readonly ImapClient _imapClient;
         private ClientSettings? _clientSettings;
+
         public MailServiceClient(ILogger<MailServiceClient> logger)
         {
             _logger = logger;
@@ -59,21 +51,19 @@ namespace MailService
                 await _imapClient.Inbox.OpenAsync(FolderAccess.ReadWrite, cancellationToken);
                 _logger.LogInformation($"Authenication successfully : {_clientSettings.Host}:{_clientSettings.Port}");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.LogError(e, $"An error when authenticate to mail server: {_clientSettings.Host}:{_clientSettings.Port}");
                 throw;
             }
-           
         }
+
         public async Task<List<MessageModel>> ReceiveEmail()
         {
             await ConnectAsync();
-            
             await AuthenticateAsync();
-            
-            var inboxFolder = _imapClient.Inbox;
 
+            var inboxFolder = _imapClient.Inbox;
             var messages = new List<MessageModel>();
             var inboxMessages = await inboxFolder.FetchAsync(
                 await inboxFolder.SearchAsync(SearchQuery.All, CancellationToken.None),
@@ -81,8 +71,7 @@ namespace MailService
 
             foreach (var message in inboxMessages)
             {
-                if (message.Envelope.Subject != "FormReply" ||
-                    message.Envelope.From.Mailboxes.All(x => x.Domain != "forms-mailer.yaconnect.com")) continue;
+                if (!MessageValidation(message)) continue;
 
                 if (await inboxFolder.GetBodyPartAsync(message.UniqueId, message.HtmlBody) is not TextPart body) continue;
 
@@ -105,6 +94,11 @@ namespace MailService
             return messages;
         }
 
+        private static bool MessageValidation(IMessageSummary message)
+        {
+            return message.Envelope.Subject == "FormReply" &&
+                   message.Envelope.From.Mailboxes.All(x => x.Domain == "forms-mailer.yaconnect.com");
+        }
 
         public void InitializeClient(ClientSettings clientSettings)
         {

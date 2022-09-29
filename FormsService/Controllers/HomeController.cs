@@ -1,7 +1,4 @@
-﻿using MailService;
-using MailService.Configurations;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace FormsService.Controllers
 {

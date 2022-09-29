@@ -18,13 +18,14 @@ namespace FormsService
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            services.AddMailHostedService().
-                ConfigureMailService(Configuration);
+            services
+                .AddMailHostedService()
+                .ConfigureMailService(Configuration);
 
             services
-                .AddEmailService()
-                .ConfigureEmailService(Configuration);
+                .AddEmailService();
         }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
