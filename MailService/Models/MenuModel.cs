@@ -6,6 +6,8 @@ namespace MailService.Models
     [Serializable]
     public class MenuModel
     {
+        public int Id { get; set; }
+
         [JsonPropertyName("Сотрудник")]
         public string Name { get; set; }
 

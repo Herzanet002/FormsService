@@ -9,15 +9,15 @@ using IImapClient = MailService.Services.Interfaces.IImapClient;
 
 namespace MailService.Services
 {
-    public class IMenuSourceClient : IImapClient
+    public class MenuSourceClient : IImapClient
     {
         private readonly ImapClient _imapClient;
 
-        private readonly ILogger<IMenuSourceClient> _logger;
+        private readonly ILogger<MenuSourceClient> _logger;
 
         private ClientSettings? _clientSettings;
 
-        public IMenuSourceClient(ILogger<IMenuSourceClient> logger)
+        public MenuSourceClient(ILogger<MenuSourceClient> logger)
         {
             _logger = logger;
             _imapClient = new ImapClient();
@@ -31,7 +31,8 @@ namespace MailService.Services
         {
             using var cancelTokenSource = new CancellationTokenSource();
             var cancellationToken = cancelTokenSource.Token;
-            if (_clientSettings == null) throw new NullReferenceException(nameof(_clientSettings));
+            if (_clientSettings == null)
+                throw new NullReferenceException(nameof(_clientSettings));
             try
             {
                 await _imapClient.ConnectAsync(_clientSettings.Host, _clientSettings.Port, _clientSettings.Ssl, cancellationToken);
@@ -48,8 +49,8 @@ namespace MailService.Services
         {
             using var cancelTokenSource = new CancellationTokenSource();
             var cancellationToken = cancelTokenSource.Token;
-            if (_clientSettings == null) throw new NullReferenceException(nameof(_clientSettings));
-
+            if (_clientSettings == null) 
+                throw new NullReferenceException(nameof(_clientSettings));
             try
             {
                 await _imapClient.AuthenticateAsync(_clientSettings.Login, _clientSettings.Password, cancellationToken);

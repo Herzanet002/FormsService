@@ -1,5 +1,7 @@
 ﻿using MailService.Extensions;
 using System.Reflection;
+using FormsService.DAL;
+using Microsoft.EntityFrameworkCore;
 
 namespace FormsService
 {
@@ -18,6 +20,8 @@ namespace FormsService
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
+            services.AddDbContext<DatabaseContext>(
+                options => options.UseNpgsql(Configuration.GetConnectionString("Data")));
             services
                 .AddMailHostedService()
                 .ConfigureIMapService(Configuration);
