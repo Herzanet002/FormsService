@@ -16,7 +16,7 @@ namespace FormsService.Controllers
         public async Task<IActionResult> Get()
         {
             ///var msc = new MailServiceClient(_optionsDelegate.CurrentValue);
-            //var messages = await msc.ReceiveEmail();
+            //var messages = await msc.ReceiveItem();
             //return Ok(messages);
             return Ok();
         }

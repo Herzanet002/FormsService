@@ -25,7 +25,7 @@ namespace MailService.Extensions
 
         public static IServiceCollection AddIMapClientService(this IServiceCollection services)
         {
-            services.AddTransient<IImapClient, IMapClient>();
+            services.AddTransient<IImapClient, IMenuSourceClient>();
             return services;
         }
     }

@@ -9,15 +9,15 @@ using IImapClient = MailService.Services.Interfaces.IImapClient;
 
 namespace MailService.Services
 {
-    public class IMapClient : IImapClient
+    public class IMenuSourceClient : IImapClient
     {
         private readonly ImapClient _imapClient;
 
-        private readonly ILogger<IMapClient> _logger;
+        private readonly ILogger<IMenuSourceClient> _logger;
 
         private ClientSettings? _clientSettings;
 
-        public IMapClient(ILogger<IMapClient> logger)
+        public IMenuSourceClient(ILogger<IMenuSourceClient> logger)
         {
             _logger = logger;
             _imapClient = new ImapClient();
@@ -63,7 +63,7 @@ namespace MailService.Services
             }
         }
 
-        public async Task<List<MessageModel>> ReceiveEmail()
+        public async Task<List<MessageModel>> ReceiveItem()
         {
             await ConnectAsync();
             await AuthenticateAsync();
@@ -91,13 +91,13 @@ namespace MailService.Services
 
                 _logger.LogInformation($"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}");
                 messages.Add(messageModel);
-                //MoveToTrash();
+                //MarkItemAsProcessed();
             }
 
             return messages;
         }
 
-        public async Task MoveToTrash(UniqueId uid)
+        public async Task MarkItemAsProcessed(UniqueId uid)
         {
             await _imapClient.Inbox.AddFlagsAsync(new[] { uid }, MessageFlags.Deleted, true);
             await _imapClient.Inbox.ExpungeAsync();

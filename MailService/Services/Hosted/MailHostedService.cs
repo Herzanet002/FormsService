@@ -40,7 +40,7 @@ namespace MailService.Services.Hosted
                 var mailServiceClient = _services.GetRequiredService<IImapClient>();
                 mailServiceClient.InitializeClient(_clientSettings);
 
-                await mailServiceClient.ReceiveEmail();
+                await mailServiceClient.ReceiveItem();
                 await Task.Delay(TimeSpan.FromSeconds(_clientSettings.EmailReadInterval), stoppingToken);
             } while (!stoppingToken.IsCancellationRequested);
         }

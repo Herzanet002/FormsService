@@ -4,12 +4,12 @@ using MailService.Models;
 
 namespace MailService.Services.Interfaces
 {
-    public interface IImapClient : IClientConnection
+    public interface IImapClient
     {
         void InitializeClient(ClientSettings clientSettings);
 
-        Task<List<MessageModel>> ReceiveEmail();
+        Task<List<MessageModel>> ReceiveItem();
 
-        Task MoveToTrash(UniqueId uid);
+        Task MarkItemAsProcessed(UniqueId uid);
     }
 }
