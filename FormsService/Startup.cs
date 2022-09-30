@@ -20,10 +20,10 @@ namespace FormsService
 
             services
                 .AddMailHostedService()
-                .ConfigureMailService(Configuration);
+                .ConfigureIMapService(Configuration);
 
             services
-                .AddEmailService();
+                .AddIMapClientService();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

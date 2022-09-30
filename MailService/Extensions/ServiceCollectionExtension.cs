@@ -1,6 +1,7 @@
 ﻿using MailService.Configurations;
 using MailService.Services;
 using MailService.Services.Hosted;
+using MailService.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +9,7 @@ namespace MailService.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection ConfigureMailService(this IServiceCollection services,
+        public static IServiceCollection ConfigureIMapService(this IServiceCollection services,
             IConfiguration configuration)
         {
             services.Configure<ClientSettings>(
@@ -22,9 +23,9 @@ namespace MailService.Extensions
             return services;
         }
 
-        public static IServiceCollection AddEmailService(this IServiceCollection services)
+        public static IServiceCollection AddIMapClientService(this IServiceCollection services)
         {
-            services.AddTransient<IMailServiceClient, MailServiceClient>();
+            services.AddTransient<IImapClient, IMapClient>();
             return services;
         }
     }

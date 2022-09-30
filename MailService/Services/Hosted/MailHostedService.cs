@@ -1,4 +1,5 @@
 ﻿using MailService.Configurations;
+using MailService.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -36,7 +37,7 @@ namespace MailService.Services.Hosted
         {
             do
             {
-                var mailServiceClient = _services.GetRequiredService<IMailServiceClient>();
+                var mailServiceClient = _services.GetRequiredService<IImapClient>();
                 mailServiceClient.InitializeClient(_clientSettings);
 
                 await mailServiceClient.ReceiveEmail();

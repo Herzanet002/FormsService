@@ -2,24 +2,29 @@
 using MailKit.Net.Imap;
 using MailKit.Search;
 using MailService.Configurations;
-using MailService.Helpers;
 using MailService.Models;
 using Microsoft.Extensions.Logging;
 using MimeKit;
-using JsonSerializer = System.Text.Json.JsonSerializer;
+using IImapClient = MailService.Services.Interfaces.IImapClient;
 
 namespace MailService.Services
 {
-    public class MailServiceClient : IMailServiceClient
+    public class IMapClient : IImapClient
     {
-        private readonly ILogger<MailServiceClient> _logger;
         private readonly ImapClient _imapClient;
+
+        private readonly ILogger<IMapClient> _logger;
+
         private ClientSettings? _clientSettings;
 
-        public MailServiceClient(ILogger<MailServiceClient> logger)
+        public IMapClient(ILogger<IMapClient> logger)
         {
             _logger = logger;
             _imapClient = new ImapClient();
+        }
+        public void InitializeClient(ClientSettings clientSettings)
+        {
+            _clientSettings = clientSettings;
         }
 
         public async Task ConnectAsync()
@@ -75,9 +80,6 @@ namespace MailService.Services
 
                 if (await inboxFolder.GetBodyPartAsync(message.UniqueId, message.HtmlBody) is not TextPart body) continue;
 
-                var jsonPart = body.Text.GetJsonFromHtml();
-                var deserialized = JsonSerializer.Deserialize<MenuModel>(jsonPart);
-
                 var messageModel = new MessageModel
                 {
                     UniqueId = message.UniqueId,
@@ -86,23 +88,28 @@ namespace MailService.Services
                     Subject = message.Envelope.Subject,
                     Date = message.Envelope.Date!.Value
                 };
-                _logger.LogInformation($"Message in inbox folder: UniqID: {messageModel.UniqueId}, date: {messageModel.Date}");
+
+                _logger.LogInformation($"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}");
                 messages.Add(messageModel);
-                //await inboxFolder.AddFlagsAsync(new[] { message.UniqueId }, MessageFlags.Deleted, true);
+                //MoveToTrash();
             }
-            //await inboxFolder.ExpungeAsync();
+
             return messages;
         }
 
-        private static bool MessageValidation(IMessageSummary message)
+        public async Task MoveToTrash(UniqueId uid)
+        {
+            await _imapClient.Inbox.AddFlagsAsync(new[] { uid }, MessageFlags.Deleted, true);
+            await _imapClient.Inbox.ExpungeAsync();
+        }
+
+        private bool MessageValidation(IMessageSummary message)
         {
             return message.Envelope.Subject == "FormReply" &&
                    message.Envelope.From.Mailboxes.All(x => x.Domain == "forms-mailer.yaconnect.com");
         }
 
-        public void InitializeClient(ClientSettings clientSettings)
-        {
-            _clientSettings = clientSettings;
-        }
+
+
     }
 }
