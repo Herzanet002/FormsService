@@ -4,10 +4,9 @@ using System.Text.Json.Serialization;
 namespace MailService.Models
 {
     [Serializable]
-    public class MenuModel
+    public class MenuModel : BaseEntity
     {
-        public int Id { get; set; }
-
+        
         [JsonPropertyName("Сотрудник")]
         public string Name { get; set; }
 

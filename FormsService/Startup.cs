@@ -1,7 +1,10 @@
 ﻿using MailService.Extensions;
 using System.Reflection;
-using FormsService.DAL;
 using Microsoft.EntityFrameworkCore;
+using FormsService.DAL.Context;
+using FormsService.DAL.Repository;
+using FormsService.DAL.Repository.Interfaces;
+using MailService.Models;
 
 namespace FormsService
 {
@@ -21,12 +24,12 @@ namespace FormsService
             services.AddSwaggerGen();
 
             services.AddDbContext<DatabaseContext>(
-                options => options.UseNpgsql(Configuration.GetConnectionString("Data")));
-            services
-                .AddMailHostedService()
-                .ConfigureIMapService(Configuration);
+                options => options.UseNpgsql(Configuration.GetConnectionString("DbSource")));
 
-            services
+            services.AddScoped(typeof(IRepository<>), typeof(DbRepository<>));
+
+            services.AddMailHostedService()
+                .ConfigureIMapService(Configuration)
                 .AddIMapClientService();
         }
 

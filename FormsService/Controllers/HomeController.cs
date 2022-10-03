@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FormsService.DAL.Repository.Interfaces;
+using MailService.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FormsService.Controllers
 {
@@ -6,19 +8,18 @@ namespace FormsService.Controllers
     [Route("/api/[controller]/")]
     public class HomeController : Controller
     {
-        //private readonly IOptionsMonitor<ClientSettings> _optionsDelegate;
-        public HomeController()
+        private readonly IRepository<MenuModel> _repository;
+
+        public HomeController(IRepository<MenuModel> repository)
         {
-            //_optionsDelegate = optionsDelegate;
+            _repository = repository;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAllItems()
         {
-            ///var msc = new MailServiceClient(_optionsDelegate.CurrentValue);
-            //var messages = await msc.ReceiveItem();
-            //return Ok(messages);
-            return Ok();
+            //var items = await _repository.GetAll();
+            //return Ok(items);
         }
     }
 }
