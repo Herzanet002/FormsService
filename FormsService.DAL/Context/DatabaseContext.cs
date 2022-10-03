@@ -7,9 +7,9 @@ namespace FormsService.DAL.Context
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
-            Database.Migrate();
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
+            //Database.Migrate();
         }
 
         public DbSet<Person> Employees { get; set; }

@@ -5,7 +5,6 @@ namespace FormsService.DAL.Entities;
 public class Person : BaseEntity
 {
     public string Name { get; set; }
-    public Location Location { get; set; }
     public IEnumerable<Order> Orders { get; set; }
 }
 

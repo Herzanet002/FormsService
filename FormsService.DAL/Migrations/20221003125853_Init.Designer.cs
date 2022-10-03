@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FormsService.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221003121445_Init")]
+    [Migration("20221003125853_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,6 +66,9 @@ namespace FormsService.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Location")
+                        .HasColumnType("integer");
+
                     b.Property<int>("PersonId")
                         .HasColumnType("integer");
 
@@ -83,9 +86,6 @@ namespace FormsService.DAL.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Location")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()

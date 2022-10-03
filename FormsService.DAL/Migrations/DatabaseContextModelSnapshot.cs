@@ -64,6 +64,9 @@ namespace FormsService.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Location")
+                        .HasColumnType("integer");
+
                     b.Property<int>("PersonId")
                         .HasColumnType("integer");
 
@@ -81,9 +84,6 @@ namespace FormsService.DAL.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Location")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()

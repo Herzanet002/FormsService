@@ -29,8 +29,7 @@ namespace FormsService.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Location = table.Column<int>(type: "integer", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,7 +42,8 @@ namespace FormsService.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PersonId = table.Column<int>(type: "integer", nullable: false)
+                    PersonId = table.Column<int>(type: "integer", nullable: false),
+                    Location = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
