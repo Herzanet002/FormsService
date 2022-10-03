@@ -1,4 +1,5 @@
-﻿using MailService.Configurations;
+﻿using FormsService.DAL.Repository;
+using MailService.Configurations;
 using MailService.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -12,8 +13,11 @@ namespace MailService.Services.Hosted
         private readonly ILogger<MailHostedService> _logger;
         private readonly IServiceProvider _services;
         private readonly ClientSettings _clientSettings;
+        //dbRepository
 
-        public MailHostedService(ILogger<MailHostedService> logger, IServiceProvider services, IOptionsMonitor<ClientSettings> optionsDelegate)
+        public MailHostedService(ILogger<MailHostedService> logger,
+            IServiceProvider services, 
+            IOptionsMonitor<ClientSettings> optionsDelegate)
         {
             _logger = logger;
             _services = services;

@@ -1,6 +1,6 @@
 ﻿using FormsService.DAL.Context;
+using FormsService.DAL.Entities.Base;
 using FormsService.DAL.Repository.Interfaces;
-using MailService.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FormsService.DAL.Repository;
@@ -37,7 +37,7 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
 
     public async Task<T?> FindById(int id, CancellationToken ct = default)
     {
-        return await Items.SingleOrDefaultAsync(item => item.Id == id, cancellationToken: ct).ConfigureAwait(false);
+        return await Items.SingleOrDefaultAsync(item => item.Id == id, ct).ConfigureAwait(false);
     }
 
     public async Task<IEnumerable<T>> GetAll(CancellationToken ct = default)
@@ -90,7 +90,7 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
     public async Task<bool> ExistsItem(T? item, CancellationToken ct = default)
     {
         if (item is null) throw new ArgumentNullException(nameof(item));
-        return await Items.AnyAsync(i => i.Id == item.Id, cancellationToken: ct).ConfigureAwait(false);
+        return await Items.AnyAsync(i => i.Id == item.Id, ct).ConfigureAwait(false);
     }
 
 }

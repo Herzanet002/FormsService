@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MailService\MailService.csproj" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

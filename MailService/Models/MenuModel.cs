@@ -1,28 +1,27 @@
-﻿using MailService.Models.MenuModels;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using FormsService.DAL.Entities;
+using FormsService.DAL.Entities.Base;
 
-namespace MailService.Models
+namespace MailService.Models;
+
+[Serializable]
+public class MenuModel : BaseEntity
 {
-    [Serializable]
-    public class MenuModel : BaseEntity
-    {
-        
-        [JsonPropertyName("Сотрудник")]
-        public string Name { get; set; }
+    [JsonPropertyName("Сотрудник")]
+    public string Name { get; set; }
 
-        [JsonPropertyName("Где обедаю?")]
-        public string Location { get; set; }
+    [JsonPropertyName("Где обедаю?")]
+    public string Location { get; set; }
 
-        [JsonPropertyName("Салат")]
-        [JsonConverter(typeof(JsonDishConverter<Dish>))]
-        public Dish Salad { get; set; }
+    [JsonPropertyName("Салат")]
+    [JsonConverter(typeof(JsonDishConverter<Dish>))]
+    public Dish Salad { get; set; }
 
-        [JsonConverter(typeof(JsonDishConverter<Dish>))]
-        [JsonPropertyName("Суп")]
-        public Dish Soup { get; set; }
+    [JsonConverter(typeof(JsonDishConverter<Dish>))]
+    [JsonPropertyName("Суп")]
+    public Dish Soup { get; set; }
 
-        [JsonPropertyName("Горячее")]
-        [JsonConverter(typeof(JsonDishConverter<Dish>))]
-        public Dish FirstCourse { get; set; }
-    }
+    [JsonPropertyName("Горячее")]
+    [JsonConverter(typeof(JsonDishConverter<Dish>))]
+    public Dish FirstCourse { get; set; }
 }

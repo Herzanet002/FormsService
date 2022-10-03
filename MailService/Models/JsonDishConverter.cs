@@ -1,6 +1,6 @@
-﻿using MailService.Models.MenuModels;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using FormsService.DAL.Entities;
 
 namespace MailService.Models;
 
@@ -20,7 +20,7 @@ public class JsonDishConverter<T> : JsonConverter<T> where T : Dish
 
         return new Dish
         {
-            Name = nameOfDish,
+            Title = nameOfDish,
             Price = dishPrice
         };
     }
@@ -34,6 +34,6 @@ public class JsonDishConverter<T> : JsonConverter<T> where T : Dish
 
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue($"{value.Name + " / " + value.Price}");
+        writer.WriteStringValue($"{value.Title + " / " + value.Price}");
     }
 }

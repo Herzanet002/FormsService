@@ -1,4 +1,4 @@
-﻿namespace MailService.Models
+﻿namespace FormsService.DAL.Entities.Base
 {
     public class BaseEntity
     {
