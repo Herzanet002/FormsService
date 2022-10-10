@@ -24,7 +24,7 @@ namespace FormsService.Controllers
             var response = await _dishRepository.Add(new Dish
             {
                 Name = dish,
-                Price = price
+                //Price = price
             });
             return Ok(response);
         }
@@ -58,16 +58,16 @@ namespace FormsService.Controllers
             return Ok(response);
         }
 
-        [HttpPost, Route("AddOrder")]
-        public async Task<IActionResult> AddOrderToDb([FromBody] Person person)
-        {
-            var response = await _ordersRepository.Add(new Order
-            {
-                Person = person
-            });
+        //[HttpPost, Route("AddOrder")]
+        //public async Task<IActionResult> AddOrderToDb([FromBody] Person person)
+        //{
+        //    var response = await _ordersRepository.Add(new Order
+        //    {
+        //        Person = person
+        //    });
 
-            return Ok(response);
-        }
+        //    return Ok(response);
+        //}
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FormsService.DAL.Entities;
+using FormsService.DAL.Entities.Seeding;
 using Microsoft.EntityFrameworkCore;
 
 namespace FormsService.DAL.Context
@@ -36,10 +37,15 @@ namespace FormsService.DAL.Context
                         j.ToTable(nameof(DishOrder));
                     });
 
+            modelBuilder.Entity<Person>().HasData(TestDataSeed.GetTestPersons(10));
+            modelBuilder.Entity<Dish>().HasData(TestDataSeed.GetTestDishes(10));
+            modelBuilder.Entity<Order>().HasData(TestDataSeed.GetTestOrders(10));
+            modelBuilder.Entity<DishOrder>().HasData(TestDataSeed.GetTestDishOrder(10));
         }
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<DishOrder> DishOrders { get; set; }
     }
 }

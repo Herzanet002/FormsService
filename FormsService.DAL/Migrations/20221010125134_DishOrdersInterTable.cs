@@ -4,7 +4,7 @@
 
 namespace FormsService.DAL.Migrations
 {
-    public partial class DishOrdersIntermediatetable : Migration
+    public partial class DishOrdersInterTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,6 +23,10 @@ namespace FormsService.DAL.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_DishOrder_OrdersId",
                 table: "DishOrder");
+
+            migrationBuilder.DropColumn(
+                name: "Price",
+                table: "Dishes");
 
             migrationBuilder.RenameColumn(
                 name: "OrdersId",
@@ -121,6 +125,13 @@ namespace FormsService.DAL.Migrations
                 name: "ID",
                 table: "DishOrder",
                 newName: "DishesId");
+
+            migrationBuilder.AddColumn<int>(
+                name: "Price",
+                table: "Dishes",
+                type: "integer",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_DishOrder",

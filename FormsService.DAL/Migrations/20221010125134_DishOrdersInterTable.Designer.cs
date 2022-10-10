@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FormsService.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221010120959_DishOrdersIntermediatetable")]
-    partial class DishOrdersIntermediatetable
+    [Migration("20221010125134_DishOrdersInterTable")]
+    partial class DishOrdersInterTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,9 +34,6 @@ namespace FormsService.DAL.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

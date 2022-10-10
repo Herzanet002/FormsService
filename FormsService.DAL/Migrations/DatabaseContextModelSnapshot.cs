@@ -33,9 +33,6 @@ namespace FormsService.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.ToTable("Dishes");
