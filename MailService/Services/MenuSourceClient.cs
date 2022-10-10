@@ -2,6 +2,7 @@
 using MailKit.Net.Imap;
 using MailKit.Search;
 using MailService.Configurations;
+using MailService.Helpers;
 using MailService.Models;
 using Microsoft.Extensions.Logging;
 using MimeKit;
@@ -84,13 +85,13 @@ namespace MailService.Services
                 var messageModel = new MessageModel
                 {
                     UniqueId = message.UniqueId,
-                    Content = message.HtmlBody.ToString(),
+                    Content = body.Text,
                     From = message.Envelope.From.ToString(),
                     Subject = message.Envelope.Subject,
                     Date = message.Envelope.Date!.Value
                 };
-
-                _logger.LogInformation($"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}");
+                var order = messageModel.Content.GetJsonFromHtml();
+                _logger.LogInformation($"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}, contains:{order}");
                 messages.Add(messageModel);
                 //MarkItemAsProcessed();
             }
@@ -104,7 +105,7 @@ namespace MailService.Services
             await _imapClient.Inbox.ExpungeAsync();
         }
 
-        private bool MessageValidation(IMessageSummary message)
+        private static bool MessageValidation(IMessageSummary message)
         {
             return message.Envelope.Subject == "FormReply" &&
                    message.Envelope.From.Mailboxes.All(x => x.Domain == "forms-mailer.yaconnect.com");

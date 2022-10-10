@@ -2,6 +2,7 @@
 using FormsService.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FormsService.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20221010091858_init1")]
+    partial class init1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,6 +22,21 @@ namespace FormsService.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("DishOrder", b =>
+                {
+                    b.Property<int>("DishesId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("DishesId", "OrdersId");
+
+                    b.HasIndex("OrdersId");
+
+                    b.ToTable("DishOrder");
+                });
 
             modelBuilder.Entity("FormsService.DAL.Entities.Dish", b =>
                 {
@@ -39,32 +56,6 @@ namespace FormsService.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Dishes");
-                });
-
-            modelBuilder.Entity("FormsService.DAL.Entities.DishOrder", b =>
-                {
-                    b.Property<int>("OrderID")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DishID")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Count")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0);
-
-                    b.Property<int>("ID")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("integer");
-
-                    b.HasKey("OrderID", "DishID");
-
-                    b.HasIndex("DishID");
-
-                    b.ToTable("DishOrder", (string)null);
                 });
 
             modelBuilder.Entity("FormsService.DAL.Entities.Order", b =>
@@ -105,23 +96,19 @@ namespace FormsService.DAL.Migrations
                     b.ToTable("Persons");
                 });
 
-            modelBuilder.Entity("FormsService.DAL.Entities.DishOrder", b =>
+            modelBuilder.Entity("DishOrder", b =>
                 {
-                    b.HasOne("FormsService.DAL.Entities.Dish", "Dish")
-                        .WithMany("DishOrders")
-                        .HasForeignKey("DishID")
+                    b.HasOne("FormsService.DAL.Entities.Dish", null)
+                        .WithMany()
+                        .HasForeignKey("DishesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FormsService.DAL.Entities.Order", "Order")
-                        .WithMany("DishOrders")
-                        .HasForeignKey("OrderID")
+                    b.HasOne("FormsService.DAL.Entities.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Dish");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("FormsService.DAL.Entities.Order", b =>
@@ -133,16 +120,6 @@ namespace FormsService.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Person");
-                });
-
-            modelBuilder.Entity("FormsService.DAL.Entities.Dish", b =>
-                {
-                    b.Navigation("DishOrders");
-                });
-
-            modelBuilder.Entity("FormsService.DAL.Entities.Order", b =>
-                {
-                    b.Navigation("DishOrders");
                 });
 
             modelBuilder.Entity("FormsService.DAL.Entities.Person", b =>
