@@ -7,14 +7,11 @@ namespace FormsService.DAL.Context
     public sealed class DatabaseContext : DbContext
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
-        {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
-            //Database.Migrate();
-        }
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.Entity<DishOrder>().HasKey(dishOrder => new { dishOrder.OrderID, dishOrder.DishID });
             modelBuilder
                 .Entity<Dish>()
                 .HasMany(o => o.Orders)
@@ -34,7 +31,7 @@ namespace FormsService.DAL.Context
                     {
                         j.Property(pt => pt.Count).HasDefaultValue(0);
                         j.HasKey(t => new { t.OrderID, t.DishID });
-                        j.ToTable(nameof(DishOrder));
+                        j.ToTable("DishOrders");
                     });
 
             modelBuilder.Entity<Person>().HasData(TestDataSeed.GetTestPersons(10));

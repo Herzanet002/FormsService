@@ -5,8 +5,7 @@ namespace FormsService.DAL.Entities;
 public class Person : BaseEntity
 {
     public string Name { get; set; }
-    public int OrderID { get; set; }
-    public virtual IEnumerable<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<Order>? Orders { get; set; }
 }
 
 public enum Location

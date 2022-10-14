@@ -2,11 +2,12 @@
 {
     public class TestDataSeed
     {
-        public static IEnumerable<Dish> GetTestDishes(int count)
+        private static readonly Random _random = new Random();
+        public static IEnumerable<object> GetTestDishes(int count)
         {
             for (var i = 1; i < count; i++)
             {
-                yield return new Dish
+                yield return new
                 {
                     Id = i,
                     Name = $"Dish {i}"
@@ -14,11 +15,11 @@
             }
         }
 
-        public static IEnumerable<Person> GetTestPersons(int count)
+        public static IEnumerable<object> GetTestPersons(int count)
         {
-            for (var i = 1; i <= count; i++)
+            for (var i = 1; i < count; i++)
             {
-                yield return new Person
+                yield return new
                 {
                     Id = i,
                     Name = $"Person {i}"
@@ -26,30 +27,32 @@
             }
         }
 
-        public static IEnumerable<Order> GetTestOrders(int count)
+        public static IEnumerable<object> GetTestOrders(int count)
         {
+
             for (var i = 1; i < count; i++)
             {
-                yield return new Order
+                yield return new
                 {
                     Id = i,
-                    Person = GetTestPersons(2).First(),
+                    PersonId = i,
                     Location = i % 2 == 0 ? Location.WithMe : Location.InCafe,
-                    Dishes = GetTestDishes(3)
+                    DateForming = DateTimeOffset.Now.AddDays(-_random.Next(1, 15))
                 };
             }
         }
 
-        public static IEnumerable<DishOrder> GetTestDishOrder(int count)
+        public static IEnumerable<object> GetTestDishOrder(int count)
         {
             for (var i = 1; i < count; i++)
             {
-                yield return new DishOrder
+                yield return new
                 {
-                    ID = i,
+                    Id = i,
                     OrderID = i,
                     DishID = i,
-                    Price = i*100
+                    Price = _random.Next(1, 15) * i * 10,
+                    Count = i
                 };
             }
         }

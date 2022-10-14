@@ -6,7 +6,8 @@ namespace FormsService.DAL.Entities
     {
         public Person Person { get; set; }
         public Location Location { get; set; }
-        public virtual IEnumerable<Dish> Dishes { get; set; } = new List<Dish>();
-        public virtual IEnumerable<DishOrder> DishOrders { get; set; } = new List<DishOrder>();
+        public DateTimeOffset DateForming { get; set; }
+        public virtual ICollection<Dish>? Dishes { get; set; }
+        public virtual ICollection<DishOrder>? DishOrders { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using FormsService.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FormsService.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20221014084458_DataSeeding")]
+    partial class DataSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,7 +97,9 @@ namespace FormsService.DAL.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("Count")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
 
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -107,22 +111,20 @@ namespace FormsService.DAL.Migrations
 
                     b.HasIndex("DishID");
 
-                    b.ToTable("DishOrders");
+                    b.ToTable("DishOrders", (string)null);
 
                     b.HasData(
                         new
                         {
                             OrderID = 1,
                             DishID = 1,
-                            Count = 1,
                             Id = 1,
-                            Price = 60
+                            Price = 50
                         },
                         new
                         {
                             OrderID = 2,
                             DishID = 2,
-                            Count = 2,
                             Id = 2,
                             Price = 240
                         },
@@ -130,23 +132,20 @@ namespace FormsService.DAL.Migrations
                         {
                             OrderID = 3,
                             DishID = 3,
-                            Count = 3,
                             Id = 3,
-                            Price = 90
+                            Price = 210
                         },
                         new
                         {
                             OrderID = 4,
                             DishID = 4,
-                            Count = 4,
                             Id = 4,
-                            Price = 40
+                            Price = 280
                         },
                         new
                         {
                             OrderID = 5,
                             DishID = 5,
-                            Count = 5,
                             Id = 5,
                             Price = 500
                         },
@@ -154,33 +153,29 @@ namespace FormsService.DAL.Migrations
                         {
                             OrderID = 6,
                             DishID = 6,
-                            Count = 6,
                             Id = 6,
-                            Price = 540
+                            Price = 660
                         },
                         new
                         {
                             OrderID = 7,
                             DishID = 7,
-                            Count = 7,
                             Id = 7,
-                            Price = 280
+                            Price = 840
                         },
                         new
                         {
                             OrderID = 8,
                             DishID = 8,
-                            Count = 8,
                             Id = 8,
-                            Price = 480
+                            Price = 160
                         },
                         new
                         {
                             OrderID = 9,
                             DishID = 9,
-                            Count = 9,
                             Id = 9,
-                            Price = 1170
+                            Price = 720
                         });
                 });
 
@@ -211,63 +206,63 @@ namespace FormsService.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 11, 14, 43, 35, 483, DateTimeKind.Unspecified).AddTicks(6022), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 9, 30, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1630), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 1,
                             PersonId = 1
                         },
                         new
                         {
                             Id = 2,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 11, 14, 43, 35, 483, DateTimeKind.Unspecified).AddTicks(6068), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 1, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1676), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 0,
                             PersonId = 2
                         },
                         new
                         {
                             Id = 3,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 5, 14, 43, 35, 483, DateTimeKind.Unspecified).AddTicks(6108), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 6, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1680), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 1,
                             PersonId = 3
                         },
                         new
                         {
                             Id = 4,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 5, 14, 43, 35, 483, DateTimeKind.Unspecified).AddTicks(6112), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 9, 30, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1684), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 0,
                             PersonId = 4
                         },
                         new
                         {
                             Id = 5,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 2, 14, 43, 35, 483, DateTimeKind.Unspecified).AddTicks(6116), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 13, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1688), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 1,
                             PersonId = 5
                         },
                         new
                         {
                             Id = 6,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 4, 14, 43, 35, 483, DateTimeKind.Unspecified).AddTicks(6122), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 10, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1693), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 0,
                             PersonId = 6
                         },
                         new
                         {
                             Id = 7,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 1, 14, 43, 35, 483, DateTimeKind.Unspecified).AddTicks(6125), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 6, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1698), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 1,
                             PersonId = 7
                         },
                         new
                         {
                             Id = 8,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 4, 14, 43, 35, 483, DateTimeKind.Unspecified).AddTicks(6127), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 9, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1701), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 0,
                             PersonId = 8
                         },
                         new
                         {
                             Id = 9,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 12, 14, 43, 35, 483, DateTimeKind.Unspecified).AddTicks(6131), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 7, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1705), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 1,
                             PersonId = 9
                         });
