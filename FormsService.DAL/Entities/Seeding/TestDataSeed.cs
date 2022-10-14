@@ -22,7 +22,8 @@
                 yield return new
                 {
                     Id = i,
-                    Name = $"Person {i}"
+                    Name = $"Name {i}",
+                    Surname = $"Surname {i}"
                 };
             }
         }

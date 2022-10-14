@@ -33,6 +33,6 @@ public class JsonDishConverter<T> : JsonConverter<T> where T : Dish
 
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        //writer.WriteStringValue($"{value.Name + " / " + value.Price}");
+        throw new NotImplementedException();
     }
 }

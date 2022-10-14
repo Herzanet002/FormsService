@@ -1,9 +1,13 @@
-﻿using MailKit;
+﻿using System.Text.Json;
+using FormsService.DAL.Entities;
+using FormsService.DAL.Repository.Interfaces;
+using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
 using MailService.Configurations;
 using MailService.Helpers;
 using MailService.Models;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MimeKit;
 using IImapClient = MailService.Services.Interfaces.IImapClient;
@@ -15,12 +19,13 @@ namespace MailService.Services
         private readonly ImapClient _imapClient;
 
         private readonly ILogger<MenuSourceClient> _logger;
-
+        private readonly IServiceProvider _serviceProvider;
         private ClientSettings? _clientSettings;
 
-        public MenuSourceClient(ILogger<MenuSourceClient> logger)
+        public MenuSourceClient(ILogger<MenuSourceClient> logger, IServiceProvider serviceProvider)
         {
             _logger = logger;
+            _serviceProvider = serviceProvider;
             _imapClient = new ImapClient();
         }
         public void InitializeClient(ClientSettings clientSettings)
@@ -85,24 +90,53 @@ namespace MailService.Services
                 var messageModel = new MessageModel
                 {
                     UniqueId = message.UniqueId,
-                    Content = body.Text,
+                    Content = body.Text.GetJsonFromHtml(),
                     From = message.Envelope.From.ToString(),
                     Subject = message.Envelope.Subject,
                     Date = message.Envelope.Date!.Value
                 };
-                var order = messageModel.Content.GetJsonFromHtml();
-                _logger.LogInformation($"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}, contains:{order}");
-                messages.Add(messageModel);
-                //MarkItemAsProcessed();
-            }
+                var menuModel = await GetItemInfo(messageModel)!;
 
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    var dishesRepository = scope.ServiceProvider.GetService<IRepository<Dish>>();
+                    var personsRepository = scope.ServiceProvider.GetService<IRepository<Person>>();
+                    var ordersRepository = scope.ServiceProvider.GetService<IRepository<Order>>();
+                    //var dishOrderRepository = scope.ServiceProvider.GetService<IRepository<DishOrder>>();
+
+                    //if (ordersRepository is null) throw new ArgumentNullException();
+                    //await ordersRepository.Add(new Order
+                    //{
+                    //    DateForming = DateTimeOffset.UtcNow,
+                    //    Dishes = new List<Dish>
+                    //    {
+                    //        menuModel.Salad,
+                    //        menuModel.Soup,
+                    //        menuModel.FirstCourse
+                    //    },
+                    //    Location = menuModel.Location == "Возьму с собой"? Location.WithMe: Location.InCafe,
+                    //    Person = menuModel.Person
+                    //});
+                    ////if (dishOrderRepository is null) throw new ArgumentNullException();
+                    
+
+                }
+                _logger.LogInformation($"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}," +
+                                       $" contains:{menuModel}");
+                messages.Add(messageModel);
+                //await MarkItemAsProcessed(message.UniqueId);
+            }
+            //await _imapClient.Inbox.ExpungeAsync();
             return messages;
         }
 
+        public async Task<MenuModel?>? GetItemInfo(MessageModel message)
+        {
+            return string.IsNullOrWhiteSpace(message.Content) ? null : JsonSerializer.Deserialize<MenuModel>(message.Content);
+        }
         public async Task MarkItemAsProcessed(UniqueId uid)
         {
             await _imapClient.Inbox.AddFlagsAsync(new[] { uid }, MessageFlags.Deleted, true);
-            await _imapClient.Inbox.ExpungeAsync();
         }
 
         private static bool MessageValidation(IMessageSummary message)

@@ -8,9 +8,11 @@ namespace MailService.Models;
 public class MenuModel : BaseEntity
 {
     [JsonPropertyName("Сотрудник")]
-    public string Name { get; set; }
+    [JsonConverter(typeof(JsonPersonConverter<Person>))]
+    public Person Person { get; set; }
 
     [JsonPropertyName("Где обедаю?")]
+    //[JsonConverter(typeof(JsonStringEnumConverter))]
     public string Location { get; set; }
 
     [JsonPropertyName("Салат")]
