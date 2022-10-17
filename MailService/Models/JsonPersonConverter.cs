@@ -11,7 +11,7 @@ namespace MailService.Models
             if (reader.GetString() is not { } str) return null;
             return new Person
             {
-                Name = str
+                Name = str.TrimEnd()
             } as T;
         }
 

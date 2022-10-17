@@ -9,13 +9,13 @@ public class JsonDishConverter<T> : JsonConverter<T> where T : Dish
 {
     private static Dish? CreateDish(string readerString)
     {
-        var regex = new Regex(@"[\w+\s*]+\/\s*\d+");
+        var regex = new Regex(@"[\w+\-*\s*]+\/\s*\d+");
         var match = regex.Match(readerString);
         if (match.Success)
         {
             var dish = new Dish
             {
-                Name = match.Value.Split("/")[0]
+                Name = match.Value.Split("/")[0].TrimEnd()
             };
             return dish;
         }

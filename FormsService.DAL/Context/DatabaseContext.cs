@@ -1,11 +1,12 @@
 ﻿using FormsService.DAL.Entities;
+using FormsService.DAL.Entities.Seeding;
 using Microsoft.EntityFrameworkCore;
 
 namespace FormsService.DAL.Context
 {
     public sealed class DatabaseContext : DbContext
     {
-        private static readonly bool IsDataSeeding = false;
+        private static readonly bool IsDataSeeding = true;
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         { }
@@ -45,6 +46,9 @@ namespace FormsService.DAL.Context
             //modelBuilder.Entity<Dish>().HasData(TestDataSeed.GetTestDishes(10));
             //modelBuilder.Entity<Order>().HasData(TestDataSeed.GetTestOrders(10));
             //modelBuilder.Entity<DishOrder>().HasData(TestDataSeed.GetTestDishOrder(10));
+
+            modelBuilder.Entity<Person>().HasData(RealDataSeed.GetAllPersons());
+            modelBuilder.Entity<Dish>().HasData(RealDataSeed.GetAllDishes());
         }
 
         public DbSet<Person> Persons { get; set; }

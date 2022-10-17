@@ -1,12 +1,15 @@
-﻿using MailKit;
+﻿using System.Text.Json;
+using FormsService.DAL.Entities;
+using FormsService.DAL.Repository.Interfaces;
+using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
 using MailService.Configurations;
 using MailService.Helpers;
 using MailService.Models;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MimeKit;
-using System.Text.Json;
 using IImapClient = MailService.Services.Interfaces.IImapClient;
 
 namespace MailService.Services;
@@ -29,43 +32,6 @@ public class MenuSourceClient : IImapClient
     public void InitializeClient(ClientSettings clientSettings)
     {
         _clientSettings = clientSettings;
-    }
-
-    public async Task ConnectAsync()
-    {
-        using var cancelTokenSource = new CancellationTokenSource();
-        var cancellationToken = cancelTokenSource.Token;
-        if (_clientSettings == null)
-            throw new NullReferenceException(nameof(_clientSettings));
-        try
-        {
-            await _imapClient.ConnectAsync(_clientSettings.Host, _clientSettings.Port, _clientSettings.Ssl, cancellationToken);
-            _logger.LogInformation($"Connection successfully to mail server : {_clientSettings.Host}:{_clientSettings.Port}");
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, $"An error when connecting to mail server: {_clientSettings.Host}:{_clientSettings.Port}");
-            throw;
-        }
-    }
-
-    public async Task AuthenticateAsync()
-    {
-        using var cancelTokenSource = new CancellationTokenSource();
-        var cancellationToken = cancelTokenSource.Token;
-        if (_clientSettings == null)
-            throw new NullReferenceException(nameof(_clientSettings));
-        try
-        {
-            await _imapClient.AuthenticateAsync(_clientSettings.Login, _clientSettings.Password, cancellationToken);
-            await _imapClient.Inbox.OpenAsync(FolderAccess.ReadWrite, cancellationToken);
-            _logger.LogInformation($"Authenication successfully : {_clientSettings.Host}:{_clientSettings.Port}");
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, $"An error when authenticate to mail server: {_clientSettings.Host}:{_clientSettings.Port}");
-            throw;
-        }
     }
 
     public async Task<List<MessageModel>> ReceiveItem()
@@ -93,47 +59,106 @@ public class MenuSourceClient : IImapClient
                 Subject = message.Envelope.Subject,
                 Date = message.Envelope.Date!.Value
             };
-            var menuModel = GetItemInfo(messageModel)!;
 
-            //using var scope = _serviceProvider.CreateScope();
-            //var ordersRepository = scope.ServiceProvider.GetService<IRepository<Order>>();
-            //var personsRepository = scope.ServiceProvider.GetService<IRepository<Person>>();
-            //if (ordersRepository is null) throw new NullReferenceException(nameof(ordersRepository));
-            //if (menuModel == null) continue;
-            //var byPredicate = personsRepository.GetByPredicate(p => p.Name == menuModel.Person.Name);
-            //var listOfDishes = new List<Dish>
-            //{
-            //    menuModel.Soup!,
-            //    menuModel.Salad!,
-            //    menuModel.FirstCourse!
-            //}.Where(d => d is { }).ToList();
+            var menuModel = GetItemInfo(messageModel);
+            if (menuModel is null)
+            {
+                _logger.LogWarning("Message is nullable");
+                continue;
+            }
 
-            //var order = new Order
-            //{
-            //    Dishes = listOfDishes,
-            //    DateForming = message.Date.UtcDateTime,
-            //    Person = menuModel.Person, //
-            //    Location = menuModel.Location == "Возьму с собой" ? Location.WithMe : Location.InCafe
-            //};
+            using var scope = _serviceProvider.CreateScope();
+            var ordersRepository = scope.ServiceProvider.GetService<IRepository<Order>>();
+            var personsRepository = scope.ServiceProvider.GetService<IRepository<Person>>();
+            var dishesRepository = scope.ServiceProvider.GetService<IRepository<Dish>>();
 
-            //await ordersRepository.Add(order);
-            _logger.LogInformation($"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}," +
-                                   $" contains:{menuModel}");
+            if (ordersRepository is null) throw new NullReferenceException(nameof(ordersRepository));
+            if (dishesRepository is null) throw new NullReferenceException(nameof(dishesRepository));
+            if (personsRepository is null) throw new NullReferenceException(nameof(personsRepository));
+
+            var person = personsRepository.GetByPredicate(p => p.Name == menuModel.Person.Name).FirstOrDefault();
+
+            if (person is null) continue;
+
+            var allDishes = await dishesRepository.GetAll();
+            var listOfDishes = allDishes
+                .Where(op => menuModel.Dishes.Contains(op))
+                .Select(op => op)
+                .Distinct()
+                .ToList();
+
+            var order = new Order
+            {
+                Dishes = listOfDishes,
+                DateForming = message.Date.UtcDateTime,
+                Person = person, 
+                Location = menuModel.Location == "Возьму с собой" ? Location.WithMe : Location.InCafe
+            };
+            if (ordersRepository.GetByPredicate(o => o.DateForming == order.DateForming && o.Person == order.Person)
+                .Any()) continue;
+            await ordersRepository.Add(order);
+            _logger.LogInformation(
+                $"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}," +
+                $" contains:{menuModel}");
             messages.Add(messageModel);
             //await MarkItemAsProcessed(message.UniqueId);
         }
+
         //await _imapClient.Inbox.ExpungeAsync();
         return messages;
-    }
-
-    public MenuModel? GetItemInfo(MessageModel message)
-    {
-        return string.IsNullOrWhiteSpace(message.Content) ? null : JsonSerializer.Deserialize<MenuModel>(message.Content);
     }
 
     public async Task MarkItemAsProcessed(UniqueId uid)
     {
         await _imapClient.Inbox.AddFlagsAsync(new[] { uid }, MessageFlags.Deleted, true);
+    }
+
+    public async Task ConnectAsync()
+    {
+        using var cancelTokenSource = new CancellationTokenSource();
+        var cancellationToken = cancelTokenSource.Token;
+        if (_clientSettings == null)
+            throw new NullReferenceException(nameof(_clientSettings));
+        try
+        {
+            await _imapClient.ConnectAsync(_clientSettings.Host, _clientSettings.Port, _clientSettings.Ssl,
+                cancellationToken);
+            _logger.LogInformation(
+                $"Connection successfully to mail server : {_clientSettings.Host}:{_clientSettings.Port}");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e,
+                $"An error when connecting to mail server: {_clientSettings.Host}:{_clientSettings.Port}");
+            throw;
+        }
+    }
+
+    public async Task AuthenticateAsync()
+    {
+        using var cancelTokenSource = new CancellationTokenSource();
+        var cancellationToken = cancelTokenSource.Token;
+        if (_clientSettings == null)
+            throw new NullReferenceException(nameof(_clientSettings));
+        try
+        {
+            await _imapClient.AuthenticateAsync(_clientSettings.Login, _clientSettings.Password, cancellationToken);
+            await _imapClient.Inbox.OpenAsync(FolderAccess.ReadWrite, cancellationToken);
+            _logger.LogInformation($"Authenication successfully : {_clientSettings.Host}:{_clientSettings.Port}");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e,
+                $"An error when authenticate to mail server: {_clientSettings.Host}:{_clientSettings.Port}");
+            throw;
+        }
+    }
+
+    public MenuModel? GetItemInfo(MessageModel message)
+    {
+        return string.IsNullOrWhiteSpace(message.Content)
+            ? null
+            : JsonSerializer.Deserialize<MenuModel>(message.Content);
     }
 
     private static bool MessageValidation(IMessageSummary message)
