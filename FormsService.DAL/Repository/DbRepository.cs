@@ -4,12 +4,14 @@ using FormsService.DAL.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace FormsService.DAL.Repository;
+
 public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
 {
-    private readonly DbContext _dbContext;
-    private bool disposed;
+    private readonly DatabaseContext _dbContext;
+    private bool _disposed;
     protected DbSet<T> Set { get; }
     protected virtual IQueryable<T> Items => Set;
+
     public DbRepository(DatabaseContext dbContext)
     {
         _dbContext = dbContext;
@@ -18,14 +20,14 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposed)
+        if (!_disposed)
         {
             if (disposing)
             {
                 _dbContext.Dispose();
             }
         }
-        disposed = true;
+        _disposed = true;
     }
 
     public void Dispose()
@@ -33,7 +35,6 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
         Dispose(true);
         GC.SuppressFinalize(this);
     }
-
 
     public async Task<T?> FindById(int id, CancellationToken ct = default)
     {
@@ -73,7 +74,6 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
         _dbContext.Remove(item);
         await _dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
         return item;
-
     }
 
     public async Task<T?> RemoveById(int id, CancellationToken ct = default)
@@ -93,4 +93,8 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
         return await Items.AnyAsync(i => i.Id == item.Id, ct).ConfigureAwait(false);
     }
 
+    public IEnumerable<T> GetByPredicate(Func<T, bool> predicate, CancellationToken ct = default)
+    {
+        return Items.AsEnumerable().Where(predicate).ToList();
+    }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -64,8 +63,7 @@ namespace FormsService.DAL.Migrations
                     OrderID = table.Column<int>(type: "integer", nullable: false),
                     DishID = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<int>(type: "integer", nullable: false),
-                    Count = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    Count = table.Column<int>(type: "integer", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {
@@ -105,15 +103,15 @@ namespace FormsService.DAL.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Person 1" },
-                    { 2, "Person 2" },
-                    { 3, "Person 3" },
-                    { 4, "Person 4" },
-                    { 5, "Person 5" },
-                    { 6, "Person 6" },
-                    { 7, "Person 7" },
-                    { 8, "Person 8" },
-                    { 9, "Person 9" }
+                    { 1, "Name 1" },
+                    { 2, "Name 2" },
+                    { 3, "Name 3" },
+                    { 4, "Name 4" },
+                    { 5, "Name 5" },
+                    { 6, "Name 6" },
+                    { 7, "Name 7" },
+                    { 8, "Name 8" },
+                    { 9, "Name 9" }
                 });
 
             migrationBuilder.InsertData(
@@ -121,31 +119,31 @@ namespace FormsService.DAL.Migrations
                 columns: new[] { "Id", "DateForming", "Location", "PersonId" },
                 values: new object[,]
                 {
-                    { 1, new DateTimeOffset(new DateTime(2022, 9, 30, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1630), new TimeSpan(0, 5, 0, 0, 0)), 1, 1 },
-                    { 2, new DateTimeOffset(new DateTime(2022, 10, 1, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1676), new TimeSpan(0, 5, 0, 0, 0)), 0, 2 },
-                    { 3, new DateTimeOffset(new DateTime(2022, 10, 6, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1680), new TimeSpan(0, 5, 0, 0, 0)), 1, 3 },
-                    { 4, new DateTimeOffset(new DateTime(2022, 9, 30, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1684), new TimeSpan(0, 5, 0, 0, 0)), 0, 4 },
-                    { 5, new DateTimeOffset(new DateTime(2022, 10, 13, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1688), new TimeSpan(0, 5, 0, 0, 0)), 1, 5 },
-                    { 6, new DateTimeOffset(new DateTime(2022, 10, 10, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1693), new TimeSpan(0, 5, 0, 0, 0)), 0, 6 },
-                    { 7, new DateTimeOffset(new DateTime(2022, 10, 6, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1698), new TimeSpan(0, 5, 0, 0, 0)), 1, 7 },
-                    { 8, new DateTimeOffset(new DateTime(2022, 10, 9, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1701), new TimeSpan(0, 5, 0, 0, 0)), 0, 8 },
-                    { 9, new DateTimeOffset(new DateTime(2022, 10, 7, 13, 44, 58, 114, DateTimeKind.Unspecified).AddTicks(1705), new TimeSpan(0, 5, 0, 0, 0)), 1, 9 }
+                    { 1, new DateTimeOffset(new DateTime(2022, 10, 8, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8256), new TimeSpan(0, 5, 0, 0, 0)), 1, 1 },
+                    { 2, new DateTimeOffset(new DateTime(2022, 10, 5, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8304), new TimeSpan(0, 5, 0, 0, 0)), 0, 2 },
+                    { 3, new DateTimeOffset(new DateTime(2022, 10, 12, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8306), new TimeSpan(0, 5, 0, 0, 0)), 1, 3 },
+                    { 4, new DateTimeOffset(new DateTime(2022, 10, 6, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8308), new TimeSpan(0, 5, 0, 0, 0)), 0, 4 },
+                    { 5, new DateTimeOffset(new DateTime(2022, 10, 9, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8310), new TimeSpan(0, 5, 0, 0, 0)), 1, 5 },
+                    { 6, new DateTimeOffset(new DateTime(2022, 10, 2, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8313), new TimeSpan(0, 5, 0, 0, 0)), 0, 6 },
+                    { 7, new DateTimeOffset(new DateTime(2022, 10, 12, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8314), new TimeSpan(0, 5, 0, 0, 0)), 1, 7 },
+                    { 8, new DateTimeOffset(new DateTime(2022, 10, 1, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8316), new TimeSpan(0, 5, 0, 0, 0)), 0, 8 },
+                    { 9, new DateTimeOffset(new DateTime(2022, 10, 2, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8318), new TimeSpan(0, 5, 0, 0, 0)), 1, 9 }
                 });
 
             migrationBuilder.InsertData(
                 table: "DishOrders",
-                columns: new[] { "DishID", "OrderID", "Id", "Price" },
+                columns: new[] { "DishID", "OrderID", "Count", "Price" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, 50 },
-                    { 2, 2, 2, 240 },
-                    { 3, 3, 3, 210 },
-                    { 4, 4, 4, 280 },
-                    { 5, 5, 5, 500 },
-                    { 6, 6, 6, 660 },
-                    { 7, 7, 7, 840 },
-                    { 8, 8, 8, 160 },
-                    { 9, 9, 9, 720 }
+                    { 1, 1, 1, 10 },
+                    { 2, 2, 2, 80 },
+                    { 3, 3, 3, 240 },
+                    { 4, 4, 4, 520 },
+                    { 5, 5, 5, 100 },
+                    { 6, 6, 6, 780 },
+                    { 7, 7, 7, 280 },
+                    { 8, 8, 8, 80 },
+                    { 9, 9, 9, 270 }
                 });
 
             migrationBuilder.CreateIndex(

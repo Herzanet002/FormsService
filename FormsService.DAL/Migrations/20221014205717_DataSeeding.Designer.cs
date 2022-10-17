@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FormsService.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221014124625_PersonWithSurname")]
-    partial class PersonWithSurname
+    [Migration("20221014205717_DataSeeding")]
+    partial class DataSeeding
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -116,14 +116,14 @@ namespace FormsService.DAL.Migrations
                             OrderID = 1,
                             DishID = 1,
                             Count = 1,
-                            Price = 140
+                            Price = 10
                         },
                         new
                         {
                             OrderID = 2,
                             DishID = 2,
                             Count = 2,
-                            Price = 40
+                            Price = 80
                         },
                         new
                         {
@@ -144,35 +144,35 @@ namespace FormsService.DAL.Migrations
                             OrderID = 5,
                             DishID = 5,
                             Count = 5,
-                            Price = 700
+                            Price = 100
                         },
                         new
                         {
                             OrderID = 6,
                             DishID = 6,
                             Count = 6,
-                            Price = 360
+                            Price = 780
                         },
                         new
                         {
                             OrderID = 7,
                             DishID = 7,
                             Count = 7,
-                            Price = 560
+                            Price = 280
                         },
                         new
                         {
                             OrderID = 8,
                             DishID = 8,
                             Count = 8,
-                            Price = 1120
+                            Price = 80
                         },
                         new
                         {
                             OrderID = 9,
                             DishID = 9,
                             Count = 9,
-                            Price = 540
+                            Price = 270
                         });
                 });
 
@@ -203,63 +203,63 @@ namespace FormsService.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 9, 17, 46, 24, 737, DateTimeKind.Unspecified).AddTicks(4052), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 8, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8256), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 1,
                             PersonId = 1
                         },
                         new
                         {
                             Id = 2,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 9, 17, 46, 24, 737, DateTimeKind.Unspecified).AddTicks(4099), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 5, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8304), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 0,
                             PersonId = 2
                         },
                         new
                         {
                             Id = 3,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 12, 17, 46, 24, 737, DateTimeKind.Unspecified).AddTicks(4103), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 12, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8306), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 1,
                             PersonId = 3
                         },
                         new
                         {
                             Id = 4,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 4, 17, 46, 24, 737, DateTimeKind.Unspecified).AddTicks(4106), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 6, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8308), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 0,
                             PersonId = 4
                         },
                         new
                         {
                             Id = 5,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 2, 17, 46, 24, 737, DateTimeKind.Unspecified).AddTicks(4109), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 9, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8310), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 1,
                             PersonId = 5
                         },
                         new
                         {
                             Id = 6,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 8, 17, 46, 24, 737, DateTimeKind.Unspecified).AddTicks(4114), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 2, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8313), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 0,
                             PersonId = 6
                         },
                         new
                         {
                             Id = 7,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 13, 17, 46, 24, 737, DateTimeKind.Unspecified).AddTicks(4117), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 12, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8314), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 1,
                             PersonId = 7
                         },
                         new
                         {
                             Id = 8,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 10, 17, 46, 24, 737, DateTimeKind.Unspecified).AddTicks(4120), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 1, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8316), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 0,
                             PersonId = 8
                         },
                         new
                         {
                             Id = 9,
-                            DateForming = new DateTimeOffset(new DateTime(2022, 9, 30, 17, 46, 24, 737, DateTimeKind.Unspecified).AddTicks(4124), new TimeSpan(0, 5, 0, 0, 0)),
+                            DateForming = new DateTimeOffset(new DateTime(2022, 10, 2, 1, 57, 17, 694, DateTimeKind.Unspecified).AddTicks(8318), new TimeSpan(0, 5, 0, 0, 0)),
                             Location = 1,
                             PersonId = 9
                         });
@@ -277,9 +277,6 @@ namespace FormsService.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Surname")
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
                     b.ToTable("Persons");
@@ -288,56 +285,47 @@ namespace FormsService.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Name 1",
-                            Surname = "Surname 1"
+                            Name = "Name 1"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Name 2",
-                            Surname = "Surname 2"
+                            Name = "Name 2"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Name 3",
-                            Surname = "Surname 3"
+                            Name = "Name 3"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Name 4",
-                            Surname = "Surname 4"
+                            Name = "Name 4"
                         },
                         new
                         {
                             Id = 5,
-                            Name = "Name 5",
-                            Surname = "Surname 5"
+                            Name = "Name 5"
                         },
                         new
                         {
                             Id = 6,
-                            Name = "Name 6",
-                            Surname = "Surname 6"
+                            Name = "Name 6"
                         },
                         new
                         {
                             Id = 7,
-                            Name = "Name 7",
-                            Surname = "Surname 7"
+                            Name = "Name 7"
                         },
                         new
                         {
                             Id = 8,
-                            Name = "Name 8",
-                            Surname = "Surname 8"
+                            Name = "Name 8"
                         },
                         new
                         {
                             Id = 9,
-                            Name = "Name 9",
-                            Surname = "Surname 9"
+                            Name = "Name 9"
                         });
                 });
 

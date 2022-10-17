@@ -1,4 +1,5 @@
-﻿using BaseEntity = FormsService.DAL.Entities.Base.BaseEntity;
+﻿using System.Text.Json.Serialization;
+using BaseEntity = FormsService.DAL.Entities.Base.BaseEntity;
 
 namespace FormsService.DAL.Entities
 {
@@ -8,6 +9,8 @@ namespace FormsService.DAL.Entities
         public Location Location { get; set; }
         public DateTimeOffset DateForming { get; set; }
         public virtual ICollection<Dish>? Dishes { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<DishOrder>? DishOrders { get; set; }
     }
 }

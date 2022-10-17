@@ -3,6 +3,7 @@
     public class TestDataSeed
     {
         private static readonly Random _random = new Random();
+
         public static IEnumerable<object> GetTestDishes(int count)
         {
             for (var i = 1; i < count; i++)
@@ -22,15 +23,13 @@
                 yield return new
                 {
                     Id = i,
-                    Name = $"Name {i}",
-                    Surname = $"Surname {i}"
+                    Name = $"Name {i}"
                 };
             }
         }
 
         public static IEnumerable<object> GetTestOrders(int count)
         {
-
             for (var i = 1; i < count; i++)
             {
                 yield return new

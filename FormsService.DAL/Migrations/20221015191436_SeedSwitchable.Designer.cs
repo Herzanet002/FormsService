@@ -3,6 +3,7 @@ using System;
 using FormsService.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FormsService.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20221015191436_SeedSwitchable")]
+    partial class SeedSwitchable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,99 +28,81 @@ namespace FormsService.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
+                        .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id")
-                        .HasName("pk_dishes");
+                    b.HasKey("Id");
 
-                    b.ToTable("dishes", (string)null);
+                    b.ToTable("Dishes");
                 });
 
             modelBuilder.Entity("FormsService.DAL.Entities.DishOrder", b =>
                 {
                     b.Property<int>("OrderID")
-                        .HasColumnType("integer")
-                        .HasColumnName("order_id");
+                        .HasColumnType("integer");
 
                     b.Property<int>("DishID")
-                        .HasColumnType("integer")
-                        .HasColumnName("dish_id");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Count")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasDefaultValue(1)
-                        .HasColumnName("count");
+                        .HasDefaultValue(0);
 
                     b.Property<int>("Price")
-                        .HasColumnType("integer")
-                        .HasColumnName("price");
+                        .HasColumnType("integer");
 
-                    b.HasKey("OrderID", "DishID")
-                        .HasName("pk_dish_orders");
+                    b.HasKey("OrderID", "DishID");
 
-                    b.HasIndex("DishID")
-                        .HasDatabaseName("ix_dish_orders_dish_id");
+                    b.HasIndex("DishID");
 
-                    b.ToTable("dish_orders", (string)null);
+                    b.ToTable("DishOrders", (string)null);
                 });
 
             modelBuilder.Entity("FormsService.DAL.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
+                        .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTimeOffset>("DateForming")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("date_forming");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Location")
-                        .HasColumnType("integer")
-                        .HasColumnName("location");
+                        .HasColumnType("integer");
 
                     b.Property<int>("PersonId")
-                        .HasColumnType("integer")
-                        .HasColumnName("person_id");
+                        .HasColumnType("integer");
 
-                    b.HasKey("Id")
-                        .HasName("pk_orders");
+                    b.HasKey("Id");
 
-                    b.HasIndex("PersonId")
-                        .HasDatabaseName("ix_orders_person_id");
+                    b.HasIndex("PersonId");
 
-                    b.ToTable("orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("FormsService.DAL.Entities.Person", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
+                        .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id")
-                        .HasName("pk_persons");
+                    b.HasKey("Id");
 
-                    b.ToTable("persons", (string)null);
+                    b.ToTable("Persons");
                 });
 
             modelBuilder.Entity("FormsService.DAL.Entities.DishOrder", b =>
@@ -127,15 +111,13 @@ namespace FormsService.DAL.Migrations
                         .WithMany("DishOrders")
                         .HasForeignKey("DishID")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_dish_orders_dishes_dish_id");
+                        .IsRequired();
 
                     b.HasOne("FormsService.DAL.Entities.Order", "Order")
                         .WithMany("DishOrders")
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_dish_orders_orders_order_id");
+                        .IsRequired();
 
                     b.Navigation("Dish");
 
@@ -148,8 +130,7 @@ namespace FormsService.DAL.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_orders_persons_person_id");
+                        .IsRequired();
 
                     b.Navigation("Person");
                 });

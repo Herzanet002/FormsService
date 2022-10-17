@@ -1,12 +1,12 @@
-﻿using MailService.Extensions;
-using System.Reflection;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using System.Text.Json.Serialization;
 using FormsService.DAL.Context;
 using FormsService.DAL.Repository;
 using FormsService.DAL.Repository.Interfaces;
-using MailService.Models;
+using MailService.Extensions;
+using Microsoft.EntityFrameworkCore;
 
-namespace FormsService
+namespace FormsService.API
 {
     public class Startup
     {
@@ -19,12 +19,18 @@ namespace FormsService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(o =>
+                o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
             services.AddDbContext<DatabaseContext>(
-                options => options.UseNpgsql(Configuration.GetConnectionString("DbSource")));
+                options =>
+                {
+                    options.UseNpgsql(Configuration.GetConnectionString("DbSource"))
+                        .UseSnakeCaseNamingConvention()
+                        .EnableSensitiveDataLogging();
+                });
 
             services.AddScoped(typeof(IRepository<>), typeof(DbRepository<>));
 

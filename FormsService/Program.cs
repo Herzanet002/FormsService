@@ -1,7 +1,7 @@
 using Serilog;
 using Serilog.Events;
 
-namespace FormsService;
+namespace FormsService.API;
 
 public class Program
 {
