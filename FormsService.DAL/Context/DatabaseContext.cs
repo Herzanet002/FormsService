@@ -13,7 +13,6 @@ namespace FormsService.DAL.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<DishOrder>().HasKey(dishOrder => new { dishOrder.OrderID, dishOrder.DishID });
             modelBuilder
                 .Entity<Order>()
                 .HasMany(o => o.Dishes)
@@ -33,6 +32,7 @@ namespace FormsService.DAL.Context
                         j.HasKey(t => new { t.OrderID, t.DishID });
                         j.ToTable("dish_orders");
                     });
+            modelBuilder.Entity<DishOrder>().Ignore(attr => attr.Id);
 
             if (IsDataSeeding)
             {
@@ -40,13 +40,8 @@ namespace FormsService.DAL.Context
             }
         }
 
-        private void Seed(ModelBuilder modelBuilder)
+        private static void Seed(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Person>().HasData(TestDataSeed.GetTestPersons(10));
-            //modelBuilder.Entity<Dish>().HasData(TestDataSeed.GetTestDishes(10));
-            //modelBuilder.Entity<Order>().HasData(TestDataSeed.GetTestOrders(10));
-            //modelBuilder.Entity<DishOrder>().HasData(TestDataSeed.GetTestDishOrder(10));
-
             modelBuilder.Entity<Person>().HasData(RealDataSeed.GetAllPersons());
             modelBuilder.Entity<Dish>().HasData(RealDataSeed.GetAllDishes());
         }

@@ -10,5 +10,6 @@ namespace FormsService.DAL.Entities
         public Dish Dish { get; set; }
         public int Price { get; set; }
         public int Count { get; set; }
+        
     }
 }

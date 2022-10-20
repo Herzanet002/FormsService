@@ -13,6 +13,7 @@ public class JsonDishConverter<T> : JsonConverter<T> where T : Dish
         var match = regex.Match(readerString);
         if (match.Success)
         {
+            //TODO: Price in dish_orders
             var dish = new Dish
             {
                 Name = match.Value.Split("/")[0].TrimEnd()

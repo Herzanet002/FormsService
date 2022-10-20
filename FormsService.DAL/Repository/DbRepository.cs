@@ -1,7 +1,10 @@
 ﻿using FormsService.DAL.Context;
+using FormsService.DAL.Entities;
 using FormsService.DAL.Entities.Base;
 using FormsService.DAL.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FormsService.DAL.Repository;
 
@@ -10,7 +13,7 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
     private readonly DatabaseContext _dbContext;
     private bool _disposed;
     protected DbSet<T> Set { get; }
-    protected virtual IQueryable<T> Items => Set;
+    protected IQueryable<T> Items => Set;
 
     public DbRepository(DatabaseContext dbContext)
     {
@@ -43,7 +46,13 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
 
     public async Task<IEnumerable<T>> GetAll(CancellationToken ct = default)
     {
-        return await Items.AsNoTracking().ToListAsync(ct);
+        return await Items.AsNoTracking().ToListAsync(ct).ConfigureAwait(false);
+    }
+
+    public async Task<IEnumerable<T>> GetAllWithEagerLoading(params Expression<Func<T, object>>[] includes)
+    {
+        var query = includes.Aggregate(Items, (current, include) => current.Include(include));
+        return await query.ToListAsync().ConfigureAwait(false);
     }
 
     public async Task<T> Add(T item, CancellationToken ct = default)

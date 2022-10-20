@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using FormsService.DAL.Entities;
+﻿using FormsService.DAL.Entities;
 using FormsService.DAL.Repository.Interfaces;
 using MailKit;
 using MailKit.Net.Imap;
@@ -10,6 +9,7 @@ using MailService.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MimeKit;
+using System.Text.Json;
 using IImapClient = MailService.Services.Interfaces.IImapClient;
 
 namespace MailService.Services;
@@ -82,21 +82,22 @@ public class MenuSourceClient : IImapClient
 
             if (person is null) continue;
 
-            var allDishes = await dishesRepository.GetAll();
-            var listOfDishes = allDishes
-                .Where(op => menuModel.Dishes.Contains(op))
-                .Select(op => op)
-                .Distinct()
-                .ToList();
+            //TODO: Выбирать из списка
+            var listOfDishes = new List<Dish>
+            {
+                dishesRepository.GetByPredicate(x => x.Name == menuModel.Salad?.Name).FirstOrDefault()!,
+                dishesRepository.GetByPredicate(x => x.Name == menuModel.Soup?.Name).FirstOrDefault()!,
+                dishesRepository.GetByPredicate(x => x.Name == menuModel.FirstCourse?.Name).FirstOrDefault()!,
+            }.Where(x => x != null);
 
             var order = new Order
             {
-                Dishes = listOfDishes,
+                Dishes = listOfDishes.ToList(),
                 DateForming = message.Date.UtcDateTime,
-                Person = person, 
+                Person = person,
                 Location = menuModel.Location == "Возьму с собой" ? Location.WithMe : Location.InCafe
             };
-            
+
             if (ordersRepository.GetByPredicate(o => o.DateForming == order.DateForming && o.Person == order.Person)
                 .Any()) continue;
             await ordersRepository.Add(order);

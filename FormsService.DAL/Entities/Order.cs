@@ -8,9 +8,9 @@ namespace FormsService.DAL.Entities
         public Person Person { get; set; }
         public Location Location { get; set; }
         public DateTimeOffset DateForming { get; set; }
-        public virtual ICollection<Dish>? Dishes { get; set; }
+        public virtual ICollection<Dish> Dishes { get; set; }
 
-        //[JsonIgnore]
+        [JsonIgnore]
         public virtual ICollection<DishOrder>? DishOrders { get; set; }
     }
 }

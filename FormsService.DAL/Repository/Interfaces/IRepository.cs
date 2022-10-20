@@ -1,4 +1,5 @@
-﻿using FormsService.DAL.Entities.Base;
+﻿using System.Linq.Expressions;
+using FormsService.DAL.Entities.Base;
 
 namespace FormsService.DAL.Repository.Interfaces
 {
@@ -7,6 +8,9 @@ namespace FormsService.DAL.Repository.Interfaces
         Task<T?> FindById(int id, CancellationToken ct = default);
 
         Task<IEnumerable<T>> GetAll(CancellationToken ct = default);
+
+        Task<IEnumerable<T>> GetAllWithEagerLoading(
+            params Expression<Func<T, object>>[] includes);
 
         Task<T> Add(T item, CancellationToken ct = default);
 

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FormsService.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221017091318_RealDataSeed")]
-    partial class RealDataSeed
+    [Migration("20221020190138_InitImproved")]
+    partial class InitImproved
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
