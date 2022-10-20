@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace MailService.Models;
 
 [Serializable]
-public class MenuModel : BaseEntity, IEquatable<MenuModel>
+public class MenuModel
 {
     private Dish? _salad;
     private Dish? _soup;

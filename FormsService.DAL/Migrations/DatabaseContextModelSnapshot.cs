@@ -95,6 +95,10 @@ namespace FormsService.DAL.Migrations
                         .HasDefaultValue(1)
                         .HasColumnName("count");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
                     b.Property<int>("Price")
                         .HasColumnType("integer")
                         .HasColumnName("price");

@@ -9,7 +9,7 @@ namespace FormsService.DAL.Entities
 
         public virtual ICollection<Order>? Orders { get; set; }
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public virtual ICollection<DishOrder>? DishOrders { get; set; }
 
     }

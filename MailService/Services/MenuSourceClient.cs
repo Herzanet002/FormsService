@@ -71,10 +71,12 @@ public class MenuSourceClient : IImapClient
             var ordersRepository = scope.ServiceProvider.GetService<IRepository<Order>>();
             var personsRepository = scope.ServiceProvider.GetService<IRepository<Person>>();
             var dishesRepository = scope.ServiceProvider.GetService<IRepository<Dish>>();
+            var dishOrderRepository = scope.ServiceProvider.GetService<IRepository<DishOrder>>();
 
             if (ordersRepository is null) throw new NullReferenceException(nameof(ordersRepository));
             if (dishesRepository is null) throw new NullReferenceException(nameof(dishesRepository));
             if (personsRepository is null) throw new NullReferenceException(nameof(personsRepository));
+            if (dishOrderRepository is null) throw new NullReferenceException(nameof(personsRepository));
 
             var person = personsRepository.GetByPredicate(p => p.Name == menuModel.Person.Name).FirstOrDefault();
 
@@ -94,6 +96,7 @@ public class MenuSourceClient : IImapClient
                 Person = person, 
                 Location = menuModel.Location == "Возьму с собой" ? Location.WithMe : Location.InCafe
             };
+            
             if (ordersRepository.GetByPredicate(o => o.DateForming == order.DateForming && o.Person == order.Person)
                 .Any()) continue;
             await ordersRepository.Add(order);

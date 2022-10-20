@@ -10,7 +10,7 @@ namespace FormsService.DAL.Entities
         public DateTimeOffset DateForming { get; set; }
         public virtual ICollection<Dish>? Dishes { get; set; }
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public virtual ICollection<DishOrder>? DishOrders { get; set; }
     }
 }
