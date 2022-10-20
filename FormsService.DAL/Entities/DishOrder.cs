@@ -1,6 +1,8 @@
-﻿namespace FormsService.DAL.Entities
+﻿using FormsService.DAL.Entities.Base;
+
+namespace FormsService.DAL.Entities
 {
-    public class DishOrder
+    public class DishOrder : BaseEntity
     {
         public int OrderID { get; set; }
         public int DishID { get; set; }

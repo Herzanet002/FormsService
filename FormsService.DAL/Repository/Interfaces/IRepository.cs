@@ -1,6 +1,8 @@
-﻿namespace FormsService.DAL.Repository.Interfaces
+﻿using FormsService.DAL.Entities.Base;
+
+namespace FormsService.DAL.Repository.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : BaseEntity
     {
         Task<T?> FindById(int id, CancellationToken ct = default);
 
