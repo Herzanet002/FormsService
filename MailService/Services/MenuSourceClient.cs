@@ -44,7 +44,7 @@ public class MenuSourceClient : IImapClient
         var inboxMessages = await inboxFolder.FetchAsync(
             await inboxFolder.SearchAsync(SearchQuery.All, CancellationToken.None),
             MessageSummaryItems.UniqueId | MessageSummaryItems.BodyStructure | MessageSummaryItems.Envelope);
-        Random rand = new Random();
+
         foreach (var message in inboxMessages)
         {
             if (!MessageValidation(message)) continue;
@@ -80,33 +80,31 @@ public class MenuSourceClient : IImapClient
 
             if (person is null) continue;
 
-            //TODO: Выбирать из списка
-            var listOfDishes = new List<Dish>
-            {
-                dishesRepository.GetByPredicate(x => x.Name == menuModel.Salad?.Name).FirstOrDefault()!,
-                dishesRepository.GetByPredicate(x => x.Name == menuModel.Soup?.Name).FirstOrDefault()!,
-                dishesRepository.GetByPredicate(x => x.Name == menuModel.FirstCourse?.Name).FirstOrDefault()!,
-            }.Where(x => x != null);
+            var listOfDishes = menuModel.Dishes
+                .Select(dish => dishesRepository.GetByPredicate(x => x.Name == dish.Name)
+                .FirstOrDefault())
+                .Where(containingDish => containingDish != null)
+                .ToList();
 
             var order = new Order
             {
-                Dishes = listOfDishes.ToList(),
+                Dishes = listOfDishes,
                 DateForming = message.Date.UtcDateTime,
                 Person = person,
                 Location = menuModel.Location == "Заберу с собой" ? Location.WithMe : Location.InCafe
             };
-            
-            if (ordersRepository.GetByPredicate(o => o.DateForming == order.DateForming && o.Person == order.Person)
+
+            if (ordersRepository.GetByPredicate(o => o.DateForming == order.DateForming && o.Person.Name == order.Person.Name)
                 .Any()) continue;
             var query = await ordersRepository.AddWithoutSaving(order);
-            foreach (var dish in menuModel.Dishes)
+            foreach (var dish in menuModel.Dishes.Where(_ => query.DishOrders != null))
             {
-                query.DishOrders.Single(x => x.Dish.Name == dish.Name).Price = dish.Price;
+                if (query.DishOrders != null)
+                    query.DishOrders.Single(x => x.Dish.Name == dish.Name).Price = dish.Price;
             }
 
             await ordersRepository.Add(query);
-            
-            
+
             //await MarkItemAsProcessed(message.UniqueId);
         }
 
