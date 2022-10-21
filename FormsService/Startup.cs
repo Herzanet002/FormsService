@@ -33,7 +33,6 @@ namespace FormsService.API
                 });
 
             services.AddScoped(typeof(IRepository<>), typeof(DbRepository<>));
-
             services.AddMailHostedService()
                 .ConfigureIMapService(Configuration)
                 .AddIMapClientService();

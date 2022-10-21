@@ -14,6 +14,8 @@ namespace FormsService.DAL.Repository.Interfaces
 
         Task<T> Add(T item, CancellationToken ct = default);
 
+        Task<T> AddWithoutSaving(T item, CancellationToken ct = default);
+
         Task<T> Update(T item, CancellationToken ct = default);
 
         Task<T?> Remove(T? item, CancellationToken ct = default);

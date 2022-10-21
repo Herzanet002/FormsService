@@ -8,10 +8,10 @@ namespace MailService.Models
     {
         public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.GetString() is not { } str) return null;
+            if (reader.GetString() is not { } personString) return null;
             return new Person
             {
-                Name = str.TrimEnd()
+                Name = personString.TrimEnd()
             } as T;
         }
 

@@ -13,6 +13,16 @@ namespace FormsService.DAL.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            ConfigureEntities(modelBuilder);
+
+            if (IsDataSeeding)
+            {
+                Seed(modelBuilder);
+            }
+        }
+
+        private static void ConfigureEntities(ModelBuilder modelBuilder)
+        {
             modelBuilder
                 .Entity<Order>()
                 .HasMany(o => o.Dishes)
@@ -33,11 +43,6 @@ namespace FormsService.DAL.Context
                         j.ToTable("dish_orders");
                     });
             modelBuilder.Entity<DishOrder>().Ignore(attr => attr.Id);
-
-            if (IsDataSeeding)
-            {
-                Seed(modelBuilder);
-            }
         }
 
         private static void Seed(ModelBuilder modelBuilder)

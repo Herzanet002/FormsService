@@ -36,16 +36,16 @@ namespace FormsService.API.Controllers
             System.IO.File.Copy(inputTemplatePath, outputPath);
             var tableContent = new TableContent("OrdersTable");
 
-            var j = 1;
+            var currentOrderNumber = 1;
 
             foreach (var order in orders)
             {
-                tableContent.AddRow(new FieldContent("Number", j.ToString()),
+                tableContent.AddRow(new FieldContent("Number", currentOrderNumber.ToString()),
                     new FieldContent("Name", order.Person.Name),
                     new FieldContent("YesNo", order.Location == Location.WithMe ? "Да" : "Нет"),
                     new FieldContent("Dishes", string.Join(".\n", order.Dishes.Select(x => x.Name))),
                     new FieldContent("VisitTime", "С 12ч. до 13ч."));
-                j++;
+                currentOrderNumber++;
             }
             var valuesToFill = new Content(tableContent);
             valuesToFill.Fields.Add(new FieldContent("ReportDate", DateTime.Now.Date.ToShortDateString()));

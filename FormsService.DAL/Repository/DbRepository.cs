@@ -64,6 +64,14 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
         return item;
     }
 
+    public async Task<T> AddWithoutSaving(T item, CancellationToken ct = default)
+    {
+        if (item is null) throw new ArgumentNullException(nameof(item));
+
+        await _dbContext.AddAsync(item, ct).ConfigureAwait(false);
+        return item;
+    }
+
     public async Task<T> Update(T item, CancellationToken ct = default)
     {
         if (item is null) throw new ArgumentNullException(nameof(item));

@@ -44,7 +44,7 @@ public class MenuSourceClient : IImapClient
         var inboxMessages = await inboxFolder.FetchAsync(
             await inboxFolder.SearchAsync(SearchQuery.All, CancellationToken.None),
             MessageSummaryItems.UniqueId | MessageSummaryItems.BodyStructure | MessageSummaryItems.Envelope);
-
+        Random rand = new Random();
         foreach (var message in inboxMessages)
         {
             if (!MessageValidation(message)) continue;
@@ -67,16 +67,14 @@ public class MenuSourceClient : IImapClient
                 continue;
             }
 
-            using var scope = _serviceProvider.CreateScope();
-            var ordersRepository = scope.ServiceProvider.GetService<IRepository<Order>>();
-            var personsRepository = scope.ServiceProvider.GetService<IRepository<Person>>();
-            var dishesRepository = scope.ServiceProvider.GetService<IRepository<Dish>>();
-            var dishOrderRepository = scope.ServiceProvider.GetService<IRepository<DishOrder>>();
+            _logger.LogInformation(
+                $"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}, contains:{menuModel}");
+            messages.Add(messageModel);
 
-            if (ordersRepository is null) throw new NullReferenceException(nameof(ordersRepository));
-            if (dishesRepository is null) throw new NullReferenceException(nameof(dishesRepository));
-            if (personsRepository is null) throw new NullReferenceException(nameof(personsRepository));
-            if (dishOrderRepository is null) throw new NullReferenceException(nameof(personsRepository));
+            using var scope = _serviceProvider.CreateScope();
+            var ordersRepository = scope.ServiceProvider.GetService<IRepository<Order>>() ?? throw new NullReferenceException($"{nameof(IRepository<Order>)} is null");
+            var personsRepository = scope.ServiceProvider.GetService<IRepository<Person>>() ?? throw new NullReferenceException($"{nameof(IRepository<Person>)} is null");
+            var dishesRepository = scope.ServiceProvider.GetService<IRepository<Dish>>() ?? throw new NullReferenceException($"{nameof(IRepository<Dish>)} is null");
 
             var person = personsRepository.GetByPredicate(p => p.Name == menuModel.Person.Name).FirstOrDefault();
 
@@ -97,14 +95,18 @@ public class MenuSourceClient : IImapClient
                 Person = person,
                 Location = menuModel.Location == "Возьму с собой" ? Location.WithMe : Location.InCafe
             };
-
+            
             if (ordersRepository.GetByPredicate(o => o.DateForming == order.DateForming && o.Person == order.Person)
                 .Any()) continue;
-            await ordersRepository.Add(order);
-            _logger.LogInformation(
-                $"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}," +
-                $" contains:{menuModel}");
-            messages.Add(messageModel);
+            var query = await ordersRepository.AddWithoutSaving(order);
+            foreach (var dish in menuModel.Dishes)
+            {
+                query.DishOrders.Single(x => x.Dish.Name == dish.Name).Price = dish.Price;
+            }
+
+            await ordersRepository.Add(query);
+            
+            
             //await MarkItemAsProcessed(message.UniqueId);
         }
 
