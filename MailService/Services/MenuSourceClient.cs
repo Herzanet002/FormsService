@@ -93,7 +93,7 @@ public class MenuSourceClient : IImapClient
                 Dishes = listOfDishes.ToList(),
                 DateForming = message.Date.UtcDateTime,
                 Person = person,
-                Location = menuModel.Location == "Возьму с собой" ? Location.WithMe : Location.InCafe
+                Location = menuModel.Location == "Заберу с собой" ? Location.WithMe : Location.InCafe
             };
             
             if (ordersRepository.GetByPredicate(o => o.DateForming == order.DateForming && o.Person == order.Person)
