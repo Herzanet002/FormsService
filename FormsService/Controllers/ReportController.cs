@@ -41,9 +41,10 @@ namespace FormsService.API.Controllers
             foreach (var order in orders)
             {
                 tableContent.AddRow(new FieldContent("Number", j.ToString()),
-                new FieldContent("Name", order.Person.Name),
-                new FieldContent("YesNo", order.Location == Location.WithMe ? "Да" : "Нет"),
-                new FieldContent("Dishes", string.Join(",", order.Dishes.Select(x => x.Name))));
+                    new FieldContent("Name", order.Person.Name),
+                    new FieldContent("YesNo", order.Location == Location.WithMe ? "Да" : "Нет"),
+                    new FieldContent("Dishes", string.Join(".\n", order.Dishes.Select(x => x.Name))),
+                    new FieldContent("VisitTime", "С 12ч. до 13ч."));
                 j++;
             }
             var valuesToFill = new Content(tableContent);
