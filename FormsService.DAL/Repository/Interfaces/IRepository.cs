@@ -3,29 +3,29 @@ using FormsService.DAL.Entities.Base;
 
 namespace FormsService.DAL.Repository.Interfaces
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IRepository<TEntity> where TEntity : BaseEntity
     {
-        Task<T?> FindById(int id, CancellationToken ct = default);
+        Task<TEntity?> FindById(int id, CancellationToken ct = default);
 
-        Task<IEnumerable<T>> GetAll(CancellationToken ct = default);
+        Task<IEnumerable<TEntity>> GetAll(CancellationToken ct = default);
 
-        Task<IEnumerable<T>> GetAllWithEagerLoading(
-            params Expression<Func<T, object>>[] includes);
+        Task<IEnumerable<TEntity>> GetAllWithInclude(
+            params Expression<Func<TEntity, object>>[] includes);
 
-        Task<T> Add(T item, CancellationToken ct = default);
+        Task<TEntity> Add(TEntity item, CancellationToken ct = default);
 
-        Task<T> PreCommit(T item, CancellationToken ct = default);
+        Task<TEntity> PreCommit(TEntity item, CancellationToken ct = default);
 
-        Task<T> Update(T item, CancellationToken ct = default);
+        Task<TEntity> Update(TEntity item, CancellationToken ct = default);
 
-        Task<T?> Remove(T? item, CancellationToken ct = default);
+        Task<TEntity?> Remove(TEntity? item, CancellationToken ct = default);
 
-        Task<T?> RemoveById(int id, CancellationToken ct = default);
+        Task<TEntity?> RemoveById(int id, CancellationToken ct = default);
 
         Task<bool> ExistsId(int id, CancellationToken ct = default);
 
-        Task<bool> ExistsItem(T? item, CancellationToken ct = default);
+        Task<bool> ExistsItem(TEntity? item, CancellationToken ct = default);
 
-        IEnumerable<T> GetByFilter(Func<T, bool> predicate, CancellationToken ct = default);
+        IEnumerable<TEntity> GetByFilter(Func<TEntity, bool> predicate, CancellationToken ct = default);
     }
 }

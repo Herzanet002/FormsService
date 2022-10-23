@@ -6,17 +6,17 @@ using System.Linq.Expressions;
 
 namespace FormsService.DAL.Repository;
 
-public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
+public class DbRepository<TEntity> : IRepository<TEntity>, IDisposable where TEntity : BaseEntity
 {
     private readonly DatabaseContext _dbContext;
     private bool _disposed;
-    protected DbSet<T> Set { get; }
-    protected IQueryable<T> Items => Set;
+    protected DbSet<TEntity> Set { get; }
+    protected IQueryable<TEntity> Items => Set;
 
     public DbRepository(DatabaseContext dbContext)
     {
         _dbContext = dbContext;
-        Set = _dbContext.Set<T>();
+        Set = _dbContext.Set<TEntity>();
     }
 
     protected virtual void Dispose(bool disposing)
@@ -37,23 +37,23 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
         GC.SuppressFinalize(this);
     }
 
-    public async Task<T?> FindById(int id, CancellationToken ct = default)
+    public async Task<TEntity?> FindById(int id, CancellationToken ct = default)
     {
         return await Items.SingleOrDefaultAsync(item => item.Id == id, ct).ConfigureAwait(false);
     }
 
-    public async Task<IEnumerable<T>> GetAll(CancellationToken ct = default)
+    public async Task<IEnumerable<TEntity>> GetAll(CancellationToken ct = default)
     {
         return await Items.AsNoTracking().ToListAsync(ct).ConfigureAwait(false);
     }
 
-    public async Task<IEnumerable<T>> GetAllWithEagerLoading(params Expression<Func<T, object>>[] includes)
+    public async Task<IEnumerable<TEntity>> GetAllWithInclude(params Expression<Func<TEntity, object>>[] includes)
     {
         var query = includes.Aggregate(Items, (current, include) => current.Include(include));
         return await query.ToListAsync().ConfigureAwait(false);
     }
 
-    public async Task<T> Add(T item, CancellationToken ct = default)
+    public async Task<TEntity> Add(TEntity item, CancellationToken ct = default)
     {
         if (item is null) throw new ArgumentNullException(nameof(item));
 
@@ -62,7 +62,7 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
         return item;
     }
 
-    public async Task<T> PreCommit(T item, CancellationToken ct = default)
+    public async Task<TEntity> PreCommit(TEntity item, CancellationToken ct = default)
     {
         if (item is null) throw new ArgumentNullException(nameof(item));
 
@@ -70,7 +70,7 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
         return item;
     }
 
-    public async Task<T> Update(T item, CancellationToken ct = default)
+    public async Task<TEntity> Update(TEntity item, CancellationToken ct = default)
     {
         if (item is null) throw new ArgumentNullException(nameof(item));
 
@@ -79,7 +79,7 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
         return item;
     }
 
-    public async Task<T?> Remove(T? item, CancellationToken ct = default)
+    public async Task<TEntity?> Remove(TEntity? item, CancellationToken ct = default)
     {
         if (item is null) throw new ArgumentNullException(nameof(item));
 
@@ -91,7 +91,7 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
         return item;
     }
 
-    public async Task<T?> RemoveById(int id, CancellationToken ct = default)
+    public async Task<TEntity?> RemoveById(int id, CancellationToken ct = default)
     {
         var item = await FindById(id, ct);
         return await Remove(item, ct);
@@ -102,13 +102,13 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
         return await Items.AnyAsync(item => item.Id == id, ct).ConfigureAwait(false);
     }
 
-    public async Task<bool> ExistsItem(T? item, CancellationToken ct = default)
+    public async Task<bool> ExistsItem(TEntity? item, CancellationToken ct = default)
     {
         if (item is null) throw new ArgumentNullException(nameof(item));
         return await Items.AnyAsync(i => i.Id == item.Id, ct).ConfigureAwait(false);
     }
 
-    public IEnumerable<T> GetByFilter(Func<T, bool> predicate, CancellationToken ct = default)
+    public IEnumerable<TEntity> GetByFilter(Func<TEntity, bool> predicate, CancellationToken ct = default)
     {
         return Items.AsEnumerable().Where(predicate).ToList();
     }

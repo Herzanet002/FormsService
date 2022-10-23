@@ -29,7 +29,7 @@ namespace FormsService.API.Controllers
                 return BadRequest();
             }
 
-            var orders = await _orderRepository.GetAllWithEagerLoading(order => order.Person,
+            var orders = await _orderRepository.GetAllWithInclude(order => order.Person,
                 order => order.Dishes);
 
             System.IO.File.Delete(outputPath);
