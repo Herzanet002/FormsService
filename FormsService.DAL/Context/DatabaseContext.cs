@@ -1,5 +1,5 @@
-﻿using FormsService.DAL.Entities;
-using FormsService.DAL.Entities.Seeding;
+﻿using FormsService.DAL.Context.Seeding;
+using FormsService.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FormsService.DAL.Context

@@ -6,5 +6,4 @@ public class FormsConfiguration
     public string? Subject { get; set; }
     public string? Domain { get; set; }
     public string? Email { get; set; }
-
 }

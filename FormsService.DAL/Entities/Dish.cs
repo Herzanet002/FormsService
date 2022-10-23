@@ -11,6 +11,5 @@ namespace FormsService.DAL.Entities
 
         [JsonIgnore]
         public virtual ICollection<DishOrder>? DishOrders { get; set; }
-
     }
 }

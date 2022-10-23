@@ -13,7 +13,6 @@ namespace MailService.Services.Hosted
         private readonly IServiceProvider _services;
         private readonly FormsConfiguration _formsConfiguration;
         private readonly ClientSettings _clientSettings;
-        
 
         public MailHostedService(ILogger<MailHostedService> logger,
             IServiceProvider services,

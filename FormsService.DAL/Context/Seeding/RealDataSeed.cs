@@ -1,4 +1,4 @@
-﻿namespace FormsService.DAL.Entities.Seeding;
+﻿namespace FormsService.DAL.Context.Seeding;
 
 public class RealDataSeed
 {
@@ -6,37 +6,37 @@ public class RealDataSeed
     {
         var allPossibledishes = new List<object>
         {
-            new 
+            new
             {
                 Id = 1,
                 Name = "Кобб с куриной грудкой"
             },
-            new 
+            new
             {
                 Id = 2,
                 Name = "Сельдь под шубой"
             },
-            new 
+            new
             {
                 Id = 3,
                 Name = "Грибной крем-суп с пшеничными гренками"
             },
-            new 
+            new
             {
                 Id = 4,
                 Name = "Финская сливочная уха"
             },
-            new 
+            new
             {
                 Id = 5,
                 Name = "Филе трески на подушке из кус-куса с соусом рататуй"
             },
-            new 
+            new
             {
                 Id = 6,
                 Name = "Фахитос из свинины с рисом тяхан"
             },
-            new 
+            new
             {
                 Id = 7,
                 Name = "Куриное фрикасе с молодым картофелем"
@@ -54,42 +54,42 @@ public class RealDataSeed
                 Id = 1,
                 Name = "Борисов"
             },
-            new 
+            new
             {
                 Id = 2,
                 Name = "Бухман"
             },
-            new 
+            new
             {
                 Id = 3,
                 Name = "Демидов"
             },
-            new 
+            new
             {
                 Id = 4,
                 Name = "Домашенко"
             },
-            new 
+            new
             {
                 Id = 5,
                 Name = "Менщиков"
             },
-            new 
+            new
             {
                 Id = 6,
                 Name = "Романова"
             },
-            new 
+            new
             {
                 Id = 7,
                 Name = "Смирнов"
             },
-            new 
+            new
             {
                 Id = 8,
                 Name = "Ковзик"
             },
-            new 
+            new
             {
                 Id = 9,
                 Name = "Цилюрик"

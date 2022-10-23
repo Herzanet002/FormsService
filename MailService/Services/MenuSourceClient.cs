@@ -75,17 +75,17 @@ public class MenuSourceClient : IImapClient
             }
 
             _logger.LogInformation(
-                $"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}, contains:{menuModel}");
+                $"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}");
             messages.Add(messageModel);
 
-            var person = personsRepository.GetByPredicate(p => p.Name == menuModel.Person.Name).FirstOrDefault();
+            var person = personsRepository.GetByFilter(p => p.Name == menuModel.Person.Name).FirstOrDefault();
 
             if (person is null) continue;
 
             ICollection<Dish> listOfDishes = menuModel.Dishes
-                .Select(dish => dishesRepository.GetByPredicate(x => x.Name == dish.Name)
-                .FirstOrDefault())
                 .Where(containingDish => containingDish != null)
+                .Select(dish => dishesRepository.GetByFilter(x => x.Name == dish.Name)
+                    .FirstOrDefault())
                 .ToList()!;
 
             var order = new Order
@@ -96,7 +96,7 @@ public class MenuSourceClient : IImapClient
                 Location = menuModel.Location
             };
 
-            if (ordersRepository.GetByPredicate(o => o.DateForming == order.DateForming && o.Person.Name == order.Person.Name)
+            if (ordersRepository.GetByFilter(o => o.DateForming == order.DateForming && o.Person.Name == order.Person.Name)
                 .Any()) continue;
             var query = await ordersRepository.PreCommit(order);
             foreach (var dish in menuModel.Dishes.Where(_ => query.DishOrders != null))

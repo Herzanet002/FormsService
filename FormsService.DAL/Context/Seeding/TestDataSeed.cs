@@ -1,4 +1,6 @@
-﻿namespace FormsService.DAL.Entities.Seeding
+﻿using FormsService.DAL.Entities;
+
+namespace FormsService.DAL.Context.Seeding
 {
     public class TestDataSeed
     {
