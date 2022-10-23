@@ -21,6 +21,7 @@ public class MenuSourceClient : IImapClient
     private readonly ILogger<MenuSourceClient> _logger;
     private readonly IServiceProvider _serviceProvider;
     private ClientSettings? _clientSettings;
+    private FormsConfiguration? _formsConfiguration;
 
     public MenuSourceClient(ILogger<MenuSourceClient> logger, IServiceProvider serviceProvider)
     {
@@ -29,9 +30,10 @@ public class MenuSourceClient : IImapClient
         _imapClient = new ImapClient();
     }
 
-    public void InitializeClient(ClientSettings clientSettings)
+    public void InitializeClient(ClientSettings clientSettings, FormsConfiguration formsConfiguration)
     {
         _clientSettings = clientSettings;
+        _formsConfiguration = formsConfiguration;
     }
 
     public async Task<List<MessageModel>> ReceiveItem()
@@ -44,6 +46,11 @@ public class MenuSourceClient : IImapClient
         var inboxMessages = await inboxFolder.FetchAsync(
             await inboxFolder.SearchAsync(SearchQuery.All, CancellationToken.None),
             MessageSummaryItems.UniqueId | MessageSummaryItems.BodyStructure | MessageSummaryItems.Envelope);
+
+        using var scope = _serviceProvider.CreateScope();
+        var ordersRepository = scope.ServiceProvider.GetService<IRepository<Order>>() ?? throw new NullReferenceException($"{nameof(IRepository<Order>)} is null");
+        var personsRepository = scope.ServiceProvider.GetService<IRepository<Person>>() ?? throw new NullReferenceException($"{nameof(IRepository<Person>)} is null");
+        var dishesRepository = scope.ServiceProvider.GetService<IRepository<Dish>>() ?? throw new NullReferenceException($"{nameof(IRepository<Dish>)} is null");
 
         foreach (var message in inboxMessages)
         {
@@ -71,32 +78,27 @@ public class MenuSourceClient : IImapClient
                 $"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}, contains:{menuModel}");
             messages.Add(messageModel);
 
-            using var scope = _serviceProvider.CreateScope();
-            var ordersRepository = scope.ServiceProvider.GetService<IRepository<Order>>() ?? throw new NullReferenceException($"{nameof(IRepository<Order>)} is null");
-            var personsRepository = scope.ServiceProvider.GetService<IRepository<Person>>() ?? throw new NullReferenceException($"{nameof(IRepository<Person>)} is null");
-            var dishesRepository = scope.ServiceProvider.GetService<IRepository<Dish>>() ?? throw new NullReferenceException($"{nameof(IRepository<Dish>)} is null");
-
             var person = personsRepository.GetByPredicate(p => p.Name == menuModel.Person.Name).FirstOrDefault();
 
             if (person is null) continue;
 
-            var listOfDishes = menuModel.Dishes
+            ICollection<Dish> listOfDishes = menuModel.Dishes
                 .Select(dish => dishesRepository.GetByPredicate(x => x.Name == dish.Name)
                 .FirstOrDefault())
                 .Where(containingDish => containingDish != null)
-                .ToList();
+                .ToList()!;
 
             var order = new Order
             {
                 Dishes = listOfDishes,
                 DateForming = message.Date.UtcDateTime,
                 Person = person,
-                Location = menuModel.Location == "Заберу с собой" ? Location.WithMe : Location.InCafe
+                Location = menuModel.Location
             };
 
             if (ordersRepository.GetByPredicate(o => o.DateForming == order.DateForming && o.Person.Name == order.Person.Name)
                 .Any()) continue;
-            var query = await ordersRepository.AddWithoutSaving(order);
+            var query = await ordersRepository.PreCommit(order);
             foreach (var dish in menuModel.Dishes.Where(_ => query.DishOrders != null))
             {
                 if (query.DishOrders != null)
@@ -158,16 +160,20 @@ public class MenuSourceClient : IImapClient
         }
     }
 
-    public MenuModel? GetItemInfo(MessageModel message)
+    public static MenuModel? GetItemInfo(MessageModel message)
     {
         return string.IsNullOrWhiteSpace(message.Content)
             ? null
             : JsonSerializer.Deserialize<MenuModel>(message.Content);
     }
 
-    private static bool MessageValidation(IMessageSummary message)
+    private bool MessageValidation(IMessageSummary message)
     {
-        return message.Envelope.Subject == "FormReply" &&
-               message.Envelope.From.Mailboxes.All(x => x.Domain == "forms-mailer.yaconnect.com");
+        if (_formsConfiguration == null)
+            throw new NullReferenceException(nameof(_formsConfiguration));
+
+        return message.Envelope.Subject == _formsConfiguration.Subject &&
+               message.Envelope.From.Any(address => address.Name == _formsConfiguration.Service) &&
+               message.Envelope.From.Mailboxes.All(x => x.Domain == _formsConfiguration.Domain);
     }
 }

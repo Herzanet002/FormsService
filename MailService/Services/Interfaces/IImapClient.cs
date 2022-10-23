@@ -6,7 +6,7 @@ namespace MailService.Services.Interfaces
 {
     public interface IImapClient
     {
-        void InitializeClient(ClientSettings clientSettings);
+        void InitializeClient(ClientSettings clientSettings, FormsConfiguration formsConfiguration);
 
         Task<List<MessageModel>> ReceiveItem();
 

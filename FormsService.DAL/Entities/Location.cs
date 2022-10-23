@@ -1,12 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace FormsService.DAL.Entities;
 
 public enum Location
 {
-    [JsonPropertyName("Возьму с собой")]
-    WithMe, // возьму с собой
+    [EnumMember(Value = "Заберу с собой")]
+    WithMe, 
 
-    [JsonPropertyName("В кафе")]
-    InCafe  // в кафе
+    [EnumMember(Value = "В кафе")]
+    InCafe  
 }

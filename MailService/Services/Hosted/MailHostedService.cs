@@ -11,16 +11,19 @@ namespace MailService.Services.Hosted
     {
         private readonly ILogger<MailHostedService> _logger;
         private readonly IServiceProvider _services;
+        private readonly FormsConfiguration _formsConfiguration;
         private readonly ClientSettings _clientSettings;
-        //dbRepository
+        
 
         public MailHostedService(ILogger<MailHostedService> logger,
             IServiceProvider services,
-            IOptionsMonitor<ClientSettings> optionsDelegate)
+            IOptionsMonitor<ClientSettings> clientSettings,
+            IOptionsMonitor<FormsConfiguration> formsConfiguration)
         {
             _logger = logger;
             _services = services;
-            _clientSettings = optionsDelegate.CurrentValue;
+            _formsConfiguration = formsConfiguration.CurrentValue;
+            _clientSettings = clientSettings.CurrentValue;
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
@@ -41,7 +44,7 @@ namespace MailService.Services.Hosted
             do
             {
                 var mailServiceClient = _services.GetRequiredService<IImapClient>();
-                mailServiceClient.InitializeClient(_clientSettings);
+                mailServiceClient.InitializeClient(_clientSettings, _formsConfiguration);
 
                 await mailServiceClient.ReceiveItem();
                 await Task.Delay(TimeSpan.FromSeconds(_clientSettings.EmailReadInterval), stoppingToken);

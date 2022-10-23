@@ -1,10 +1,8 @@
 ﻿using FormsService.DAL.Context;
-using FormsService.DAL.Entities;
 using FormsService.DAL.Entities.Base;
 using FormsService.DAL.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FormsService.DAL.Repository;
 
@@ -64,7 +62,7 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
         return item;
     }
 
-    public async Task<T> AddWithoutSaving(T item, CancellationToken ct = default)
+    public async Task<T> PreCommit(T item, CancellationToken ct = default)
     {
         if (item is null) throw new ArgumentNullException(nameof(item));
 
@@ -110,7 +108,7 @@ public class DbRepository<T> : IRepository<T>, IDisposable where T : BaseEntity
         return await Items.AnyAsync(i => i.Id == item.Id, ct).ConfigureAwait(false);
     }
 
-    public IEnumerable<T> GetByPredicate(Func<T, bool> predicate, CancellationToken ct = default)
+    public IEnumerable<T> GetByFilter(Func<T, bool> predicate, CancellationToken ct = default)
     {
         return Items.AsEnumerable().Where(predicate).ToList();
     }

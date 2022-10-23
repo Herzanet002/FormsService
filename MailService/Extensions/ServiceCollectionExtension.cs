@@ -17,6 +17,14 @@ namespace MailService.Extensions
             return services;
         }
 
+        public static IServiceCollection ConfigureFormsService(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            services.Configure<FormsConfiguration>(
+                configuration.GetSection(nameof(FormsConfiguration)));
+            return services;
+        }
+
         public static IServiceCollection AddMailHostedService(this IServiceCollection services)
         {
             services.AddHostedService<MailHostedService>();

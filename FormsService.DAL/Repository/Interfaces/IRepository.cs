@@ -14,7 +14,7 @@ namespace FormsService.DAL.Repository.Interfaces
 
         Task<T> Add(T item, CancellationToken ct = default);
 
-        Task<T> AddWithoutSaving(T item, CancellationToken ct = default);
+        Task<T> PreCommit(T item, CancellationToken ct = default);
 
         Task<T> Update(T item, CancellationToken ct = default);
 
@@ -26,6 +26,6 @@ namespace FormsService.DAL.Repository.Interfaces
 
         Task<bool> ExistsItem(T? item, CancellationToken ct = default);
 
-        IEnumerable<T> GetByPredicate(Func<T, bool> predicate, CancellationToken ct = default);
+        IEnumerable<T> GetByFilter(Func<T, bool> predicate, CancellationToken ct = default);
     }
 }
