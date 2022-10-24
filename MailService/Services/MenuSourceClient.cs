@@ -1,4 +1,5 @@
-﻿using FormsService.DAL.Entities;
+﻿using System.Text.Json;
+using FormsService.DAL.Entities;
 using FormsService.DAL.Repository.Interfaces;
 using MailKit;
 using MailKit.Net.Imap;
@@ -9,7 +10,6 @@ using MailService.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MimeKit;
-using System.Text.Json;
 using IImapClient = MailService.Services.Interfaces.IImapClient;
 
 namespace MailService.Services;
@@ -17,9 +17,9 @@ namespace MailService.Services;
 public class MenuSourceClient : IImapClient
 {
     private readonly ImapClient _imapClient;
-
     private readonly ILogger<MenuSourceClient> _logger;
     private readonly IServiceProvider _serviceProvider;
+
     private ClientSettings? _clientSettings;
     private FormsConfiguration? _formsConfiguration;
 
@@ -48,9 +48,12 @@ public class MenuSourceClient : IImapClient
             MessageSummaryItems.UniqueId | MessageSummaryItems.BodyStructure | MessageSummaryItems.Envelope);
 
         using var scope = _serviceProvider.CreateScope();
-        var ordersRepository = scope.ServiceProvider.GetService<IRepository<Order>>() ?? throw new NullReferenceException($"{nameof(IRepository<Order>)} is null");
-        var personsRepository = scope.ServiceProvider.GetService<IRepository<Person>>() ?? throw new NullReferenceException($"{nameof(IRepository<Person>)} is null");
-        var dishesRepository = scope.ServiceProvider.GetService<IRepository<Dish>>() ?? throw new NullReferenceException($"{nameof(IRepository<Dish>)} is null");
+        var ordersRepository = scope.ServiceProvider.GetService<IRepository<Order>>() ??
+                               throw new NullReferenceException($"{nameof(IRepository<Order>)} is null");
+        var personsRepository = scope.ServiceProvider.GetService<IRepository<Person>>() ??
+                                throw new NullReferenceException($"{nameof(IRepository<Person>)} is null");
+        var dishesRepository = scope.ServiceProvider.GetService<IRepository<Dish>>() ??
+                               throw new NullReferenceException($"{nameof(IRepository<Dish>)} is null");
 
         foreach (var message in inboxMessages)
         {
@@ -67,7 +70,7 @@ public class MenuSourceClient : IImapClient
                 Date = message.Envelope.Date!.Value
             };
 
-            var menuModel = GetItemInfo(messageModel);
+            var menuModel = GetItemInfo(messageModel.Content);
             if (menuModel is null)
             {
                 _logger.LogWarning("Message is nullable");
@@ -96,14 +99,13 @@ public class MenuSourceClient : IImapClient
                 Location = menuModel.Location
             };
 
-            if (ordersRepository.GetByFilter(o => o.DateForming == order.DateForming && o.Person.Name == order.Person.Name)
+            if (ordersRepository
+                .GetByFilter(o => o.DateForming == order.DateForming && o.Person.Name == order.Person.Name)
                 .Any()) continue;
             var query = await ordersRepository.PreCommit(order);
             foreach (var dish in menuModel.Dishes.Where(_ => query.DishOrders != null))
-            {
                 if (query.DishOrders != null)
                     query.DishOrders.Single(x => x.Dish.Name == dish.Name).Price = dish.Price;
-            }
 
             await ordersRepository.Add(query);
 
@@ -160,11 +162,11 @@ public class MenuSourceClient : IImapClient
         }
     }
 
-    public static MenuModel? GetItemInfo(MessageModel message)
+    public static MenuModel? GetItemInfo(string jsonString)
     {
-        return string.IsNullOrWhiteSpace(message.Content)
+        return string.IsNullOrWhiteSpace(jsonString)
             ? null
-            : JsonSerializer.Deserialize<MenuModel>(message.Content);
+            : JsonSerializer.Deserialize<MenuModel>(jsonString);
     }
 
     private bool MessageValidation(IMessageSummary message)

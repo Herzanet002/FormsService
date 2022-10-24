@@ -6,17 +6,21 @@ namespace MailService.Models;
 
 public class JsonDishConverter<T> : JsonConverter<T> where T : DishWithPrice
 {
-    private readonly Regex _patternRegex = new Regex(@"[\w+\-*\s*]+\/\s*\d+");
+    private readonly Regex _patternRegex = new(@"[\w+\-*\s*]+\/\s*\d+");
 
     private DishWithPrice? CreateDish(string readerString)
     {
         var match = _patternRegex.Match(readerString);
         if (!match.Success) return null;
 
+        var info = match.Value.Split("/");
+        var dishName = info[0].TrimEnd();
+        var dishPrice = int.Parse(info[1]);
+
         var dish = new DishWithPrice
         {
-            Name = match.Value.Split("/")[0].TrimEnd(),
-            Price = int.Parse(match.Value.Split("/")[1])
+            Name = dishName,
+            Price = dishPrice
         };
         return dish;
     }

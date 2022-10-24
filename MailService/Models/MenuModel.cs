@@ -11,7 +11,6 @@ public class MenuModel
     public Person Person { get; set; }
 
     [JsonPropertyName("Где обедаю?")]
-    //[JsonConverter(typeof(JsonStringEnumConverter))]
     [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     public Location Location { get; set; }
 
