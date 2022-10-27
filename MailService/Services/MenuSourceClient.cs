@@ -121,7 +121,7 @@ public class MenuSourceClient : IImapClient
         await _imapClient.Inbox.AddFlagsAsync(new[] { uid }, MessageFlags.Deleted, true);
     }
 
-    public async Task ConnectAsync()
+    private async Task ConnectAsync()
     {
         using var cancelTokenSource = new CancellationTokenSource();
         var cancellationToken = cancelTokenSource.Token;
@@ -142,7 +142,7 @@ public class MenuSourceClient : IImapClient
         }
     }
 
-    public async Task AuthenticateAsync()
+    private async Task AuthenticateAsync()
     {
         using var cancelTokenSource = new CancellationTokenSource();
         var cancellationToken = cancelTokenSource.Token;
@@ -162,7 +162,7 @@ public class MenuSourceClient : IImapClient
         }
     }
 
-    public static MenuModel? GetItemInfo(string jsonString)
+    private static MenuModel? GetItemInfo(string jsonString)
     {
         return string.IsNullOrWhiteSpace(jsonString)
             ? null

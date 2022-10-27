@@ -1,7 +1,8 @@
-﻿using FormsService.DAL.Entities;
+﻿using FormsService.API.Reports.Services.Interfaces;
+using FormsService.DAL.Entities;
 using TemplateEngine.Docx;
 
-namespace FormsService.API.Reports;
+namespace FormsService.API.Reports.Services;
 
 public class WordWorkerServiceService<T> : IWordWorkerService<T> where T : Order
 {
@@ -34,10 +35,4 @@ public class WordWorkerServiceService<T> : IWordWorkerService<T> where T : Order
         outputDocument.SaveChanges();
         return outputDocument;
     }
-}
-
-public interface IWordWorkerService<in TEntity> 
-{
-    Content? CreateReport(IEnumerable<TEntity> collection, string outputPath);
-    TemplateProcessor SaveCreatedReport(Content valuesToFill, string outputPath);
 }

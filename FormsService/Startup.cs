@@ -5,6 +5,9 @@ using MailService.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using FormsService.API.Reports;
+using FormsService.API.Reports.Services;
+using FormsService.API.Reports.Services.Interfaces;
 
 namespace FormsService.API
 {
@@ -37,6 +40,9 @@ namespace FormsService.API
                 .ConfigureIMapService(Configuration)
                 .ConfigureFormsService(Configuration)
                 .AddIMapClientService();
+
+            services.AddScoped(typeof(IWordWorkerService<>), typeof(WordWorkerServiceService<>));
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
