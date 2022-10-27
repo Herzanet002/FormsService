@@ -1,6 +1,6 @@
 ﻿using TemplateEngine.Docx;
 
-namespace FormsService.API.Reports.Services.Interfaces;
+namespace FormsService.API.Services.Interfaces;
 
 public interface IWordWorkerService<in TEntity> 
 {

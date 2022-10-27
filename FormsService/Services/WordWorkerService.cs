@@ -1,8 +1,8 @@
-﻿using FormsService.API.Reports.Services.Interfaces;
+﻿using FormsService.API.Services.Interfaces;
 using FormsService.DAL.Entities;
 using TemplateEngine.Docx;
 
-namespace FormsService.API.Reports.Services;
+namespace FormsService.API.Services;
 
 public class WordWorkerServiceService<T> : IWordWorkerService<T> where T : Order
 {

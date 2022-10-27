@@ -1,13 +1,12 @@
-﻿using FormsService.DAL.Context;
+﻿using FormsService.API.Services;
+using FormsService.API.Services.Interfaces;
+using FormsService.DAL.Context;
 using FormsService.DAL.Repository;
 using FormsService.DAL.Repository.Interfaces;
 using MailService.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using FormsService.API.Reports;
-using FormsService.API.Reports.Services;
-using FormsService.API.Reports.Services.Interfaces;
 
 namespace FormsService.API
 {
@@ -42,6 +41,7 @@ namespace FormsService.API
                 .AddIMapClientService();
 
             services.AddScoped(typeof(IWordWorkerService<>), typeof(WordWorkerServiceService<>));
+            services.AddScoped(typeof(ExcelWorkerService<>));
 
         }
 
