@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using FormsService.DAL.Entities;
+﻿using FormsService.DAL.Entities;
 using FormsService.DAL.Repository.Interfaces;
 using MailKit;
 using MailKit.Net.Imap;
@@ -10,6 +9,7 @@ using MailService.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MimeKit;
+using System.Text.Json;
 using IImapClient = MailService.Services.Interfaces.IImapClient;
 
 namespace MailService.Services;

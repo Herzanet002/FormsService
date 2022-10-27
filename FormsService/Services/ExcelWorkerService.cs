@@ -29,7 +29,6 @@ namespace FormsService.API.Services
 
             SetSummaryLabels(worksheet);
 
-
             WorksheetStyleSetup(worksheet, personsEndCol + 3, daysInMonthCount + 3);
 
             await package.SaveAsAsync(new FileInfo(outputPath));

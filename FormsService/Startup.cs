@@ -42,7 +42,6 @@ namespace FormsService.API
 
             services.AddScoped(typeof(IWordWorkerService<>), typeof(WordWorkerServiceService<>));
             services.AddScoped(typeof(ExcelWorkerService<>));
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

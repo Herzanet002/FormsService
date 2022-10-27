@@ -1,13 +1,8 @@
-﻿using System.Collections;
+﻿using FormsService.API.Services;
+using FormsService.API.Services.Interfaces;
 using FormsService.DAL.Entities;
 using FormsService.DAL.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using System.Drawing;
-using System.Globalization;
-using FormsService.API.Services;
-using FormsService.API.Services.Interfaces;
 
 namespace FormsService.API.Controllers;
 
@@ -67,7 +62,7 @@ public class ReportController : Controller
             month = DateTime.Now.Month;
             year = DateTime.Now.Year;
         }
-        if(month == 0 || year == 0) return BadRequest();
+        if (month == 0 || year == 0) return BadRequest();
 
         var outputPath = Path.Combine(Environment.CurrentDirectory, @"Reports\Report.xlsx");
         var date = new DateOnly(year, month, 1);
@@ -80,11 +75,10 @@ public class ReportController : Controller
         var excelWorker = scope.ServiceProvider.GetService<ExcelWorkerService<Person>>()
                                 ?? throw new NullReferenceException(nameof(ExcelWorkerService<Person>));
 
-        await excelWorker.CreateExcelReport(date, daysInMonth, employees,outputPath);
+        await excelWorker.CreateExcelReport(date, daysInMonth, employees, outputPath);
 
         return Ok();
     }
-
 
     private static List<DateTime> GetDaysInMonth(DateOnly dateNow)
     {
