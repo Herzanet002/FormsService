@@ -1,69 +1,18 @@
-<header xmlns:id="http://www.w3.org/1999/xhtml">
-  <app-header></app-header>
-</header>
+<app-header></app-header>
+
 
 <body class="flex justify-center mt-20">
 <div class="block p-12 rounded-lg shadow-lg bg-white w-6/12">
   <form>
-
     <div class="text-center bg-gray-100 text-gray-600 py-10 ">
       <h1 class="text-4xl font-bold mt-0 ">Заказ обеда {{dates}}</h1>
     </div>
+    <app-drop-down-list [listCollection]="employees" header="Сотрудник"></app-drop-down-list>
+    <app-drop-down-list [listCollection]="locations" header="Где обедаю"></app-drop-down-list>
+    <app-drop-down-list [listCollection]="salads" header="Салат"></app-drop-down-list>
+    <app-drop-down-list [listCollection]="soups" header="Суп"></app-drop-down-list>
+    <app-drop-down-list [listCollection]="firstCourses" header="Горячее"></app-drop-down-list>
 
-    <div class="form-group mb-6 mt-6">
-      <div class="mb-6">
-          <label class="form-label inline-block mb-2 text-gray-700 for=employeesSelector">Сотрудник</label>
-          <select class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding
-          bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0
-          focus:text-gray-800 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  aria-label="Default select example" id="employeesSelector">
-            <option selected>--</option>
-            <option *ngFor="let item of employees">{{item}}</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="mb-6">
-        <label class="form-label inline-block mb-2 text-gray-700">Где обедаю?</label>
-        <select class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding
-          bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0
-          focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                aria-label="Default select example">
-          <option selected>--</option>
-          <option *ngFor="let item of locations">{{item}}</option>
-        </select>
-      </div>
-
-      <div class="mb-6">
-        <label class="form-label inline-block mb-2 text-gray-700">Салат</label>
-        <select class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding
-          bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0
-          focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                aria-label="Default select example">
-          <option selected>--</option>
-          <option *ngFor="let item of salads">{{item}}</option>
-        </select>
-      </div>
-      <div class="mb-6">
-        <label class="form-label inline-block mb-2 text-gray-700 for=employeesSelector">Суп</label>
-        <select class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding
-          bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0
-          focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                aria-label="Default select example">
-          <option selected>--</option>
-          <option *ngFor="let item of soups">{{item}}</option>
-        </select>
-      </div>
-      <div class="mb-6">
-        <label class="form-label inline-block mb-2 text-gray-700 for=employeesSelector">Горячее</label>
-        <select class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding
-          bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0
-          focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                aria-label="Default select example">
-          <option selected>--</option>
-          <option *ngFor="let item of firstCourses">{{item}}</option>
-        </select>
-      </div>
     <div class="flex space-x-2 justify-center">
       <button
         type="button"
