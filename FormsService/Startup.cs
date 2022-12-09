@@ -21,6 +21,8 @@ namespace FormsService.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+            
             services.AddControllers().AddJsonOptions(o =>
                 o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
             services.AddEndpointsApiExplorer();
@@ -55,12 +57,17 @@ namespace FormsService.API
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", $"My API v{Assembly.GetExecutingAssembly().GetName().Version}");
                 });
             }
+            
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
 
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

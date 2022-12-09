@@ -17,7 +17,7 @@ namespace FormsService.API.Controllers.Base
 
         #region HttpGet
 
-        [HttpGet, Route("GetAll")]
+        [HttpGet, Route("getAll")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         public virtual async Task<IActionResult> GetAllFromDb() =>
             Ok(await _repository.GetAll());
@@ -27,7 +27,7 @@ namespace FormsService.API.Controllers.Base
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet, Route("GetById/{id:int}")]
+        [HttpGet, Route("getById/{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public virtual async Task<IActionResult> GetById(int id) =>

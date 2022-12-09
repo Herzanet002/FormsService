@@ -17,12 +17,84 @@ namespace FormsService.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("FormsService.DAL.Entities.Dish", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DishCategoryId")
+                        .HasColumnType("integer")
+                        .HasColumnName("dish_category_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_dishes");
+
+                    b.HasIndex("DishCategoryId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_dishes_dish_category_id");
+
+                    b.ToTable("dishes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DishCategoryId = 1,
+                            Name = "Кобб с куриной грудкой"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DishCategoryId = 1,
+                            Name = "Сельдь под шубой"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DishCategoryId = 2,
+                            Name = "Грибной крем-суп с пшеничными гренками"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DishCategoryId = 2,
+                            Name = "Финская сливочная уха"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DishCategoryId = 3,
+                            Name = "Филе трески на подушке из кус-куса с соусом рататуй"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            DishCategoryId = 3,
+                            Name = "Фахитос из свинины с рисом тяхан"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            DishCategoryId = 3,
+                            Name = "Куриное фрикасе с молодым картофелем"
+                        });
+                });
+
+            modelBuilder.Entity("FormsService.DAL.Entities.DishCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,45 +109,25 @@ namespace FormsService.DAL.Migrations
                         .HasColumnName("name");
 
                     b.HasKey("Id")
-                        .HasName("pk_dishes");
+                        .HasName("pk_categories");
 
-                    b.ToTable("dishes", (string)null);
+                    b.ToTable("categories", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Name = "Кобб с куриной грудкой"
+                            Name = "Салат"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Сельдь под шубой"
+                            Name = "Суп"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Грибной крем-суп с пшеничными гренками"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Финская сливочная уха"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Филе трески на подушке из кус-куса с соусом рататуй"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Фахитос из свинины с рисом тяхан"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Куриное фрикасе с молодым картофелем"
+                            Name = "Горячее"
                         });
                 });
 
@@ -205,6 +257,18 @@ namespace FormsService.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("FormsService.DAL.Entities.Dish", b =>
+                {
+                    b.HasOne("FormsService.DAL.Entities.DishCategory", "Category")
+                        .WithOne("Dish")
+                        .HasForeignKey("FormsService.DAL.Entities.Dish", "DishCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_dishes_categories_dish_category_id");
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("FormsService.DAL.Entities.DishOrder", b =>
                 {
                     b.HasOne("FormsService.DAL.Entities.Dish", "Dish")
@@ -241,6 +305,12 @@ namespace FormsService.DAL.Migrations
             modelBuilder.Entity("FormsService.DAL.Entities.Dish", b =>
                 {
                     b.Navigation("DishOrders");
+                });
+
+            modelBuilder.Entity("FormsService.DAL.Entities.DishCategory", b =>
+                {
+                    b.Navigation("Dish")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FormsService.DAL.Entities.Order", b =>

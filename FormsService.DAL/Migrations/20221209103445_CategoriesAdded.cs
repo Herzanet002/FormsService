@@ -6,12 +6,12 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FormsService.DAL.Migrations
 {
-    public partial class InitImproved : Migration
+    public partial class CategoriesAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "dishes",
+                name: "categories",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -20,7 +20,7 @@ namespace FormsService.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_dishes", x => x.id);
+                    table.PrimaryKey("pk_categories", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -34,6 +34,26 @@ namespace FormsService.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_persons", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "dishes",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    dish_category_id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_dishes", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_dishes_categories_dish_category_id",
+                        column: x => x.dish_category_id,
+                        principalTable: "categories",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,17 +104,13 @@ namespace FormsService.DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "dishes",
+                table: "categories",
                 columns: new[] { "id", "name" },
                 values: new object[,]
                 {
-                    { 1, "Кобб с куриной грудкой" },
-                    { 2, "Сельдь под шубой" },
-                    { 3, "Грибной крем-суп с пшеничными гренками" },
-                    { 4, "Финская сливочная уха" },
-                    { 5, "Филе трески на подушке из кус-куса с соусом рататуй" },
-                    { 6, "Фахитос из свинины с рисом тяхан" },
-                    { 7, "Куриное фрикасе с молодым картофелем" }
+                    { 1, "Салат" },
+                    { 2, "Суп" },
+                    { 3, "Горячее" }
                 });
 
             migrationBuilder.InsertData(
@@ -113,10 +129,29 @@ namespace FormsService.DAL.Migrations
                     { 9, "Цилюрик" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "dishes",
+                columns: new[] { "id", "dish_category_id", "name" },
+                values: new object[,]
+                {
+                    { 1, 1, "Кобб с куриной грудкой" },
+                    { 2, 1, "Сельдь под шубой" },
+                    { 3, 2, "Грибной крем-суп с пшеничными гренками" },
+                    { 4, 2, "Финская сливочная уха" },
+                    { 5, 3, "Филе трески на подушке из кус-куса с соусом рататуй" },
+                    { 6, 3, "Фахитос из свинины с рисом тяхан" },
+                    { 7, 3, "Куриное фрикасе с молодым картофелем" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "ix_dish_orders_dish_id",
                 table: "dish_orders",
                 column: "dish_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_dishes_dish_category_id",
+                table: "dishes",
+                column: "dish_category_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_orders_person_id",
@@ -134,6 +169,9 @@ namespace FormsService.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "orders");
+
+            migrationBuilder.DropTable(
+                name: "categories");
 
             migrationBuilder.DropTable(
                 name: "persons");

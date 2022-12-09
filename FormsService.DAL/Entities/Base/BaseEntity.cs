@@ -1,7 +1,10 @@
-﻿namespace FormsService.DAL.Entities.Base
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace FormsService.DAL.Entities.Base
 {
     public class BaseEntity
     {
+        
         public int Id { get; set; }
     }
 }

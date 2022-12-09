@@ -7,11 +7,11 @@
     <div class="text-center bg-gray-100 text-gray-600 py-10 ">
       <h1 class="text-4xl font-bold mt-0 ">Заказ обеда {{dates}}</h1>
     </div>
-    <app-drop-down-list [listCollection]="employees" header="Сотрудник"></app-drop-down-list>
+    <app-drop-down-list [listCollection]="persons" header="Сотрудник"></app-drop-down-list>
     <app-drop-down-list [listCollection]="locations" header="Где обедаю"></app-drop-down-list>
-    <app-drop-down-list [listCollection]="salads" header="Салат"></app-drop-down-list>
-    <app-drop-down-list [listCollection]="soups" header="Суп"></app-drop-down-list>
-    <app-drop-down-list [listCollection]="firstCourses" header="Горячее"></app-drop-down-list>
+    <app-drop-down-list [listCollection]="dishes" header="Салат"></app-drop-down-list>
+    <app-drop-down-list [listCollection]="dishes" header="Суп"></app-drop-down-list>
+    <app-drop-down-list [listCollection]="dishes" header="Горячее"></app-drop-down-list>
 
     <div class="flex space-x-2 justify-center">
       <button

@@ -1,4 +1,6 @@
 import {Component, Input} from '@angular/core';
+import {Person} from "../../models/Person";
+import {NamedEntity} from "../../models/NamedEntity";
 
 @Component({
   selector: 'app-drop-down-list',
@@ -7,7 +9,7 @@ import {Component, Input} from '@angular/core';
 })
 export class DropDownListComponent {
   // @ts-ignore
-  @Input() listCollection: Array<string>;
+  @Input() listCollection: Array<NamedEntity>;
   // @ts-ignore
   @Input() header: string;
 }

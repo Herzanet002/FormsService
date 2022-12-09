@@ -23,6 +23,11 @@ namespace FormsService.DAL.Context
 
         private static void ConfigureEntities(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<DishCategory>()
+                .HasOne(a => a.Dish)
+                .WithOne(b => b.Category)
+                .HasForeignKey<Dish>(x => x.DishCategoryId);
+
             modelBuilder
                 .Entity<Order>()
                 .HasMany(o => o.Dishes)
@@ -42,11 +47,14 @@ namespace FormsService.DAL.Context
                         j.HasKey(t => new { t.OrderID, t.DishID });
                         j.ToTable("dish_orders");
                     });
-            modelBuilder.Entity<DishOrder>().Ignore(attr => attr.Id);
+
+            modelBuilder.Entity<DishOrder>()
+                .Ignore(attr => attr.Id);
         }
 
         private static void Seed(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<DishCategory>().HasData(RealDataSeed.GetAllDishCategories());
             modelBuilder.Entity<Person>().HasData(RealDataSeed.GetAllPersons());
             modelBuilder.Entity<Dish>().HasData(RealDataSeed.GetAllDishes());
         }
@@ -55,5 +63,6 @@ namespace FormsService.DAL.Context
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<DishOrder> DishOrders { get; set; }
+        public DbSet<DishCategory> Categories { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace FormsService.DAL.Context.Seeding;
+﻿using FormsService.DAL.Entities;
+
+namespace FormsService.DAL.Context.Seeding;
 
 public class RealDataSeed
 {
@@ -9,37 +11,45 @@ public class RealDataSeed
             new
             {
                 Id = 1,
-                Name = "Кобб с куриной грудкой"
+                Name = "Кобб с куриной грудкой",
+                DishCategoryId=1
+
             },
             new
             {
                 Id = 2,
-                Name = "Сельдь под шубой"
+                Name = "Сельдь под шубой",
+                DishCategoryId=1
             },
             new
             {
                 Id = 3,
-                Name = "Грибной крем-суп с пшеничными гренками"
+                Name = "Грибной крем-суп с пшеничными гренками",
+                DishCategoryId=2
             },
             new
             {
                 Id = 4,
-                Name = "Финская сливочная уха"
+                Name = "Финская сливочная уха",
+                DishCategoryId=2
             },
             new
             {
                 Id = 5,
-                Name = "Филе трески на подушке из кус-куса с соусом рататуй"
+                Name = "Филе трески на подушке из кус-куса с соусом рататуй",
+                DishCategoryId=3
             },
             new
             {
                 Id = 6,
-                Name = "Фахитос из свинины с рисом тяхан"
+                Name = "Фахитос из свинины с рисом тяхан",
+                DishCategoryId=3
             },
             new
             {
                 Id = 7,
-                Name = "Куриное фрикасе с молодым картофелем"
+                Name = "Куриное фрикасе с молодым картофелем",
+                DishCategoryId=3
             }
         };
         return allPossibledishes;
@@ -96,5 +106,28 @@ public class RealDataSeed
             }
         };
         return allPossiblePersons;
+    }
+
+    public static IEnumerable<object> GetAllDishCategories()
+    {
+        var categoriesList = new List<object>
+        {
+            new
+            {
+                Id = 1,
+                Name = "Салат"
+            },
+            new
+            {
+                Id = 2,
+                Name = "Суп"
+            },
+            new
+            {
+                Id = 3,
+                Name = "Горячее"
+            }
+        };
+        return categoriesList;
     }
 }
