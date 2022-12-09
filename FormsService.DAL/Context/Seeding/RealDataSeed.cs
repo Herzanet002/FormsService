@@ -4,48 +4,48 @@ namespace FormsService.DAL.Context.Seeding;
 
 public class RealDataSeed
 {
-    public static IEnumerable<object> GetAllDishes()
+    public static IEnumerable<Dish> GetAllDishes()
     {
-        var allPossibledishes = new List<object>
+        var allPossibledishes = new List<Dish>
         {
-            new
+            new()
             {
                 Id = 1,
                 Name = "Кобб с куриной грудкой",
                 DishCategoryId=1
 
             },
-            new
+            new()
             {
                 Id = 2,
                 Name = "Сельдь под шубой",
                 DishCategoryId=1
             },
-            new
+            new()
             {
                 Id = 3,
                 Name = "Грибной крем-суп с пшеничными гренками",
                 DishCategoryId=2
             },
-            new
+            new()
             {
                 Id = 4,
                 Name = "Финская сливочная уха",
                 DishCategoryId=2
             },
-            new
+            new()
             {
                 Id = 5,
                 Name = "Филе трески на подушке из кус-куса с соусом рататуй",
                 DishCategoryId=3
             },
-            new
+            new()
             {
                 Id = 6,
                 Name = "Фахитос из свинины с рисом тяхан",
                 DishCategoryId=3
             },
-            new
+            new()
             {
                 Id = 7,
                 Name = "Куриное фрикасе с молодым картофелем",
@@ -55,51 +55,51 @@ public class RealDataSeed
         return allPossibledishes;
     }
 
-    public static IEnumerable<object> GetAllPersons()
+    public static IEnumerable<Person> GetAllPersons()
     {
-        var allPossiblePersons = new List<object>
+        var allPossiblePersons = new List<Person>
         {
-            new
+            new()
             {
                 Id = 1,
                 Name = "Борисов"
             },
-            new
+            new()
             {
                 Id = 2,
                 Name = "Бухман"
             },
-            new
+            new()
             {
                 Id = 3,
                 Name = "Демидов"
             },
-            new
+            new()
             {
                 Id = 4,
                 Name = "Домашенко"
             },
-            new
+            new()
             {
                 Id = 5,
                 Name = "Менщиков"
             },
-            new
+            new()
             {
                 Id = 6,
                 Name = "Романова"
             },
-            new
+            new()
             {
                 Id = 7,
                 Name = "Смирнов"
             },
-            new
+            new()
             {
                 Id = 8,
                 Name = "Ковзик"
             },
-            new
+            new()
             {
                 Id = 9,
                 Name = "Цилюрик"
@@ -108,21 +108,21 @@ public class RealDataSeed
         return allPossiblePersons;
     }
 
-    public static IEnumerable<object> GetAllDishCategories()
+    public static IEnumerable<DishCategory> GetAllDishCategories()
     {
-        var categoriesList = new List<object>
+        var categoriesList = new List<DishCategory>
         {
-            new
+            new()
             {
                 Id = 1,
                 Name = "Салат"
             },
-            new
+            new()
             {
                 Id = 2,
                 Name = "Суп"
             },
-            new
+            new()
             {
                 Id = 3,
                 Name = "Горячее"

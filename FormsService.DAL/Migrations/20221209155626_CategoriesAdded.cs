@@ -4,10 +4,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace FormsService.DAL.Migrations
 {
+    /// <inheritdoc />
     public partial class CategoriesAdded : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -43,14 +47,14 @@ namespace FormsService.DAL.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "text", nullable: false),
-                    dish_category_id = table.Column<int>(type: "integer", nullable: false)
+                    dishcategoryid = table.Column<int>(name: "dish_category_id", type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_dishes", x => x.id);
                     table.ForeignKey(
                         name: "fk_dishes_categories_dish_category_id",
-                        column: x => x.dish_category_id,
+                        column: x => x.dishcategoryid,
                         principalTable: "categories",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -62,16 +66,16 @@ namespace FormsService.DAL.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    person_id = table.Column<int>(type: "integer", nullable: false),
+                    personid = table.Column<int>(name: "person_id", type: "integer", nullable: false),
                     location = table.Column<int>(type: "integer", nullable: false),
-                    date_forming = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    dateforming = table.Column<DateTimeOffset>(name: "date_forming", type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_orders", x => x.id);
                     table.ForeignKey(
                         name: "fk_orders_persons_person_id",
-                        column: x => x.person_id,
+                        column: x => x.personid,
                         principalTable: "persons",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -81,23 +85,23 @@ namespace FormsService.DAL.Migrations
                 name: "dish_orders",
                 columns: table => new
                 {
-                    order_id = table.Column<int>(type: "integer", nullable: false),
-                    dish_id = table.Column<int>(type: "integer", nullable: false),
+                    orderid = table.Column<int>(name: "order_id", type: "integer", nullable: false),
+                    dishid = table.Column<int>(name: "dish_id", type: "integer", nullable: false),
                     price = table.Column<int>(type: "integer", nullable: false),
                     count = table.Column<int>(type: "integer", nullable: false, defaultValue: 1)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_dish_orders", x => new { x.order_id, x.dish_id });
+                    table.PrimaryKey("pk_dish_orders", x => new { x.orderid, x.dishid });
                     table.ForeignKey(
                         name: "fk_dish_orders_dishes_dish_id",
-                        column: x => x.dish_id,
+                        column: x => x.dishid,
                         principalTable: "dishes",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_dish_orders_orders_order_id",
-                        column: x => x.order_id,
+                        column: x => x.orderid,
                         principalTable: "orders",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -159,6 +163,7 @@ namespace FormsService.DAL.Migrations
                 column: "person_id");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

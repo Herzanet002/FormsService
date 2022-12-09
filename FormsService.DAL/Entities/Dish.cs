@@ -8,7 +8,7 @@ namespace FormsService.DAL.Entities
         public string Name { get; set; }
 
         public int DishCategoryId { get; set; }
-        public DishCategory Category { get; set; }
+        public virtual DishCategory Category { get; set; }
 
         public virtual ICollection<Order>? Orders { get; set; }
 

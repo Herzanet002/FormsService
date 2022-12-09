@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using FormsService.DAL.Entities.Base;
+﻿using FormsService.DAL.Entities.Base;
 
 namespace FormsService.DAL.Entities
 {
-    public class DishCategory: BaseEntity
+    public class DishCategory : BaseEntity
     {
         public string Name { get; set; }
-        public Dish Dish { get; set; }
+        public virtual ICollection<Dish> Dish { get; set; }
     }
 }

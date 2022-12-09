@@ -17,7 +17,7 @@ namespace FormsService.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -44,7 +44,6 @@ namespace FormsService.DAL.Migrations
                         .HasName("pk_dishes");
 
                     b.HasIndex("DishCategoryId")
-                        .IsUnique()
                         .HasDatabaseName("ix_dishes_dish_category_id");
 
                     b.ToTable("dishes", (string)null);
@@ -260,8 +259,8 @@ namespace FormsService.DAL.Migrations
             modelBuilder.Entity("FormsService.DAL.Entities.Dish", b =>
                 {
                     b.HasOne("FormsService.DAL.Entities.DishCategory", "Category")
-                        .WithOne("Dish")
-                        .HasForeignKey("FormsService.DAL.Entities.Dish", "DishCategoryId")
+                        .WithMany("Dish")
+                        .HasForeignKey("DishCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_dishes_categories_dish_category_id");
@@ -309,8 +308,7 @@ namespace FormsService.DAL.Migrations
 
             modelBuilder.Entity("FormsService.DAL.Entities.DishCategory", b =>
                 {
-                    b.Navigation("Dish")
-                        .IsRequired();
+                    b.Navigation("Dish");
                 });
 
             modelBuilder.Entity("FormsService.DAL.Entities.Order", b =>
