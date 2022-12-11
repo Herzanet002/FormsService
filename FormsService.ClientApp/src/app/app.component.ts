@@ -4,6 +4,8 @@ import {Person} from "./models/Person";
 import { Dish } from './models/Dish';
 import {Location} from "./models/Location";
 import {LocationEnums} from "./models/LocationEnums";
+import {FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
+import {CategoryResponse} from "./models/CategoryResponse";
 
 @Component({
   selector: 'app-root',
@@ -13,37 +15,51 @@ import {LocationEnums} from "./models/LocationEnums";
 })
 export class AppComponent implements OnInit{
   dates = '06.12-12.12'
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private formBuilder: FormBuilder) {
+  }
+  clientForm: FormGroup
+  personsSource: Array<Person> = [];
+  dishesSource: CategoryResponse[] = [];
+  locationsSource = new Array<Location>({name:"В кафе"}, {name:"Заберу с собой"});
+  public onSubmitForm(form: FormGroup){
+    console.log(form);
   }
 
-  persons: Array<Person> = [];
-  dishes: Array<Dish> = [];
-  soups: Array<Dish> = [];
-  firstCourses: Array<Dish> = [];
+  private createForm(){
+    this.clientForm = this.formBuilder.group(
+      {
+        person: ['', [Validators.required]],
+        location:['',[Validators.required]],
+      });
+  }
 
+  private addDishControls(source: CategoryResponse[]){
+    for(let i = 0; i<source.length; i++){
+      this.clientForm.addControl(`dish${i+1}`, new FormControl(''));
+    }
+  }
   ngOnInit(): void {
-    this.loadPersons();
-    this.loadSalads();
+    this.createForm();
+    this.getPersons();
+    this.getDishes();
   }
 
-  loadPersons() {
+  private getPersons() {
     this.dataService.getEmployees()
-      .subscribe((data:any) => {
-        return this.persons = data;
+      .subscribe((data:Person[]) => {
+
+        return this.personsSource = data;
       });
   }
-  loadSalads() {
+  private getDishes() {
     this.dataService.getDishes()
-      .subscribe((data:any) => {
-        return this.dishes = data;
+      .subscribe((data: CategoryResponse[]) => {
+        this.addDishControls(data);
+        console.log(data);
+        return this.dishesSource = data;
       });
   }
 
-
-
-
-  categories = LocationEnums;
-  locations = new Array<Location>({name:"В кафе"}, {name:"Заберу с собой"});
 
 
 

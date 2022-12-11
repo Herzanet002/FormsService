@@ -24,7 +24,11 @@ namespace FormsService.API
             services.AddCors();
             
             services.AddControllers().AddJsonOptions(o =>
-                o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
+                {
+                    o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                    //o.JsonSerializerOptions
+                    //    .ReferenceHandler = ReferenceHandler.Preserve;
+                });
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 

@@ -16,9 +16,21 @@ namespace FormsService.API.Controllers
 
         [HttpGet("getDishesByCategories")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
-        public async Task GetDishesByCategories()
+        public async Task<IActionResult> GetDishesByCategories()
         {
-            var c = await _repository.GetAllWithInclude(x => x.Category);
+            var dishes = await _repository.GetAllWithInclude(x => x.Category);
+            var groupedDishes = dishes.GroupBy(x => x.Category);
+            var dishesByCategories = new List<object>();
+            foreach (var group in groupedDishes)
+            {
+                dishesByCategories.Add(new
+                {
+                    Id = group.Key.Id,
+                    Title = group.Key.Name,
+                    Dishes = group.Select(dish => dish)
+                });
+            }
+            return Ok(dishesByCategories);
         }
     }
 }
