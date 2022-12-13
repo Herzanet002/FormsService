@@ -7,6 +7,7 @@ using MailService.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using FormsService.API.Middleware;
 
 namespace FormsService.API
 {
@@ -71,7 +72,7 @@ namespace FormsService.API
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            
+            app.UseMiddleware<LoggerMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -8,6 +8,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterLink, RouterModule, Routes} from "@angular/router";
 import { ClientFormComponent } from './components/client-form/client-form.component';
 import { AdminFormComponent } from './components/admin-form/admin-form.component';
+import { AdministratePersonsComponent } from './components/administrate/administrate-persons/administrate-persons.component';
+import { AdministrateDishesComponent } from './components/administrate/administrate-dishes/administrate-dishes.component';
 
 const routes: Routes = [
   {path: '', component: ClientFormComponent},
@@ -20,7 +22,9 @@ const routes: Routes = [
     AppComponent,
     HeaderComponent,
     ClientFormComponent,
-    AdminFormComponent
+    AdminFormComponent,
+    AdministratePersonsComponent,
+    AdministrateDishesComponent,
   ],
     imports: [
         BrowserModule,

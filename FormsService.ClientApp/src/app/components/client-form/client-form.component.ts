@@ -48,7 +48,7 @@ export class ClientFormComponent implements OnInit{
       });
   }
   private getDishes() {
-    this.dataService.getDishes()
+    this.dataService.getDishesByCategory()
       .subscribe((data: CategoryResponse[]) => {
         this.addDishControls(data);
         console.log(data);

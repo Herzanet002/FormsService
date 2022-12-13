@@ -14,6 +14,35 @@ namespace FormsService.API.Controllers
             _repository = repository;
         }
 
+        public override async Task<IActionResult> GetAllFromDb()
+        {
+            var allWithInclude = await _repository.GetAllWithInclude(x => x.Category);
+            return Ok(allWithInclude);
+        }
+
+        [HttpPost, Route("createDish")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> CreateDish([FromBody] Dish dish)
+        {
+            var addedDish = await _repository.Add(dish);
+            return Ok(addedDish);
+        }
+
+        [HttpPut, Route("updateDish")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateDish([FromBody] Dish dish)
+        {
+            var updatedDish = await _repository.Update(dish);
+            return Ok(updatedDish);
+        }
+
+        [HttpDelete, Route("deleteDish/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteDish(int id)
+        {
+            var deletedDish = await _repository.RemoveById(id);
+            return Ok(deletedDish);
+        }
         [HttpGet("getDishesByCategories")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         public async Task<IActionResult> GetDishesByCategories()
