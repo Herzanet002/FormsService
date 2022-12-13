@@ -1,0 +1,72 @@
+<div class="flex justify-center mt-10">
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 block p-12 rounded-lg shadow-lg bg-white w-9/12">
+    <h1 class="text-3xl font-bold mt-0 mb-6 text-center">Редактирование пользователей</h1>
+    <div class="relative">
+      <button class="btn-primary absolute right-0" (click)="addPerson()">Добавить пользователя</button>
+    </div>
+    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="overflow-hidden">
+        <table class="min-w-full">
+          <thead class="bg-white border-b">
+          <tr>
+            <th scope="col" class="font-medium text-gray-900 px-12 py-4 text-left">
+              ID
+            </th>
+            <th scope="col" class="font-medium text-gray-900 px-6 py-4 text-left">
+              Имя
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" *ngFor="let person of persons">
+            <ng-template [ngTemplateOutlet]="loadTemplate(person)"
+                         [ngTemplateOutletContext]="{ $implicit: person}">
+            </ng-template>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div>{{statusMessage}}</div>
+
+<ng-template #readOnlyTemplate let-person>
+  <td class="px-12 py-4 whitespace-nowrap font-medium text-gray-900">{{person.id}}</td>
+  <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{person.name}}</td>
+  <td>
+    <input type="button" value="Изменить" class="btn-info-outline" (click)="editPerson(person)">
+  </td>
+  <td>
+    <input type="button" value="Удалить" class="btn-danger-outline" (click)="deletePerson(person)">
+  </td>
+</ng-template>
+
+<ng-template #editTemplate>
+  <td class="px-12 py-4 whitespace-nowrap font-medium text-gray-900">
+    <input type="text" [(ngModel)]="editedUser.id" readonly disabled>
+  </td>
+  <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+    <input type="text" [(ngModel)]="editedUser.name" class="form-control block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" >
+  </td>
+  <td>
+    <button type="button" class="btn-success" (click)="savePerson()">Сохранить</button>
+  </td>
+  <td>
+    <button type="button" class="btn-warning" (click)="cancel()">Отмена</button>
+  </td>
+
+</ng-template>

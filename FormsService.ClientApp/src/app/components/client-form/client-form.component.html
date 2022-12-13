@@ -1,0 +1,44 @@
+<div class="flex justify-center mt-20">
+<div class="block p-12 rounded-lg shadow-lg bg-white w-7/12">
+  <div class="text-center bg-slate-100 text-gray-600 py-10 rounded-lg">
+    <h1 class="text-4xl font-bold mt-0">Заказ обеда {{dates}}</h1>
+  </div>
+
+  <form [formGroup]="clientForm" (ngSubmit)="onSubmitForm(clientForm)">
+    <div class="mb-6 mt-6">
+      <div class="mb-6" *ngIf="personsSource.length != 0">
+        <label class="form-label inline-block mb-2 text-gray-700 required">Сотрудник</label>
+        <select class="selector form-select" required  formControlName="person">
+          <option value="" disabled selected>--</option>
+          <option *ngFor="let item of personsSource" [ngValue]="item">{{item.name}}</option>
+        </select>
+      </div>
+
+      <div class="mb-6">
+        <label class="form-label inline-block mb-2 text-gray-700 required">Где обедаю</label>
+        <select class="selector form-select" required  formControlName="location">
+          <option value="" disabled selected>--</option>
+          <option *ngFor="let item of locationsSource" [ngValue]="item">{{item.name}}</option>
+        </select>
+      </div>
+      <div class="mb-6" *ngFor="let dish of dishesSource; let idx=index">
+        <label class="form-label inline-block mb-2 text-gray-700">{{dish.title}}</label>
+        <select class="selector form-select" required formControlName="dish{{idx+1}}">
+          <option value="" disabled selected>--</option>
+          <option *ngFor="let item of dish.dishes" [ngValue]="item">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="flex space-x-2 justify-center">
+      <button class="btn-primary" [disabled]="clientForm.invalid"
+              type="submit"
+              data-mdb-ripple="true"
+              data-mdb-ripple-color="light">Отправить</button>
+    </div>
+
+  </form>
+  <br>
+  <pre>{{clientForm.value | json }}</pre>
+</div>
+</div>

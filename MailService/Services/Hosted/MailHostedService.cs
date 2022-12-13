@@ -42,10 +42,10 @@ namespace MailService.Services.Hosted
         {
             do
             {
-                var mailServiceClient = _services.GetRequiredService<IImapClient>();
-                mailServiceClient.InitializeClient(_clientSettings, _formsConfiguration);
+                //var mailServiceClient = _services.GetRequiredService<IImapClient>();
+                //mailServiceClient.InitializeClient(_clientSettings, _formsConfiguration);
 
-                await mailServiceClient.ReceiveItem();
+                //await mailServiceClient.ReceiveItem();
                 await Task.Delay(TimeSpan.FromSeconds(_clientSettings.EmailReadInterval), stoppingToken);
             } while (!stoppingToken.IsCancellationRequested);
         }
