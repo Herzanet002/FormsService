@@ -60,7 +60,8 @@ export class AdministrateDishesComponent implements OnInit{
       id:0,
       name:"",
       dishCategoryId:0,
-      category:null
+      category:null,
+      dishPrice : 0
     };
     this.dishes.push(this.editedDish);
     this.isNewRecord = true;
@@ -70,7 +71,8 @@ export class AdministrateDishesComponent implements OnInit{
       id: dish.id,
       name: dish.name,
       dishCategoryId: dish.dishCategoryId,
-      category: null
+      category: dish.category,
+      dishPrice: dish.dishPrice
     }
   }
 

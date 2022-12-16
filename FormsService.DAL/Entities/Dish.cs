@@ -7,6 +7,8 @@ namespace FormsService.DAL.Entities
     {
         public string Name { get; set; }
 
+        public int DishPrice { get; set; }
+
         public int DishCategoryId { get; set; }
 
         public DishCategory Category { get; set; }
