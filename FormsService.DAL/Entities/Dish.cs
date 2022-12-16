@@ -11,7 +11,7 @@ namespace FormsService.DAL.Entities
 
         public int DishCategoryId { get; set; }
 
-        public DishCategory Category { get; set; }
+        public DishCategory? Category { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<Order>? Orders { get; set; }

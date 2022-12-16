@@ -8,6 +8,6 @@ namespace FormsService.DAL.Entities
         public string Name { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<Dish> Dish { get; set; }
+        public virtual ICollection<Dish>? Dishes { get; set; }
     }
 }

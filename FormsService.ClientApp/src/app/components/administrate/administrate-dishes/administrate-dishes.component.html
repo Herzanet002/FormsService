@@ -1,9 +1,11 @@
 <div class="flex justify-center mt-10">
   <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 block p-12 rounded-lg shadow-lg bg-white w-9/12">
-    <h1 class="text-3xl font-bold mt-0 mb-6 text-center">Редактирование блюд</h1>
-    <div class="relative">
-      <button class="btn-primary absolute right-0" (click)="addDish()">Добавить блюдо</button>
+    <div class="grid grid-cols-4">
+      <h1 class="text-3xl font-bold mt-0 mb-6 text-center col-span-3">Редактирование блюд</h1>
+      <button class="btn-primary col-start-4" (click)="addDish()">Добавить блюдо</button>
     </div>
+
+
     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
       <div class="overflow-hidden">
         <table class="min-w-full">
@@ -53,7 +55,7 @@
 
 <ng-template #editTemplate>
   <td class="px-12 py-4 whitespace-nowrap font-medium text-gray-900">
-    <input type="text" [(ngModel)]="editedDish.id" readonly disabled>
+    <label>{{editedDish.id}}</label>
   </td>
   <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
     <input type="text" [(ngModel)]="editedDish.name" class="form-control block w-full
@@ -64,16 +66,16 @@
         m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
   </td>
   <td>
-    <select class="selector">
+    <select class="selector" [(ngModel)]="editedDish.category">
       <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
     </select>
   </td>
   <td>
-    <input type="text" [(ngModel)]="editedDish.dishPrice" class="form-control block w-full px-3 py-1.5 text-base font-normal
+    <input type="text" [(ngModel)]="editedDish.dishPrice" class="form-control block  px-3 py-1.5 text-base font-normal
         text-gray-700 bg-white bg-clip-padding
         border border-solid border-gray-300
-        rounded transition ease-in-out
-        m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
+        rounded transition ease-in-out m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
   </td>
   <td>
     <button type="button" class="btn-success" (click)="saveDish()">Сохранить</button>

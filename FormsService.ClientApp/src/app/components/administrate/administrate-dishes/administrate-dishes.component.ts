@@ -70,7 +70,6 @@ export class AdministrateDishesComponent implements OnInit{
     this.editedDish={
       id: dish.id,
       name: dish.name,
-      dishCategoryId: dish.dishCategoryId,
       category: dish.category,
       dishPrice: dish.dishPrice
     }
@@ -78,7 +77,7 @@ export class AdministrateDishesComponent implements OnInit{
 
   public deleteDish(dish: Dish) {
     this.dataService.deleteDish(dish.id).subscribe(_ => {
-      this.statusMessage = 'Данные успешно удалены',
+      this.statusMessage = 'Данные успешно удалены'
         this.getDishes();
     });
   }

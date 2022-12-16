@@ -55,8 +55,9 @@ export class DataService {
 
   public updateDish(dish: Dish){
     let route = "Dish/updateDish/";
+    let r = JSON.stringify(dish);
     const headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.httpClient.put<Dish>(this.port + route, JSON.stringify(dish), {headers: headers});
+    return this.httpClient.put<Dish>(this.port + route, JSON.stringify(dish));
   }
 
   public createDish(dish: Dish) {

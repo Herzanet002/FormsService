@@ -7,7 +7,6 @@ using MailService.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using FormsService.API.Middleware;
 
 namespace FormsService.API
 {
@@ -23,7 +22,8 @@ namespace FormsService.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            
+            // services.AddProblemDetails();
+
             services.AddControllers().AddJsonOptions(o =>
                 {
                     o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
@@ -53,6 +53,7 @@ namespace FormsService.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //app.UseMiddleware<LoggerMiddleware>();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -62,7 +63,7 @@ namespace FormsService.API
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", $"My API v{Assembly.GetExecutingAssembly().GetName().Version}");
                 });
             }
-            
+            //app.UseProblemDetails();
             app.UseCors(builder =>
                 builder.WithOrigins("http://localhost:4200")
                     .AllowAnyHeader()
@@ -72,7 +73,7 @@ namespace FormsService.API
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseMiddleware<LoggerMiddleware>();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
@@ -81,6 +82,7 @@ namespace FormsService.API
                     await context.Response.WriteAsync("Hello World!");
                 });
             });
+
         }
     }
 }

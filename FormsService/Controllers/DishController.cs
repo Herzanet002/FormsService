@@ -14,6 +14,8 @@ namespace FormsService.API.Controllers
             _repository = repository;
         }
 
+        [HttpGet, Route("getAll")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         public override async Task<IActionResult> GetAllFromDb()
         {
             var allWithInclude = await _repository.GetAllWithInclude(x => x.Category);
