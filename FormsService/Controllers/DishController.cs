@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Features.Dish.Commands.CreateDish;
+using Domain.Entities;
 using FormsService.API.Controllers.Base;
 using Infrastructure.Persistence.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +9,12 @@ namespace FormsService.API.Controllers
     public class DishController : EntityController<Dish>
     {
         private readonly IRepository<Dish> _repository;
+        private readonly ICreateDishHandler _createDishHandler;
 
-        public DishController(IRepository<Dish> repository) : base(repository)
+        public DishController(IRepository<Dish> repository, ICreateDishHandler createDishHandler) : base(repository)
         {
             _repository = repository;
+            _createDishHandler = createDishHandler;
         }
 
         [HttpGet, Route("getAll")]
@@ -26,8 +29,7 @@ namespace FormsService.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateDish([FromBody] Dish dish)
         {
-            var addedDish = await _repository.Add(dish);
-            return Ok(addedDish);
+            return Ok(await _createDishHandler.HandleCreateDish(dish));
         }
 
         [HttpPut, Route("updateDish")]
