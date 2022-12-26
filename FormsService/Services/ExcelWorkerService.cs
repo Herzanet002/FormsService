@@ -1,8 +1,8 @@
-﻿using FormsService.DAL.Entities;
-using OfficeOpenXml;
+﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Drawing;
 using System.Globalization;
+using Domain.Entities;
 
 namespace FormsService.API.Services
 {

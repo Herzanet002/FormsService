@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using FormsService.DAL.Entities.Base;
+using Domain.Common;
 
-namespace FormsService.DAL.Entities
+namespace Domain.Entities
 {
     public class DishCategory : BaseEntity
     {

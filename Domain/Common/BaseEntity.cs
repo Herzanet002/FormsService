@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FormsService.DAL.Entities.Base
+namespace Domain.Common
 {
     public class BaseEntity
     {

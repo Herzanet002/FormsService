@@ -1,10 +1,9 @@
-﻿using FormsService.DAL.Context;
-using FormsService.DAL.Entities.Base;
-using FormsService.DAL.Repository.Interfaces;
+﻿using System.Linq.Expressions;
+using Domain.Common;
+using Infrastructure.Persistence.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
-namespace FormsService.DAL.Repository;
+namespace Infrastructure.Persistence.Repository;
 
 public class DbRepository<TEntity> : IRepository<TEntity>, IDisposable where TEntity : BaseEntity
 {

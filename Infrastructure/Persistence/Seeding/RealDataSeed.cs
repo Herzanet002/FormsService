@@ -1,6 +1,6 @@
-﻿using FormsService.DAL.Entities;
+﻿using Domain.Entities;
 
-namespace FormsService.DAL.Context.Seeding;
+namespace Infrastructure.Persistence.Seeding;
 
 public class RealDataSeed
 {

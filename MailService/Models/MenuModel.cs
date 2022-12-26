@@ -1,4 +1,5 @@
-﻿using FormsService.DAL.Entities;
+﻿using Domain.Entities;
+using Domain.Enums;
 using System.Text.Json.Serialization;
 
 namespace MailService.Models;

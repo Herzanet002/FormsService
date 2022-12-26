@@ -1,6 +1,6 @@
-﻿using FormsService.DAL.Entities.Base;
+﻿using Domain.Common;
 
-namespace FormsService.DAL.Entities
+namespace Domain.Entities
 {
     public class DishOrder : BaseEntity
     {

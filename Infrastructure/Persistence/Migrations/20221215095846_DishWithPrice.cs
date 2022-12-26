@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace FormsService.DAL.Migrations
+namespace Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class DishWithPrice : Migration

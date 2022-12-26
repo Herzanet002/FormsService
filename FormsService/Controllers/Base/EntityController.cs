@@ -1,5 +1,5 @@
-﻿using FormsService.DAL.Entities.Base;
-using FormsService.DAL.Repository.Interfaces;
+﻿using Domain.Common;
+using Infrastructure.Persistence.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FormsService.API.Controllers.Base
@@ -33,7 +33,7 @@ namespace FormsService.API.Controllers.Base
         public virtual async Task<IActionResult> GetById(int id) =>
             await _repository.FindById(id) is { } item ? Ok(item) : NotFound();
 
-        
+
 
         #endregion HttpGet
 

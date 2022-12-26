@@ -1,10 +1,10 @@
-﻿using FormsService.DAL.Entities;
+﻿using Domain.Enums;
 
-namespace FormsService.DAL.Context.Seeding
+namespace Infrastructure.Persistence.Seeding
 {
     public class TestDataSeed
     {
-        private static readonly Random _random = new Random();
+        private static readonly Random Random = new Random();
 
         public static IEnumerable<object> GetTestDishes(int count)
         {
@@ -39,7 +39,7 @@ namespace FormsService.DAL.Context.Seeding
                     Id = i,
                     PersonId = i,
                     Location = i % 2 == 0 ? Location.WithMe : Location.InCafe,
-                    DateForming = DateTimeOffset.Now.AddDays(-_random.Next(1, 15))
+                    DateForming = DateTimeOffset.Now.AddDays(-Random.Next(1, 15))
                 };
             }
         }
@@ -53,7 +53,7 @@ namespace FormsService.DAL.Context.Seeding
                     Id = i,
                     OrderID = i,
                     DishID = i,
-                    Price = _random.Next(1, 15) * i * 10,
+                    Price = Random.Next(1, 15) * i * 10,
                     Count = i
                 };
             }

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace FormsService.DAL.Entities;
+namespace Domain.Enums;
 
 public enum Location
 {

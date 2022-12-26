@@ -1,4 +1,4 @@
-﻿using FormsService.DAL.Entities;
+﻿using Domain.Entities;
 
 namespace MailService.Models
 {

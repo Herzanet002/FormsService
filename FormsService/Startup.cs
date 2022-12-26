@@ -1,10 +1,9 @@
 ﻿using FormsService.API.Services;
 using FormsService.API.Services.Interfaces;
-using FormsService.DAL.Context;
-using FormsService.DAL.Repository;
-using FormsService.DAL.Repository.Interfaces;
+using Infrastructure;
+using Infrastructure.Persistence.Repository;
+using Infrastructure.Persistence.Repository.Interfaces;
 using MailService.Extensions;
-using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -22,24 +21,16 @@ namespace FormsService.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            // services.AddProblemDetails();
 
-            services.AddControllers().AddJsonOptions(o =>
+            services.AddDbContext(Configuration);
+            services.AddControllers()
+                .AddJsonOptions(o =>
                 {
                     o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-                    //o.JsonSerializerOptions
-                    //    .ReferenceHandler = ReferenceHandler.Preserve;
                 });
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
 
-            services.AddDbContext<DatabaseContext>(
-                options =>
-                {
-                    options.UseNpgsql(Configuration.GetConnectionString("DbSource"))
-                        .UseSnakeCaseNamingConvention()
-                        .EnableSensitiveDataLogging();
-                });
+            services.AddSwaggerGen();
 
             services.AddScoped(typeof(IRepository<>), typeof(DbRepository<>));
             services.AddMailHostedService()
@@ -63,7 +54,6 @@ namespace FormsService.API
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", $"My API v{Assembly.GetExecutingAssembly().GetName().Version}");
                 });
             }
-            //app.UseProblemDetails();
             app.UseCors(builder =>
                 builder.WithOrigins("http://localhost:4200")
                     .AllowAnyHeader()

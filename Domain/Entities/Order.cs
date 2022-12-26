@@ -1,7 +1,8 @@
-﻿using System.Text.Json.Serialization;
-using BaseEntity = FormsService.DAL.Entities.Base.BaseEntity;
+﻿using Domain.Common;
+using Domain.Enums;
+using System.Text.Json.Serialization;
 
-namespace FormsService.DAL.Entities
+namespace Domain.Entities
 {
     public class Order : BaseEntity
     {

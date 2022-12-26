@@ -1,5 +1,6 @@
-﻿using FormsService.API.Services.Interfaces;
-using FormsService.DAL.Entities;
+﻿using Domain.Entities;
+using Domain.Enums;
+using FormsService.API.Services.Interfaces;
 using TemplateEngine.Docx;
 
 namespace FormsService.API.Services;

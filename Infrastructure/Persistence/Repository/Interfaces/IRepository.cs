@@ -1,7 +1,7 @@
-﻿using FormsService.DAL.Entities.Base;
+﻿using Domain.Common;
 using System.Linq.Expressions;
 
-namespace FormsService.DAL.Repository.Interfaces
+namespace Infrastructure.Persistence.Repository.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : BaseEntity
     {

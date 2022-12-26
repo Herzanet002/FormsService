@@ -1,6 +1,6 @@
-﻿using FormsService.API.Controllers.Base;
-using FormsService.DAL.Entities;
-using FormsService.DAL.Repository.Interfaces;
+﻿using Domain.Entities;
+using FormsService.API.Controllers.Base;
+using Infrastructure.Persistence.Repository.Interfaces;
 
 namespace FormsService.API.Controllers
 {
