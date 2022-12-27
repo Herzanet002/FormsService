@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Mapster;
 
 namespace Application.Features.Persons.Commands.CreatePerson
 {
@@ -12,9 +13,11 @@ namespace Application.Features.Persons.Commands.CreatePerson
             _personRepository = personRepository;
         }
 
-        public async Task<Person> HandleCreatePerson(Person person)
+        public async Task<PersonDto?> HandleCreatePerson(PersonDto personDto)
         {
-            return await _personRepository.Add(person);
+            var personModel = personDto.Adapt<Person>();
+            var addedPerson = await _personRepository.Add(personModel);
+            return addedPerson.Adapt<PersonDto>();
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using Application.Interfaces;
-using Domain.Entities;
+﻿using Application.Features.Dishes;
+using Application.Interfaces;
 
 namespace Application.Features.Orders.Queries.GetOrders;
 
 public interface IGetAllOrdersHandler : IHandler
 {
-    Task<IEnumerable<Order>> HandleGetAllOrders();
+    Task<IEnumerable<OrderDto>> HandleGetAllOrders();
 }

@@ -1,5 +1,6 @@
-﻿using Domain.Entities;
+﻿using Application.Features.Dishes;
 using Domain.Interfaces.Repositories;
+using Mapster;
 
 namespace Application.Features.Orders.Commands.DeleteOrder
 {
@@ -12,9 +13,10 @@ namespace Application.Features.Orders.Commands.DeleteOrder
             _ordersRepository = ordersRepository;
         }
 
-        public async Task<Order?> HandleDeleteOrderById(int id)
+        public async Task<OrderDto?> HandleDeleteOrderById(int id)
         {
-            return await _ordersRepository.RemoveById(id);
+            var removed = await _ordersRepository.RemoveById(id);
+            return removed?.Adapt<OrderDto>();
         }
     }
 }

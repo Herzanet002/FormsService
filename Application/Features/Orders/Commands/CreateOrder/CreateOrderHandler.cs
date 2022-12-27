@@ -1,6 +1,7 @@
-﻿using Domain.Entities;
+﻿using Application.Features.Dishes;
+using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Repositories.Base;
+using Mapster;
 
 namespace Application.Features.Orders.Commands.CreateOrder;
 
@@ -13,8 +14,10 @@ public class CreateOrderHandler : ICreateOrderHandler
         _ordersRepository = ordersRepository;
     }
 
-    public async Task<Order?> HandleCreateOrder(Order order)
+    public async Task<OrderDto?> HandleCreateOrder(OrderDto orderDto)
     {
-        return await _ordersRepository.Add(order);
+        var order = orderDto.Adapt<Order>();
+        var created = await _ordersRepository.Add(order);
+        return created.Adapt<OrderDto>();
     }
 }

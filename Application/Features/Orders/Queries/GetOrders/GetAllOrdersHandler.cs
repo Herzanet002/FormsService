@@ -1,6 +1,6 @@
-﻿using Domain.Entities;
+﻿using Application.Features.Dishes;
 using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Repositories.Base;
+using Mapster;
 
 namespace Application.Features.Orders.Queries.GetOrders
 {
@@ -9,12 +9,13 @@ namespace Application.Features.Orders.Queries.GetOrders
         private readonly IOrderRepository _ordersRepository;
 
         public GetAllOrdersHandler(IOrderRepository ordersRepository)
-        {   
+        {
             _ordersRepository = ordersRepository;
         }
-        public async Task<IEnumerable<Order>> HandleGetAllOrders()
+        public async Task<IEnumerable<OrderDto>> HandleGetAllOrders()
         {
-            return await _ordersRepository.GetAll();
+            var orders = await _ordersRepository.GetAllWithInclude(x => x.Person);
+            return orders.Adapt<IEnumerable<OrderDto>>();
         }
     }
 }

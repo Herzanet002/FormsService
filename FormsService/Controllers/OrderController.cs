@@ -1,4 +1,5 @@
-﻿using Application.Features.Dishes.Queries.GetDishes;
+﻿using Application.Features.Dishes;
+using Application.Features.Dishes.Queries.GetDishes;
 using Application.Features.Orders.Commands.CreateOrder;
 using Application.Features.Orders.Commands.DeleteOrder;
 using Application.Features.Orders.Commands.UpdateOrder;
@@ -36,7 +37,7 @@ public class OrderController : Controller
     [HttpPost]
     [Route("create")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
-    public async Task<IActionResult> CreateOrder([FromBody] Order order)
+    public async Task<IActionResult> CreateOrder([FromBody] OrderDto order)
     {
         return Ok(await _createOrderHandler.HandleCreateOrder(order));
     }
@@ -61,7 +62,7 @@ public class OrderController : Controller
     [HttpPut]
     [Route("update")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> UpdateOrder([FromBody] Order order)
+    public async Task<IActionResult> UpdateOrder([FromBody] OrderDto order)
     {
         return Ok(await _updateOrderHandler.HandleUpdateOrder(order));
     }
@@ -69,7 +70,7 @@ public class OrderController : Controller
     [HttpDelete]
     [Route("delete")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> DeleteOrder([FromBody] Order order)
+    public async Task<IActionResult> DeleteOrder([FromBody] OrderDto order)
     {
         return Ok(await _deleteOrderHandler.HandleDeleteOrder(order));
     }

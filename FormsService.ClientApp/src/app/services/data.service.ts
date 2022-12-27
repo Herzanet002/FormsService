@@ -22,7 +22,7 @@ export class DataService {
   }
 
   public getDishesByCategory(): Observable<CategoryResponse[]> {
-    let route = "Dish/getDishesByCategories/";
+    let route = "Dish/getByCategories/";
     return this.httpClient.get<CategoryResponse[]>(this.port + route);
   }
 

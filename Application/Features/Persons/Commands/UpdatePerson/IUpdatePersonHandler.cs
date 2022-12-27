@@ -5,5 +5,5 @@ namespace Application.Features.Persons.Commands.UpdatePerson;
 
 public interface IUpdatePersonHandler : IHandler
 {
-    Task<Person?> HandleUpdatePerson(Person person);
+    Task<PersonDto?> HandleUpdatePerson(PersonDto personDto);
 }

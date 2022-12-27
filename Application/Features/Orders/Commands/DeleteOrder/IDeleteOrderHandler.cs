@@ -1,9 +1,9 @@
-﻿using Application.Interfaces;
-using Domain.Entities;
+﻿using Application.Features.Dishes;
+using Application.Interfaces;
 
 namespace Application.Features.Orders.Commands.DeleteOrder;
 
 public interface IDeleteOrderHandler : IHandler
 {
-    Task<Order?> HandleDeleteOrder(Order order);
+    Task<OrderDto?> HandleDeleteOrder(OrderDto order);
 }

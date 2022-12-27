@@ -12,5 +12,6 @@ public class Order : BaseEntity
 
     public virtual ICollection<Dish> Dishes { get; set; }
 
-    [JsonIgnore] public virtual ICollection<DishOrder>? DishOrders { get; set; }
+    [JsonIgnore] 
+    public virtual ICollection<DishOrder>? DishOrders { get; set; }
 }

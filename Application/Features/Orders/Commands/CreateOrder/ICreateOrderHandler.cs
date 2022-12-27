@@ -1,9 +1,9 @@
-﻿using Application.Interfaces;
-using Domain.Entities;
+﻿using Application.Features.Dishes;
+using Application.Interfaces;
 
 namespace Application.Features.Orders.Commands.CreateOrder;
 
 public interface ICreateOrderHandler : IHandler
 {
-    Task<Order?> HandleCreateOrder(Order order);
+    Task<OrderDto?> HandleCreateOrder(OrderDto order);
 }

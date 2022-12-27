@@ -1,11 +1,9 @@
-﻿using Application.Features.Orders.Commands.DeleteOrder;
-using Application.Features.Orders.Queries.GetOrders;
+﻿using Application.Features.Persons;
 using Application.Features.Persons.Commands.CreatePerson;
 using Application.Features.Persons.Commands.DeletePerson;
 using Application.Features.Persons.Commands.UpdatePerson;
 using Application.Features.Persons.Queries.GetAllPersons;
 using Application.Features.Persons.Queries.GetPersonById;
-using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FormsService.API.Controllers;
@@ -21,7 +19,7 @@ public class PersonController : Controller
     private readonly IDeletePersonByIdHandler _deletePersonByIdHandler;
 
     public PersonController(ICreatePersonHandler createPersonHandler,
-        IUpdatePersonHandler updatePersonHandler, 
+        IUpdatePersonHandler updatePersonHandler,
         IDeletePersonHandler deletePersonHandler,
         IGetAllPersonsHandler getAllPersonsHandler,
         IGetPersonByIdHandler getPersonByIdHandler,
@@ -52,18 +50,10 @@ public class PersonController : Controller
         return await _getPersonByIdHandler.HandleGetPersonById(id) is { } item ? Ok(item) : NotFound();
     }
 
-    [HttpDelete]
-    [Route("deleteById")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> DeleteOrderById(int id)
-    {
-        return Ok(await _deletePersonByIdHandler.HandleDeletePersonById(id));
-    }
-
     [HttpPost]
     [Route("create")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreatePerson([FromBody] Person person)
+    public async Task<IActionResult> CreatePerson([FromBody] PersonDto person)
     {
         return Ok(await _createPersonHandler.HandleCreatePerson(person));
     }
@@ -71,7 +61,7 @@ public class PersonController : Controller
     [HttpPut]
     [Route("update")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> UpdatePerson([FromBody] Person person)
+    public async Task<IActionResult> UpdatePerson([FromBody] PersonDto person)
     {
         var updatedPerson = await _updatePersonHandler.HandleUpdatePerson(person);
         return Ok(updatedPerson);
@@ -80,9 +70,18 @@ public class PersonController : Controller
     [HttpDelete]
     [Route("deletePerson/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> DeletePerson(int id)
+    public async Task<IActionResult> DeletePersonById(int id)
     {
         var deletedPerson = await _deletePersonByIdHandler.HandleDeletePersonById(id);
+        return Ok(deletedPerson);
+    }
+
+    [HttpDelete]
+    [Route("deletePerson")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeletePerson([FromBody] PersonDto person)
+    {
+        var deletedPerson = await _deletePersonHandler.HandleDeletePerson(person);
         return Ok(deletedPerson);
     }
 }

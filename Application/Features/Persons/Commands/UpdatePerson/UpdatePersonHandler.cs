@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Mapster;
 
 namespace Application.Features.Persons.Commands.UpdatePerson
 {
@@ -11,9 +12,11 @@ namespace Application.Features.Persons.Commands.UpdatePerson
         {
             _personRepository = personRepository;
         }
-        public async Task<Person?> HandleUpdatePerson(Person person)
+        public async Task<PersonDto?> HandleUpdatePerson(PersonDto personDto)
         {
-            return await _personRepository.Update(person);
+            var person = personDto.Adapt<Person>();
+            var updated = await _personRepository.Update(person);
+            return updated.Adapt<PersonDto>();
         }
     }
 }

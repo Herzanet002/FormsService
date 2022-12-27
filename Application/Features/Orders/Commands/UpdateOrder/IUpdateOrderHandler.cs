@@ -1,9 +1,9 @@
-﻿using Application.Interfaces;
-using Domain.Entities;
+﻿using Application.Features.Dishes;
+using Application.Interfaces;
 
 namespace Application.Features.Orders.Commands.UpdateOrder;
 
 public interface IUpdateOrderHandler : IHandler
 {
-    Task<Order> HandleUpdateOrder(Order order);
+    Task<OrderDto> HandleUpdateOrder(OrderDto orderDto);
 }

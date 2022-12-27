@@ -13,7 +13,7 @@ namespace Application.Features.Persons.Queries.GetAllPersons
         }
         public async Task<IEnumerable<Person>> HandleGetAllPersons()
         {
-            return await _personRepository.GetAll();
+            return await _personRepository.GetAllWithInclude(x => x.Orders!);
         }
     }
 }

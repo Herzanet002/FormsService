@@ -1,9 +1,9 @@
-﻿using Application.Interfaces;
-using Domain.Entities;
+﻿using Application.Features.Dishes;
+using Application.Interfaces;
 
 namespace Application.Features.Orders.Queries.GetOrders;
 
 public interface IGetOrderByIdHandler : IHandler
 {
-    Task<Order?> HandleGetOrderById(int id);
+    Task<OrderDto?> HandleGetOrderById(int id);
 }

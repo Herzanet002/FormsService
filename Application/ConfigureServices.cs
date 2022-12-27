@@ -11,6 +11,7 @@ using Application.Features.Persons.Commands.DeletePerson;
 using Application.Features.Persons.Commands.UpdatePerson;
 using Application.Features.Persons.Queries.GetAllPersons;
 using Application.Features.Persons.Queries.GetPersonById;
+using Application.Mapping;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -42,6 +43,7 @@ public static class ConfigureServices
             .AddTransient<IGetPersonByIdHandler, GetPersonByIdHandler>()
             ;
 
+        services.RegisterMapsterConfiguration();
 
         return services;
     }

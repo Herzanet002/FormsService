@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Mapster;
 
 namespace Application.Features.Persons.Commands.DeletePerson
 {
@@ -11,9 +12,11 @@ namespace Application.Features.Persons.Commands.DeletePerson
         {
             _personRepository = personRepository;
         }
-        public async Task<Person?> HandleDeletePerson(Person person)
+        public async Task<PersonDto?> HandleDeletePerson(PersonDto personDto)
         {
-            return await _personRepository.Remove(person);
+            var person = personDto.Adapt<Person>();
+            var removed = await _personRepository.Remove(person);
+            return removed?.Adapt<PersonDto>();
         }
 
     }
