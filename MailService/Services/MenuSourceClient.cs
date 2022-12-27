@@ -1,4 +1,6 @@
-﻿using Domain.Entities;
+﻿using System.Text.Json;
+using Application.Interfaces.Repositories;
+using Domain.Entities;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
@@ -8,8 +10,6 @@ using MailService.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MimeKit;
-using System.Text.Json;
-using Application.Interfaces.Repositories;
 using IImapClient = MailService.Services.Interfaces.IImapClient;
 
 namespace MailService.Services;

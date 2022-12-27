@@ -1,5 +1,5 @@
-﻿using Domain.Common;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using Domain.Common;
 
 namespace Domain.Entities;
 
@@ -13,9 +13,7 @@ public class Dish : BaseEntity
 
     public DishCategory? Category { get; set; }
 
-    [JsonIgnore]
-    public virtual ICollection<Order>? Orders { get; set; }
+    [JsonIgnore] public virtual ICollection<Order>? Orders { get; set; }
 
-    [JsonIgnore]
-    public virtual ICollection<DishOrder>? DishOrders { get; set; }
+    [JsonIgnore] public virtual ICollection<DishOrder>? DishOrders { get; set; }
 }

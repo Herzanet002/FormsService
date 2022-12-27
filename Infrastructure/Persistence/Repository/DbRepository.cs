@@ -1,7 +1,7 @@
-﻿using Application.Interfaces.Repositories;
+﻿using System.Linq.Expressions;
+using Application.Interfaces.Repositories;
 using Domain.Common;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace Infrastructure.Persistence.Repository;
 
@@ -9,8 +9,6 @@ public class DbRepository<TEntity> : IRepository<TEntity>, IDisposable where TEn
 {
     private readonly DatabaseContext _dbContext;
     private bool _disposed;
-    protected DbSet<TEntity> Set { get; }
-    protected IQueryable<TEntity> Items => Set;
 
     public DbRepository(DatabaseContext dbContext)
     {
@@ -18,17 +16,8 @@ public class DbRepository<TEntity> : IRepository<TEntity>, IDisposable where TEn
         Set = _dbContext.Set<TEntity>();
     }
 
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!_disposed)
-        {
-            if (disposing)
-            {
-                _dbContext.Dispose();
-            }
-        }
-        _disposed = true;
-    }
+    protected DbSet<TEntity> Set { get; }
+    protected IQueryable<TEntity> Items => Set;
 
     public void Dispose()
     {
@@ -110,5 +99,13 @@ public class DbRepository<TEntity> : IRepository<TEntity>, IDisposable where TEn
     public IEnumerable<TEntity> GetByFilter(Func<TEntity, bool> predicate, CancellationToken ct = default)
     {
         return Items.AsEnumerable().Where(predicate).ToList();
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+            if (disposing)
+                _dbContext.Dispose();
+        _disposed = true;
     }
 }

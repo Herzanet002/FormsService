@@ -14,7 +14,8 @@ public class PersonController : EntityController<Person>
         _repository = repository;
     }
 
-    [HttpPost, Route("createPerson")]
+    [HttpPost]
+    [Route("createPerson")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> CreatePerson([FromBody] Person person)
     {
@@ -22,7 +23,8 @@ public class PersonController : EntityController<Person>
         return Ok(addedPerson);
     }
 
-    [HttpPut, Route("updatePerson")]
+    [HttpPut]
+    [Route("updatePerson")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdatePerson([FromBody] Person person)
     {
@@ -30,7 +32,8 @@ public class PersonController : EntityController<Person>
         return Ok(updatedPerson);
     }
 
-    [HttpDelete, Route("deletePerson/{id}")]
+    [HttpDelete]
+    [Route("deletePerson/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeletePerson(int id)
     {

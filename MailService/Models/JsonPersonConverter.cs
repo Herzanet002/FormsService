@@ -1,23 +1,22 @@
-﻿using Domain.Entities;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Domain.Entities;
 
-namespace MailService.Models
+namespace MailService.Models;
+
+public class JsonPersonConverter<T> : JsonConverter<T> where T : Person
 {
-    public class JsonPersonConverter<T> : JsonConverter<T> where T : Person
+    public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        if (reader.GetString() is not { } personString) return null;
+        return new Person
         {
-            if (reader.GetString() is not { } personString) return null;
-            return new Person
-            {
-                Name = personString.TrimEnd()
-            } as T;
-        }
+            Name = personString.TrimEnd()
+        } as T;
+    }
 
-        public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
-        {
-            throw new NotImplementedException();
-        }
+    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
     }
 }

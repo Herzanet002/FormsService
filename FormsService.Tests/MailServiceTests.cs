@@ -1,10 +1,9 @@
-namespace FormsService.Tests
+namespace FormsService.Tests;
+
+public class MailServiceTests
 {
-    public class MailServiceTests
+    [Fact]
+    public void Test1()
     {
-        [Fact]
-        public void Test1()
-        {
-        }
     }
 }

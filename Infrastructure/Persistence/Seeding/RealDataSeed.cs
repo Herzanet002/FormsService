@@ -12,50 +12,49 @@ public class RealDataSeed
             {
                 Id = 1,
                 Name = "Кобб с куриной грудкой",
-                DishCategoryId=1,
+                DishCategoryId = 1,
                 DishPrice = 100
-
             },
             new()
             {
                 Id = 2,
                 Name = "Сельдь под шубой",
-                DishCategoryId=1,
+                DishCategoryId = 1,
                 DishPrice = 120
             },
             new()
             {
                 Id = 3,
                 Name = "Грибной крем-суп с пшеничными гренками",
-                DishCategoryId=2,
+                DishCategoryId = 2,
                 DishPrice = 150
             },
             new()
             {
                 Id = 4,
                 Name = "Финская сливочная уха",
-                DishCategoryId=2,
+                DishCategoryId = 2,
                 DishPrice = 140
             },
             new()
             {
                 Id = 5,
                 Name = "Филе трески на подушке из кус-куса с соусом рататуй",
-                DishCategoryId=3,
+                DishCategoryId = 3,
                 DishPrice = 180
             },
             new()
             {
                 Id = 6,
                 Name = "Фахитос из свинины с рисом тяхан",
-                DishCategoryId=3,
+                DishCategoryId = 3,
                 DishPrice = 170
             },
             new()
             {
                 Id = 7,
                 Name = "Куриное фрикасе с молодым картофелем",
-                DishCategoryId=3,
+                DishCategoryId = 3,
                 DishPrice = 165
             }
         };

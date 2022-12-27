@@ -1,9 +1,5 @@
-﻿namespace MailService.Configurations
+﻿namespace MailService.Configurations;
+
+public class IMapClientConfigurations : ClientSettings
 {
-    public class IMapClientConfigurations : ClientSettings
-    {
-        public IMapClientConfigurations()
-        {
-        }
-    }
 }

@@ -2,13 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Configurations
+namespace Infrastructure.Persistence.Configurations;
+
+public class DishOrderItemConfiguration : IEntityTypeConfiguration<DishOrder>
 {
-    public class DishOrderItemConfiguration : IEntityTypeConfiguration<DishOrder>
+    public void Configure(EntityTypeBuilder<DishOrder> builder)
     {
-        public void Configure(EntityTypeBuilder<DishOrder> builder)
-        {
-            builder.Ignore(attr => attr.Id);
-        }
+        builder.Ignore(attr => attr.Id);
     }
 }

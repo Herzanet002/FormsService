@@ -1,9 +1,8 @@
 ﻿using Domain.Entities;
 
-namespace MailService.Models
+namespace MailService.Models;
+
+public class DishWithPrice : Dish
 {
-    public class DishWithPrice : Dish
-    {
-        public int Price;
-    }
+    public int Price;
 }

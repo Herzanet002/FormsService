@@ -62,6 +62,7 @@ public class ReportController : Controller
             month = DateTime.Now.Month;
             year = DateTime.Now.Year;
         }
+
         if (month == 0 || year == 0) return BadRequest();
 
         var outputPath = Path.Combine(Environment.CurrentDirectory, @"Reports\Report.xlsx");
@@ -73,7 +74,7 @@ public class ReportController : Controller
 
         using var scope = _serviceProvider.CreateScope();
         var excelWorker = scope.ServiceProvider.GetService<ExcelWorkerService<Person>>()
-                                ?? throw new NullReferenceException(nameof(ExcelWorkerService<Person>));
+                          ?? throw new NullReferenceException(nameof(ExcelWorkerService<Person>));
 
         await excelWorker.CreateExcelReport(date, daysInMonth, employees, outputPath);
 

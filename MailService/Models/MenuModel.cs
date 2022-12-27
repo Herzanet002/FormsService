@@ -1,6 +1,6 @@
-﻿using Domain.Entities;
+﻿using System.Text.Json.Serialization;
+using Domain.Entities;
 using Domain.Enums;
-using System.Text.Json.Serialization;
 
 namespace MailService.Models;
 
@@ -15,8 +15,7 @@ public class MenuModel
     [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     public Location Location { get; set; }
 
-    [JsonIgnore]
-    public List<DishWithPrice> Dishes { get; set; } = new();
+    [JsonIgnore] public List<DishWithPrice> Dishes { get; set; } = new();
 
     [JsonPropertyName("Салат")]
     [JsonConverter(typeof(JsonDishConverter<DishWithPrice>))]
