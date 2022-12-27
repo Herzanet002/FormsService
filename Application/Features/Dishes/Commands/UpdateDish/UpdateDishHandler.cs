@@ -1,19 +1,21 @@
-﻿using Application.Interfaces.Repositories;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Repositories.Base;
 
 namespace Application.Features.Dishes.Commands.UpdateDish;
 
 public class UpdateDishHandler : IUpdateDishHandler
 {
-    private readonly IRepository<Dish> _repository;
+    private readonly IDishRepository _dishRepository;
 
-    public UpdateDishHandler(IRepository<Dish> repository)
+
+    public UpdateDishHandler(IDishRepository dishRepository)
     {
-        _repository = repository;
+        _dishRepository = dishRepository;
     }
 
     public async Task<Dish> HandleUpdateDish(Dish dish)
     {
-        return await _repository.Update(dish);
+        return await _dishRepository.Update(dish);
     }
 }

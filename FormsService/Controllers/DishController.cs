@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FormsService.API.Controllers;
 
+[ApiController]
+[Route("/api/[controller]/")]
 public class DishController : Controller
 {
     private readonly ICreateDishHandler _createDishHandler;
@@ -37,7 +39,7 @@ public class DishController : Controller
     }
 
     [HttpPost]
-    [Route("createDish")]
+    [Route("create")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> CreateDish([FromBody] Dish dish)
     {
@@ -45,7 +47,7 @@ public class DishController : Controller
     }
 
     [HttpPut]
-    [Route("updateDish")]
+    [Route("update")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateDish([FromBody] Dish dish)
     {
@@ -53,17 +55,17 @@ public class DishController : Controller
     }
 
     [HttpDelete]
-    [Route("deleteDish/{id}")]
+    [Route("delete/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteDish(int id)
     {
         return Ok(await _deleteDishHandler.HandleDeleteDish(id));
     }
 
-    [HttpGet("getDishesByCategories")]
+    [HttpGet("getByCategories")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     public async Task<IActionResult> GetDishesByCategories()
     {
-        return Ok(_getDishesByCategoriesHandler.HandleGetDishesByCategoriesAsync());
+        return Ok(await _getDishesByCategoriesHandler.HandleGetDishesByCategoriesAsync());
     }
 }

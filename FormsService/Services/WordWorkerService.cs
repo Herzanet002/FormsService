@@ -7,7 +7,7 @@ namespace FormsService.API.Services;
 
 public class WordWorkerServiceService<T> : IWordWorkerService<T> where T : Order
 {
-    public Content CreateReport(IEnumerable<T> orders, string outputPath)
+    public Content CreateReport(IEnumerable<T> orders, DateOnly reportDate, string outputPath)
     {
         var tableContent = new TableContent("OrdersTable");
 
@@ -24,7 +24,7 @@ public class WordWorkerServiceService<T> : IWordWorkerService<T> where T : Order
         }
 
         var valuesToFill = new Content(tableContent);
-        valuesToFill.Fields.Add(new FieldContent("ReportDate", DateTime.Now.Date.ToShortDateString()));
+        valuesToFill.Fields.Add(new FieldContent("ReportDate", reportDate.ToShortDateString()));
         return valuesToFill;
     }
 

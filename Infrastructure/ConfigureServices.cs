@@ -1,5 +1,6 @@
-﻿using Application.Interfaces.Repositories;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Repositories.Base;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -19,11 +20,11 @@ public static class ConfigureServices
                     .UseSnakeCaseNamingConvention()
                     .EnableSensitiveDataLogging();
             });
-        services.AddScoped<IRepository<Dish>, DbRepository<Dish>>();
-        services.AddScoped<IRepository<Order>, DbRepository<Order>>();
-        services.AddScoped<IRepository<DishOrder>, DbRepository<DishOrder>>();
-        services.AddScoped<IRepository<Person>, DbRepository<Person>>();
-        services.AddScoped<IRepository<DishCategory>, DbRepository<DishCategory>>();
+        services.AddScoped<IDishRepository, DishRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IDishOrderRepository, DishOrderRepository>();
+        services.AddScoped<IPersonRepository, PersonRepository>();
+        services.AddScoped<IDishCategoryRepository, DishCategoryRepository>();
         return services;
     }
 }

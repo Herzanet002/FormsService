@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
-using Application.Interfaces.Repositories;
 using Domain.Entities;
+using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Repositories.Base;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
@@ -48,12 +49,12 @@ public class MenuSourceClient : IImapClient
             MessageSummaryItems.UniqueId | MessageSummaryItems.BodyStructure | MessageSummaryItems.Envelope);
 
         using var scope = _serviceProvider.CreateScope();
-        var ordersRepository = scope.ServiceProvider.GetService<IRepository<Order>>() ??
-                               throw new NullReferenceException($"{nameof(IRepository<Order>)} is null");
-        var personsRepository = scope.ServiceProvider.GetService<IRepository<Person>>() ??
-                                throw new NullReferenceException($"{nameof(IRepository<Person>)} is null");
-        var dishesRepository = scope.ServiceProvider.GetService<IRepository<Dish>>() ??
-                               throw new NullReferenceException($"{nameof(IRepository<Dish>)} is null");
+        var ordersRepository = scope.ServiceProvider.GetService<IOrderRepository>() ??
+                               throw new NullReferenceException($"{nameof(IOrderRepository)} is null");
+        var personsRepository = scope.ServiceProvider.GetService<IPersonRepository>() ??
+                                throw new NullReferenceException($"{nameof(IPersonRepository)} is null");
+        var dishesRepository = scope.ServiceProvider.GetService<IDishRepository>() ??
+                               throw new NullReferenceException($"{nameof(IDishRepository)} is null");
 
         foreach (var message in inboxMessages)
         {

@@ -1,5 +1,5 @@
-﻿using Application.Interfaces.Repositories;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Domain.Interfaces.Repositories;
 using FormsService.API.Services;
 using FormsService.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +10,14 @@ namespace FormsService.API.Controllers;
 [Route("/api/[controller]/")]
 public class ReportController : Controller
 {
-    private readonly IRepository<DishOrder> _dishOrderRepository;
-    private readonly IRepository<Order> _ordersRepository;
-    private readonly IRepository<Person> _personsRepository;
+    private readonly IDishOrderRepository _dishOrderRepository;
+    private readonly IOrderRepository _ordersRepository;
+    private readonly IPersonRepository _personsRepository;
     private readonly IServiceProvider _serviceProvider;
 
-    public ReportController(IRepository<Order> ordersRepository,
-        IRepository<DishOrder> dishOrderRepository,
-        IRepository<Person> personsRepository,
+    public ReportController(IOrderRepository ordersRepository,
+        IDishOrderRepository dishOrderRepository,
+        IPersonRepository personsRepository,
         IServiceProvider serviceProvider)
     {
         _ordersRepository = ordersRepository;
@@ -46,7 +46,7 @@ public class ReportController : Controller
         using var scope = _serviceProvider.CreateScope();
         var wordWorkerService = scope.ServiceProvider.GetService<IWordWorkerService<Order>>()
                                 ?? throw new NullReferenceException(nameof(IWordWorkerService<Order>));
-        var docContent = wordWorkerService.CreateReport(orders, outputPath);
+        var docContent = wordWorkerService.CreateReport(orders, date, outputPath);
         if (docContent is null) return BadRequest();
         wordWorkerService.SaveCreatedReport(docContent, outputPath);
         return File(await System.IO.File.ReadAllBytesAsync(outputPath), "application/octet-stream", "Report.docx");

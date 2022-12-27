@@ -1,19 +1,19 @@
-﻿using Application.Interfaces.Repositories;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Domain.Interfaces.Repositories;
 
 namespace Application.Features.Dishes.Commands.DeleteDish;
 
 public class DeleteDishHandler : IDeleteDishHandler
 {
-    private readonly IRepository<Dish> _repository;
+    private readonly IDishRepository _dishRepository;
 
-    public DeleteDishHandler(IRepository<Dish> repository)
+    public DeleteDishHandler(IDishRepository dishRepository)
     {
-        _repository = repository;
+        _dishRepository = dishRepository;
     }
 
-    public async Task<Dish> HandleDeleteDish(int id)
+    public async Task<Dish?> HandleDeleteDish(int id)
     {
-        return await _repository.RemoveById(id);
+        return await _dishRepository.RemoveById(id);
     }
 }

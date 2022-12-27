@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
-using Application.Interfaces.Repositories;
 using Domain.Common;
+using Domain.Interfaces.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistence.Repository;
+namespace Infrastructure.Persistence.Repository.Common;
 
 public class DbRepository<TEntity> : IRepository<TEntity>, IDisposable where TEntity : BaseEntity
 {

@@ -1,19 +1,20 @@
-﻿using Application.Interfaces.Repositories;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Domain.Interfaces.Repositories;
 
 namespace Application.Features.Dishes.Commands.CreateDish;
 
 public class CreateDishHandler : ICreateDishHandler
 {
-    private readonly IRepository<Dish> _repository;
+    private readonly IDishRepository _dishRepository;
 
-    public CreateDishHandler(IRepository<Dish> repository)
+
+    public CreateDishHandler(IDishRepository dishRepository)
     {
-        _repository = repository;
+        _dishRepository = dishRepository;
     }
 
     public async Task<Dish> HandleCreateDish(Dish dish)
     {
-        return await _repository.Add(dish);
+        return await _dishRepository.Add(dish);
     }
 }
