@@ -1,8 +1,7 @@
-﻿using FormsService.API.Services;
+﻿using Application;
+using FormsService.API.Services;
 using FormsService.API.Services.Interfaces;
 using Infrastructure;
-using Infrastructure.Persistence.Repository;
-using Infrastructure.Persistence.Repository.Interfaces;
 using MailService.Extensions;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -23,6 +22,7 @@ namespace FormsService.API
             services.AddCors();
 
             services.AddDbContext(Configuration);
+            services.AddCommandHandlers();
             services.AddControllers()
                 .AddJsonOptions(o =>
                 {
@@ -31,8 +31,6 @@ namespace FormsService.API
             services.AddEndpointsApiExplorer();
 
             services.AddSwaggerGen();
-
-            services.AddScoped(typeof(IRepository<>), typeof(DbRepository<>));
             services.AddMailHostedService()
                 .ConfigureIMapService(Configuration)
                 .ConfigureFormsService(Configuration)

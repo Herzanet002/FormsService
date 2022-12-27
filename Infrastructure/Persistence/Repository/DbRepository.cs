@@ -1,7 +1,7 @@
-﻿using System.Linq.Expressions;
+﻿using Application.Interfaces.Repositories;
 using Domain.Common;
-using Infrastructure.Persistence.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Persistence.Repository;
 

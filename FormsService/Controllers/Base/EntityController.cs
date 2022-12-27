@@ -1,5 +1,5 @@
-﻿using Domain.Common;
-using Infrastructure.Persistence.Repository.Interfaces;
+﻿using Application.Interfaces.Repositories;
+using Domain.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FormsService.API.Controllers.Base
@@ -10,7 +10,7 @@ namespace FormsService.API.Controllers.Base
     {
         private readonly IRepository<T> _repository;
 
-        protected EntityController(IRepository<T> repository)
+        protected EntityController(IRepository<T>? repository)
         {
             _repository = repository;
         }

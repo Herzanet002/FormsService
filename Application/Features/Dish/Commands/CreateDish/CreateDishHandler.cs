@@ -10,7 +10,7 @@ namespace Application.Features.Dish.Commands.CreateDish
         {
             _repository = repository;
         }
-        public async Task<Domain.Entities.Dish> HandleCreateDish(Domain.Entities.Dish dish)
+        public async ValueTask<Domain.Entities.Dish> HandleCreateDish(Domain.Entities.Dish dish)
         {
             return await _repository.Add(dish);
             

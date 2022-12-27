@@ -1,8 +1,10 @@
-﻿namespace Application.Features.Dish.Commands.CreateDish
+﻿using Application.Interfaces;
+
+namespace Application.Features.Dish.Commands.CreateDish
 {
-    public interface ICreateDishHandler
+    public interface ICreateDishHandler : IHandler
     {
-        Task<Domain.Entities.Dish> HandleCreateDish(Domain.Entities.Dish dish);
+        ValueTask<Domain.Entities.Dish> HandleCreateDish(Domain.Entities.Dish dish);
     }
 }
 

@@ -1,6 +1,8 @@
-﻿namespace Application.Features.Dish.Commands.DeleteDish;
+﻿using Application.Interfaces;
 
-public interface IDeleteDishHandler
+namespace Application.Features.Dish.Commands.DeleteDish;
+
+public interface IDeleteDishHandler : IHandler
 {
-    void HandleDeleteDish();
+    ValueTask<Domain.Entities.Dish> HandleDeleteDish(int id);
 }

@@ -1,7 +1,7 @@
-﻿using Domain.Entities;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
 using FormsService.API.Services;
 using FormsService.API.Services.Interfaces;
-using Infrastructure.Persistence.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FormsService.API.Controllers;

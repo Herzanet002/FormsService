@@ -1,4 +1,7 @@
-﻿using Infrastructure.Persistence;
+﻿using Application.Interfaces.Repositories;
+using Domain.Entities;
+using Infrastructure.Persistence;
+using Infrastructure.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +19,11 @@ namespace Infrastructure
                         .UseSnakeCaseNamingConvention()
                         .EnableSensitiveDataLogging();
                 });
+            services.AddScoped<IRepository<Dish>, DbRepository<Dish>>();
+            services.AddScoped<IRepository<Order>, DbRepository<Order>>();
+            services.AddScoped<IRepository<DishOrder>, DbRepository<DishOrder>>();
+            services.AddScoped<IRepository<Person>, DbRepository<Person>>();
+            services.AddScoped<IRepository<DishCategory>, DbRepository<DishCategory>>();
             return services;
         }
     }
