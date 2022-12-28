@@ -1,6 +1,7 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Person} from "../../../models/Person";
-import {DataService} from "../../../services/data.service";
+import {DataPersonsService} from "../../../services/data-persons.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-administrate-persons',
@@ -13,13 +14,12 @@ export class AdministratePersonsComponent implements OnInit{
   @ViewChild('editTemplate', {static: false}) editTemplate: TemplateRef<any>|undefined;
   editedPerson: Person|null = null;
   isNewRecord: boolean = false;
-  statusMessage: string = "";
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataPersonsService, private toast: ToastrService) {
     this.persons = new Array<Person>();
   }
 
   private getPersons(){
-    this.dataService.getEmployees().subscribe((data:Person[]) => {
+    this.dataService.getPersons().subscribe((data:Person[]) => {
       return this.persons = data});
   }
 
@@ -30,7 +30,7 @@ export class AdministratePersonsComponent implements OnInit{
     if (this.isNewRecord) {
       // добавляем пользователя
       this.dataService.createPerson(this.editedPerson as Person).subscribe(_ => {
-        this.statusMessage = 'Данные успешно добавлены',
+        this.toast.success('Данные успешно добавлены')
           this.getPersons();
       });
       this.isNewRecord = false;
@@ -38,7 +38,7 @@ export class AdministratePersonsComponent implements OnInit{
     } else {
       // изменяем пользователя
       this.dataService.updatePerson(this.editedPerson as Person).subscribe(_ => {
-        this.statusMessage = 'Данные успешно обновлены',
+        this.toast.success('Данные успешно обновлены')
           this.getPersons();
       });
       this.editedPerson = null;
@@ -61,8 +61,9 @@ export class AdministratePersonsComponent implements OnInit{
   }
 
   public deletePerson(person: Person) {
+    if(confirm(`Действительно удалить сотрудника ${person.name} ?`))
     this.dataService.deleteUser(person.id).subscribe(_ => {
-      this.statusMessage = 'Данные успешно удалены',
+      this.toast.info('Данные успешно удалены')
         this.getPersons();
     });
   }

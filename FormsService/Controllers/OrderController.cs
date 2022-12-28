@@ -75,8 +75,8 @@ public class OrderController : Controller
         return Ok(await _deleteOrderHandler.HandleDeleteOrder(order));
     }
 
-    [HttpPost]
-    [Route("deleteById")]
+    [HttpDelete]
+    [Route("delete/{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteOrderById(int id)
     {

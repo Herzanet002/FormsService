@@ -48,7 +48,7 @@ public class DishController : Controller
     }
 
     [HttpPut]
-    [Route("update")]
+    [Route("{dish-id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateDish([FromBody] DishDto dish)
     {
@@ -56,7 +56,7 @@ public class DishController : Controller
     }
 
     [HttpDelete]
-    [Route("delete/{id}")]
+    [Route("{dish-id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteDish(int id)
     {

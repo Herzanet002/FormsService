@@ -1,0 +1,80 @@
+<div class="flex justify-center mt-10">
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 block p-12 rounded-lg shadow-lg bg-white w-9/12">
+    <h1 class="text-3xl font-bold mt-0 mb-6 text-center col-span-3">Управление заказами</h1>
+    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="overflow-hidden">
+        <table class="min-w-full">
+          <thead class="bg-white border-b">
+          <tr>
+            <th scope="col" class="font-medium text-gray-900 px-12 py-4 text-left">
+              ID
+            </th>
+            <th scope="col" class="font-medium text-gray-900 px-6 py-4 text-left">
+              ID сотрудника
+            </th>
+            <th scope="col" class="font-medium text-gray-900 px-6 py-4 text-left">
+              Где обедаю
+            </th>
+            <th scope="col" class="font-medium text-gray-900 px-6 py-4 text-left">
+              Дата формирования
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" *ngFor="let order of orders">
+            <ng-template [ngTemplateOutlet]="loadTemplate(order)"
+                         [ngTemplateOutletContext]="{ $implicit: order}">
+            </ng-template>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #readOnlyTemplate let-order>
+  <td class="px-12 py-4 whitespace-nowrap font-medium text-gray-900">{{order.id}}</td>
+  <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{order.personId}}</td>
+  <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{order.location == 0? "С собой" : "В кафе"}}</td>
+  <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{order.dateForming | date:'dd/MM/yyyy, HH:mm'}}</td>
+  <td>
+    <input type="button" value="Изменить" class="btn-info-outline" (click)="editOrder(order)">
+  </td>
+  <td>
+    <input type="button" value="Удалить" class="btn-danger-outline" (click)="deleteOrder(order)">
+  </td>
+
+</ng-template>
+
+<ng-template #editTemplate>
+  <td class="px-12 py-4 whitespace-nowrap font-medium text-gray-900">
+    <input type="text" [(ngModel)]="editedOrder.id" readonly disabled>
+  </td>
+  <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+    <input type="text" [(ngModel)]="editedOrder.personId" class="form-control block w-full px-3 py-1.5 text-base font-normal
+        text-gray-700 bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded transition ease-in-out
+        m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" >
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="editedOrder.location" class="form-control block w-full px-3 py-1.5 text-base font-normal
+        text-gray-700 bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded transition ease-in-out
+        m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" >
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="editedOrder.dateForming"  readonly disabled>
+  </td>
+  <td>
+    <button type="button" class="btn-success" (click)="saveOrder()">Сохранить</button>
+  </td>
+  <td>
+    <button type="button" class="btn-warning" (click)="cancel()">Отмена</button>
+  </td>
+
+</ng-template>
+

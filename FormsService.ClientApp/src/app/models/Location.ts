@@ -1,5 +1,4 @@
-import {NamedEntity} from "./NamedEntity";
-
-export interface Location extends NamedEntity{
-
+export enum Location {
+  WithMe,
+  InCafe
 }

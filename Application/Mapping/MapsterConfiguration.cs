@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Application.Features.Dishes;
 using Application.Features.Orders;
 using Domain.Entities;
 using Mapster;
@@ -13,6 +14,10 @@ public static class MapsterConfiguration
         TypeAdapterConfig<Order, OrderDto>
             .NewConfig()
             .Map(dest => dest.PersonId, src => src.Person.Id);
+
+        TypeAdapterConfig<Dish, DishDto>
+            .NewConfig()
+            .Map(dest => dest.DishCategoryName, src => src.Category!.Name);
 
         TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
     }

@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {DataService} from "../../services/data.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Person} from "../../models/Person";
 import {CategoryResponse} from "../../models/CategoryResponse";
 import {Location} from "../../models/Location";
+import {DataPersonsService} from "../../services/data-persons.service";
+import {DataDishesService} from "../../services/data-dishes.service";
 
 @Component({
   selector: 'app-client-form',
@@ -12,12 +13,14 @@ import {Location} from "../../models/Location";
 })
 export class ClientFormComponent implements OnInit{
   dates = '06.12-12.12'
-  constructor(private dataService: DataService, private formBuilder: FormBuilder) {
+  constructor(private dataPersonsService: DataPersonsService,
+              private dataDishesService: DataDishesService,
+              private formBuilder: FormBuilder) {
   }
   clientForm: FormGroup
   personsSource: Array<Person> = [];
   dishesSource: CategoryResponse[] = [];
-  locationsSource = new Array<Location>({name:"В кафе"}, {name:"Заберу с собой"});
+  // locationsSource = Location;
   public onSubmitForm(form: FormGroup){
     console.log(form);
   }
@@ -42,13 +45,13 @@ export class ClientFormComponent implements OnInit{
   }
 
   private getPersons() {
-    this.dataService.getEmployees()
+    this.dataPersonsService.getPersons()
       .subscribe((data:Person[]) => {
         return this.personsSource = data;
       });
   }
   private getDishes() {
-    this.dataService.getDishesByCategory()
+    this.dataDishesService.getDishesByCategory()
       .subscribe((data: CategoryResponse[]) => {
         this.addDishControls(data);
         console.log(data);

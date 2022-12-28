@@ -42,7 +42,7 @@
 <ng-template #readOnlyTemplate let-dish>
     <td class="px-12 py-4 whitespace-nowrap font-medium text-gray-900">{{dish.id}}</td>
     <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{dish.name}}</td>
-    <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{dish.category.name}}</td>
+    <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{dish.dishCategoryName}}</td>
     <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{dish.dishPrice}}</td>
     <td>
       <input type="button" value="Изменить" class="btn-info-outline" (click)="editDish(dish)">
@@ -66,8 +66,8 @@
         m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
   </td>
   <td>
-    <select class="selector" [(ngModel)]="editedDish.category">
-      <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
+    <select class="selector" [(ngModel)]="editedDish.dishCategoryName">
+      <option *ngFor="let category of categories" [ngValue]="category">{{category}}</option>
     </select>
   </td>
   <td>

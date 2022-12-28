@@ -1,6 +1,4 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {DataService} from "../../services/data.service";
-import {Person} from "../../models/Person";
 
 @Component({
   selector: 'app-admin-form',

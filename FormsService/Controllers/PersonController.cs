@@ -68,7 +68,7 @@ public class PersonController : Controller
     }
 
     [HttpDelete]
-    [Route("deletePerson/{id}")]
+    [Route("delete/{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeletePersonById(int id)
     {
@@ -77,7 +77,7 @@ public class PersonController : Controller
     }
 
     [HttpDelete]
-    [Route("deletePerson")]
+    [Route("delete")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeletePerson([FromBody] PersonDto person)
     {

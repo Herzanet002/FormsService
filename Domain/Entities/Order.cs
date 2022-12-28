@@ -7,6 +7,7 @@ namespace Domain.Entities;
 public class Order : BaseEntity
 {
     public Person Person { get; set; }
+    public int PersonId { get; set; }
     public Location Location { get; set; }
     public DateTimeOffset DateForming { get; set; }
 

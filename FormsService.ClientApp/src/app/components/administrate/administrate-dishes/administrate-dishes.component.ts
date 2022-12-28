@@ -1,8 +1,7 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { Dish } from 'src/app/models/Dish';
-import {Person} from "../../../models/Person";
-import {DataService} from "../../../services/data.service";
-import {DishCategory} from "../../../models/DishCategory";
+import {DataDishesService} from "../../../services/data-dishes.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-administrate-dishes',
@@ -11,23 +10,22 @@ import {DishCategory} from "../../../models/DishCategory";
 })
 export class AdministrateDishesComponent implements OnInit{
   dishes: Dish[];
-  categories: DishCategory[];
+  categories: string[];
   @ViewChild('readOnlyTemplate', {static: false}) readOnlyTemplate: TemplateRef<any>|undefined;
   @ViewChild('editTemplate', {static: false}) editTemplate: TemplateRef<any>|undefined;
   editedDish: Dish|null = null;
   isNewRecord: boolean = false;
-  statusMessage: string = "";
-  constructor(private dataService: DataService) {
+  constructor(private dataDishesService: DataDishesService, private toast: ToastrService) {
     this.dishes = new Array<Dish>();
-    this.categories = new Array<DishCategory>();
+    this.categories = new Array<string>();
   }
 
   private getDishes(){
-    this.dataService.getDishes().subscribe((data:Dish[]) => {
+    this.dataDishesService.getDishes().subscribe((data:Dish[]) => {
       this.dishes = data;
       this.dishes.forEach((x) => {
-        if(!this.categories.find(el => el.id === x.category.id))
-        this.categories.push(x.category);
+        if(!this.categories.find(el => el === x.dishCategoryName))
+        this.categories.push(x.dishCategoryName);
       });
     });
   }
@@ -39,16 +37,16 @@ export class AdministrateDishesComponent implements OnInit{
   public saveDish() {
     if (this.isNewRecord) {
       // добавляем пользователя
-      this.dataService.createDish(this.editedDish as Dish).subscribe(_ => {
-        this.statusMessage = 'Данные успешно добавлены'
+      this.dataDishesService.createDish(this.editedDish as Dish).subscribe(_ => {
+        this.toast.success('Данные успешно добавлены')
           this.getDishes();
       });
       this.isNewRecord = false;
       this.editedDish = null;
     } else {
       // изменяем пользователя
-      this.dataService.updateDish(this.editedDish as Dish).subscribe(_ => {
-        this.statusMessage = 'Данные успешно обновлены'
+      this.dataDishesService.updateDish(this.editedDish as Dish).subscribe(_ => {
+        this.toast.success('Данные успешно обновлены')
           this.getDishes();
       });
       this.editedDish = null;
@@ -60,7 +58,7 @@ export class AdministrateDishesComponent implements OnInit{
       id:0,
       name:"",
       dishCategoryId:0,
-      category:null,
+      dishCategoryName:"",
       dishPrice : 0
     };
     this.dishes.push(this.editedDish);
@@ -70,14 +68,16 @@ export class AdministrateDishesComponent implements OnInit{
     this.editedDish={
       id: dish.id,
       name: dish.name,
-      category: dish.category,
+      dishCategoryName: dish.dishCategoryName,
+      dishCategoryId: dish.dishCategoryId,
       dishPrice: dish.dishPrice
     }
   }
 
   public deleteDish(dish: Dish) {
-    this.dataService.deleteDish(dish.id).subscribe(_ => {
-      this.statusMessage = 'Данные успешно удалены'
+    if(confirm(`Действительно удалить блюдо ${dish.name} ?`))
+    this.dataDishesService.deleteDish(dish.id).subscribe(_ => {
+      this.toast.info('Данные успешно удалены')
         this.getDishes();
     });
   }

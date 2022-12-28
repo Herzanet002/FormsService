@@ -10,6 +10,13 @@ import { ClientFormComponent } from './components/client-form/client-form.compon
 import { AdminFormComponent } from './components/admin-form/admin-form.component';
 import { AdministratePersonsComponent } from './components/administrate/administrate-persons/administrate-persons.component';
 import { AdministrateDishesComponent } from './components/administrate/administrate-dishes/administrate-dishes.component';
+import { AdministrateOrdersComponent } from './components/administrate/administrate-orders/administrate-orders.component';
+import {DataPersonsService} from "./services/data-persons.service";
+import {DataDishesService} from "./services/data-dishes.service";
+import {DataOrdersService} from "./services/data-orders.service";
+import { GroupByAscPipe } from './pipes/group-by-asc.pipe';
+import {ToastrModule} from "ngx-toastr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 const routes: Routes = [
   {path: '', component: ClientFormComponent},
@@ -25,6 +32,8 @@ const routes: Routes = [
     AdminFormComponent,
     AdministratePersonsComponent,
     AdministrateDishesComponent,
+    AdministrateOrdersComponent,
+    GroupByAscPipe,
   ],
     imports: [
         BrowserModule,
@@ -32,12 +41,14 @@ const routes: Routes = [
         ReactiveFormsModule,
         FormsModule,
         RouterLink,
-      RouterModule.forRoot(routes)
+      RouterModule.forRoot(routes),
+      BrowserAnimationsModule, // required animations module
+      ToastrModule.forRoot(),
     ],
   exports:[
     RouterModule
   ],
-  providers: [],
+  providers: [DataPersonsService, DataDishesService, DataOrdersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
