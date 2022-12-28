@@ -1,5 +1,5 @@
-﻿using Domain.Entities;
-using Domain.Interfaces.Repositories;
+﻿using Domain.Interfaces.Repositories;
+using Mapster;
 
 namespace Application.Features.Dishes.Commands.DeleteDish;
 
@@ -12,8 +12,9 @@ public class DeleteDishHandler : IDeleteDishHandler
         _dishRepository = dishRepository;
     }
 
-    public async Task<Dish?> HandleDeleteDish(int id)
+    public async Task<DishDto?> HandleDeleteDish(int id)
     {
-        return await _dishRepository.RemoveById(id);
+        var removed = await _dishRepository.RemoveById(id);
+        return removed?.Adapt<DishDto>();
     }
 }

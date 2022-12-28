@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces;
-using Domain.Entities;
 
 namespace Application.Features.Persons.Commands.CreatePerson;
 

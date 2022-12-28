@@ -1,4 +1,5 @@
-﻿using Application.Features.Dishes.Commands.CreateDish;
+﻿using Application.Features.Dishes;
+using Application.Features.Dishes.Commands.CreateDish;
 using Application.Features.Dishes.Commands.DeleteDish;
 using Application.Features.Dishes.Commands.UpdateDish;
 using Application.Features.Dishes.Queries.GetDishes;
@@ -35,13 +36,13 @@ public class DishController : Controller
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     public async Task<IActionResult> GetAllFromDb()
     {
-        return Ok(await _getAllDishesHandler.HandleGetAlldishes());
+        return Ok(await _getAllDishesHandler.HandleGetAllDishes());
     }
 
     [HttpPost]
     [Route("create")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreateDish([FromBody] Dish dish)
+    public async Task<IActionResult> CreateDish([FromBody] DishDto dish)
     {
         return Ok(await _createDishHandler.HandleCreateDish(dish));
     }
@@ -49,7 +50,7 @@ public class DishController : Controller
     [HttpPut]
     [Route("update")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> UpdateDish([FromBody] Dish dish)
+    public async Task<IActionResult> UpdateDish([FromBody] DishDto dish)
     {
         return Ok(await _updateDishHandler.HandleUpdateDish(dish));
     }

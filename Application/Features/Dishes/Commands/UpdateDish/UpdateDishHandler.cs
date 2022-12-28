@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Repositories.Base;
+using Mapster;
 
 namespace Application.Features.Dishes.Commands.UpdateDish;
 
@@ -14,8 +14,10 @@ public class UpdateDishHandler : IUpdateDishHandler
         _dishRepository = dishRepository;
     }
 
-    public async Task<Dish> HandleUpdateDish(Dish dish)
+    public async Task<DishDto> HandleUpdateDish(DishDto dishDto)
     {
-        return await _dishRepository.Update(dish);
+        var dish = dishDto.Adapt<Dish>();
+        var updated = await _dishRepository.Update(dish);
+        return updated.Adapt<DishDto>();
     }
 }

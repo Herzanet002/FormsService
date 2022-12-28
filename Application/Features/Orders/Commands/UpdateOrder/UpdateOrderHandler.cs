@@ -1,5 +1,4 @@
-﻿using Application.Features.Dishes;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Mapster;
 
@@ -13,6 +12,7 @@ internal class UpdateOrderHandler : IUpdateOrderHandler
     {
         _ordersRepository = ordersRepository;
     }
+
     public async Task<OrderDto> HandleUpdateOrder(OrderDto orderDto)
     {
         var order = orderDto.Adapt<Order>();

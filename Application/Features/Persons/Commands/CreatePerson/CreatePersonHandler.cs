@@ -2,22 +2,21 @@
 using Domain.Interfaces.Repositories;
 using Mapster;
 
-namespace Application.Features.Persons.Commands.CreatePerson
+namespace Application.Features.Persons.Commands.CreatePerson;
+
+public class CreatePersonHandler : ICreatePersonHandler
 {
-    public class CreatePersonHandler : ICreatePersonHandler
+    private readonly IPersonRepository _personRepository;
+
+    public CreatePersonHandler(IPersonRepository personRepository)
     {
-        private readonly IPersonRepository _personRepository;
+        _personRepository = personRepository;
+    }
 
-        public CreatePersonHandler(IPersonRepository personRepository)
-        {
-            _personRepository = personRepository;
-        }
-
-        public async Task<PersonDto?> HandleCreatePerson(PersonDto personDto)
-        {
-            var personModel = personDto.Adapt<Person>();
-            var addedPerson = await _personRepository.Add(personModel);
-            return addedPerson.Adapt<PersonDto>();
-        }
+    public async Task<PersonDto?> HandleCreatePerson(PersonDto personDto)
+    {
+        var personModel = personDto.Adapt<Person>();
+        var addedPerson = await _personRepository.Add(personModel);
+        return addedPerson.Adapt<PersonDto>();
     }
 }

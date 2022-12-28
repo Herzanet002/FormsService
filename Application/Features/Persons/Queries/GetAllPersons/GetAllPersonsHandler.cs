@@ -1,19 +1,20 @@
-﻿using Domain.Entities;
-using Domain.Interfaces.Repositories;
+﻿using Domain.Interfaces.Repositories;
+using Mapster;
 
-namespace Application.Features.Persons.Queries.GetAllPersons
+namespace Application.Features.Persons.Queries.GetAllPersons;
+
+public class GetAllPersonsHandler : IGetAllPersonsHandler
 {
-    public class GetAllPersonsHandler : IGetAllPersonsHandler
-    {
-        private readonly IPersonRepository _personRepository;
+    private readonly IPersonRepository _personRepository;
 
-        public GetAllPersonsHandler(IPersonRepository personRepository)
-        {
-            _personRepository = personRepository;
-        }
-        public async Task<IEnumerable<Person>> HandleGetAllPersons()
-        {
-            return await _personRepository.GetAllWithInclude(x => x.Orders!);
-        }
+    public GetAllPersonsHandler(IPersonRepository personRepository)
+    {
+        _personRepository = personRepository;
+    }
+
+    public async Task<IEnumerable<PersonDto>> HandleGetAllPersons()
+    {
+        var persons = await _personRepository.GetAll();
+        return persons.Adapt<IEnumerable<PersonDto>>();
     }
 }

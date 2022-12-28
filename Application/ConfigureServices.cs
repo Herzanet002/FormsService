@@ -21,26 +21,23 @@ public static class ConfigureServices
     public static IServiceCollection AddCommandHandlers(this IServiceCollection services)
     {
         services
-            .AddTransient<ICreateDishHandler, CreateDishHandler>()
-            .AddTransient<IDeleteDishHandler, DeleteDishHandler>()
-            .AddTransient<IGetAllDishesHandler, GetAllDishesHandler>()
-            .AddTransient<IGetDishesByCategoriesHandler, GetDishesByCategoriesHandler>()
-            .AddTransient<IUpdateDishHandler, UpdateDishHandler>()
-
-
-            .AddTransient<ICreateOrderHandler, CreateOrderHandler>()
-            .AddTransient<IDeleteOrderHandler, DeleteOrderHandler>()
-            .AddTransient<IDeleteOrderByIdHandler, DeleteOrderByIdHandler>()
-            .AddTransient<IUpdateOrderHandler, UpdateOrderHandler>()
-            .AddTransient<IGetAllOrdersHandler, GetAllOrdersHandler>()
-            .AddTransient<IGetOrderByIdHandler, GetOrderByIdHandler>()
-
-            .AddTransient<ICreatePersonHandler, CreatePersonHandler>()
-            .AddTransient<IDeletePersonHandler, DeletePersonHandler>()
-            .AddTransient<IDeletePersonByIdHandler, DeletePersonByIdHandler>()
-            .AddTransient<IUpdatePersonHandler, UpdatePersonHandler>()
-            .AddTransient<IGetAllPersonsHandler, GetAllPersonsHandler>()
-            .AddTransient<IGetPersonByIdHandler, GetPersonByIdHandler>()
+            .AddScoped<ICreateDishHandler, CreateDishHandler>()
+            .AddScoped<IDeleteDishHandler, DeleteDishHandler>()
+            .AddScoped<IGetAllDishesHandler, GetAllDishesHandler>()
+            .AddScoped<IGetDishesByCategoriesHandler, GetDishesByCategoriesHandler>()
+            .AddScoped<IUpdateDishHandler, UpdateDishHandler>()
+            .AddScoped<ICreateOrderHandler, CreateOrderHandler>()
+            .AddScoped<IDeleteOrderHandler, DeleteOrderHandler>()
+            .AddScoped<IDeleteOrderByIdHandler, DeleteOrderByIdHandler>()
+            .AddScoped<IUpdateOrderHandler, UpdateOrderHandler>()
+            .AddScoped<IGetAllOrdersHandler, GetAllOrdersHandler>()
+            .AddScoped<IGetOrderByIdHandler, GetOrderByIdHandler>()
+            .AddScoped<ICreatePersonHandler, CreatePersonHandler>()
+            .AddScoped<IDeletePersonHandler, DeletePersonHandler>()
+            .AddScoped<IDeletePersonByIdHandler, DeletePersonByIdHandler>()
+            .AddScoped<IUpdatePersonHandler, UpdatePersonHandler>()
+            .AddScoped<IGetAllPersonsHandler, GetAllPersonsHandler>()
+            .AddScoped<IGetPersonByIdHandler, GetPersonByIdHandler>()
             ;
 
         services.RegisterMapsterConfiguration();

@@ -4,5 +4,5 @@ namespace Application.Features.Dishes.Queries.GetDishes;
 
 public interface IGetDishesByCategoriesHandler : IHandler
 {
-    Task<IEnumerable<object>> HandleGetDishesByCategoriesAsync();
+    Task<IEnumerable<DishWithCategoryDto>> HandleGetDishesByCategoriesAsync();
 }

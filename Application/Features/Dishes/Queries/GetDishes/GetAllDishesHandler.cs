@@ -1,6 +1,5 @@
-﻿using Domain.Entities;
-using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Repositories.Base;
+﻿using Domain.Interfaces.Repositories;
+using Mapster;
 
 namespace Application.Features.Dishes.Queries.GetDishes;
 
@@ -13,8 +12,9 @@ public class GetAllDishesHandler : IGetAllDishesHandler
         _dishRepository = dishRepository;
     }
 
-    public async Task<IEnumerable<Dish>> HandleGetAlldishes()
+    public async Task<IEnumerable<DishDto>> HandleGetAllDishes()
     {
-        return await _dishRepository.GetAllWithInclude(x => x.Category!);
+        var dishes = await _dishRepository.GetAll();
+        return dishes.Adapt<IEnumerable<DishDto>>();
     }
 }

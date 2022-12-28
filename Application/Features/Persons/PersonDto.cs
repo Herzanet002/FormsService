@@ -1,8 +1,7 @@
-﻿namespace Application.Features.Persons
+﻿namespace Application.Features.Persons;
+
+public record PersonDto
 {
-    public class PersonDto
-    {
-        public int Id { get; set; }
-        public string? Name { get; set; }
-    }
+    public int Id { get; set; }
+    public string? Name { get; set; }
 }

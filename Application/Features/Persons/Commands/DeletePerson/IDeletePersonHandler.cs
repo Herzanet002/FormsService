@@ -1,10 +1,8 @@
 ﻿using Application.Interfaces;
-using Domain.Entities;
 
-namespace Application.Features.Persons.Commands.DeletePerson
+namespace Application.Features.Persons.Commands.DeletePerson;
+
+public interface IDeletePersonHandler : IHandler
 {
-    public interface IDeletePersonHandler : IHandler
-    {
-        Task<PersonDto?> HandleDeletePerson(PersonDto personDto);
-    }
+    Task<PersonDto?> HandleDeletePerson(PersonDto personDto);
 }
