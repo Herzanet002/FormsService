@@ -12,9 +12,9 @@ public class GetAllDishesHandler : IGetAllDishesHandler
         _dishRepository = dishRepository;
     }
 
-    public async Task<IEnumerable<DishDto>> HandleGetAllDishes()
+    public async Task<IEnumerable<GetDishCommand>> HandleGetAllDishes()
     {
         var dishes = await _dishRepository.GetAllWithInclude(x => x.Category!);
-        return dishes.Adapt<IEnumerable<DishDto>>();
+        return dishes.Adapt<IEnumerable<GetDishCommand>>();
     }
 }

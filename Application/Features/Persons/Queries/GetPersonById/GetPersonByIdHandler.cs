@@ -12,9 +12,9 @@ public class GetPersonByIdHandler : IGetPersonByIdHandler
         _personRepository = personRepository;
     }
 
-    public async Task<PersonDto?> HandleGetPersonById(int id)
+    public async Task<GetPersonCommand?> HandleGetPersonById(int id)
     {
         var person = await _personRepository.FindById(id);
-        return person?.Adapt<PersonDto>();
+        return person?.Adapt<GetPersonCommand>();
     }
 }

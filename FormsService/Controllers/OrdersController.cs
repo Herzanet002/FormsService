@@ -1,17 +1,15 @@
-﻿using Application.Features.Dishes.Queries.GetDishes;
-using Application.Features.Orders;
+﻿using Application.Features.Orders;
 using Application.Features.Orders.Commands.CreateOrder;
 using Application.Features.Orders.Commands.DeleteOrder;
 using Application.Features.Orders.Commands.UpdateOrder;
 using Application.Features.Orders.Queries.GetOrders;
-using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FormsService.API.Controllers;
 
 [ApiController]
 [Route("/api/[controller]/")]
-public class OrderController : Controller
+public class OrdersController : Controller
 {
     private readonly ICreateOrderHandler _createOrderHandler;
     private readonly IUpdateOrderHandler _updateOrderHandler;
@@ -20,8 +18,8 @@ public class OrderController : Controller
     private readonly IGetOrderByIdHandler _getOrderByIdHandler;
     private readonly IDeleteOrderByIdHandler _deleteOrderByIdHandler;
 
-    public OrderController(ICreateOrderHandler createOrderHandler, 
-        IUpdateOrderHandler updateOrderHandler, 
+    public OrdersController(ICreateOrderHandler createOrderHandler,
+        IUpdateOrderHandler updateOrderHandler,
         IDeleteOrderHandler deleteOrderHandler,
         IGetAllOrdersHandler getAllOrdersHandler,
         IGetOrderByIdHandler getOrderByIdHandler,
@@ -35,15 +33,14 @@ public class OrderController : Controller
         _deleteOrderByIdHandler = deleteOrderByIdHandler;
     }
     [HttpPost]
-    [Route("create")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateOrder([FromBody] OrderDto order)
     {
         return Ok(await _createOrderHandler.HandleCreateOrder(order));
     }
 
     [HttpGet]
-    [Route("getAll")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     public async Task<IActionResult> GetAll()
     {
@@ -51,7 +48,7 @@ public class OrderController : Controller
     }
 
     [HttpGet]
-    [Route("getById/{id:int}")]
+    [Route("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(int id)
@@ -60,15 +57,16 @@ public class OrderController : Controller
     }
 
     [HttpPut]
-    [Route("update")]
+    [Route("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> UpdateOrder([FromBody] OrderDto order)
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateOrder(int id, [FromBody] OrderDto orderDto)
     {
-        return Ok(await _updateOrderHandler.HandleUpdateOrder(order));
+        if (id != orderDto.Id) return BadRequest();
+        return Ok(await _updateOrderHandler.HandleUpdateOrder(orderDto));
     }
 
     [HttpDelete]
-    [Route("delete")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteOrder([FromBody] OrderDto order)
     {
@@ -76,8 +74,9 @@ public class OrderController : Controller
     }
 
     [HttpDelete]
-    [Route("delete/{id:int}")]
+    [Route("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteOrderById(int id)
     {
         return Ok(await _deleteOrderByIdHandler.HandleDeleteOrderById(id));

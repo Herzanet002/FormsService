@@ -12,9 +12,9 @@ public class DeletePersonByIdHandler : IDeletePersonByIdHandler
         _personRepository = personRepository;
     }
 
-    public async Task<PersonDto?> HandleDeletePersonById(int id)
+    public async Task<DeletePersonCommand?> HandleDeletePersonById(int id)
     {
         var removed = await _personRepository.RemoveById(id);
-        return removed?.Adapt<PersonDto>();
+        return removed?.Adapt<DeletePersonCommand>();
     }
 }

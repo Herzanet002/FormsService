@@ -14,10 +14,10 @@ public class UpdateDishHandler : IUpdateDishHandler
         _dishRepository = dishRepository;
     }
 
-    public async Task<DishDto> HandleUpdateDish(DishDto dishDto)
+    public async Task<UpdateDishCommand> HandleUpdateDish(UpdateDishCommand dishDto)
     {
         var dish = dishDto.Adapt<Dish>();
         var updated = await _dishRepository.Update(dish);
-        return updated.Adapt<DishDto>();
+        return updated.Adapt<UpdateDishCommand>();
     }
 }

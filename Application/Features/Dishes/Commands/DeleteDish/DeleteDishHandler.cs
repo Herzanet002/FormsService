@@ -12,9 +12,9 @@ public class DeleteDishHandler : IDeleteDishHandler
         _dishRepository = dishRepository;
     }
 
-    public async Task<DishDto?> HandleDeleteDish(int id)
+    public async Task<DeleteDishCommand?> HandleDeleteDish(int id)
     {
         var removed = await _dishRepository.RemoveById(id);
-        return removed?.Adapt<DishDto>();
+        return removed?.Adapt<DeleteDishCommand>();
     }
 }

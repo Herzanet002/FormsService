@@ -37,7 +37,7 @@ export class AdministratePersonsComponent implements OnInit{
       this.editedPerson = null;
     } else {
       // изменяем пользователя
-      this.dataService.updatePerson(this.editedPerson as Person).subscribe(_ => {
+      this.dataService.updatePerson(this.editedPerson.id, this.editedPerson as Person).subscribe(_ => {
         this.toast.success('Данные успешно обновлены')
           this.getPersons();
       });

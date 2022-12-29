@@ -13,10 +13,10 @@ public class CreateDishHandler : ICreateDishHandler
         _dishRepository = dishRepository;
     }
 
-    public async Task<DishDto> HandleCreateDish(DishDto dishDto)
+    public async Task<CreateDishCommand> HandleCreateDish(CreateDishCommand dishDto)
     {
         var dish = dishDto.Adapt<Dish>();
         var added = await _dishRepository.Add(dish);
-        return added.Adapt<DishDto>();
+        return added.Adapt<CreateDishCommand>();
     }
 }

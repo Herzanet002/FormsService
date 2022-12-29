@@ -13,10 +13,10 @@ public class CreatePersonHandler : ICreatePersonHandler
         _personRepository = personRepository;
     }
 
-    public async Task<PersonDto?> HandleCreatePerson(PersonDto personDto)
+    public async Task<CreatePersonCommand?> HandleCreatePerson(CreatePersonCommand personDto)
     {
         var personModel = personDto.Adapt<Person>();
         var addedPerson = await _personRepository.Add(personModel);
-        return addedPerson.Adapt<PersonDto>();
+        return addedPerson.Adapt<CreatePersonCommand>();
     }
 }

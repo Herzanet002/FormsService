@@ -13,10 +13,10 @@ public class DeletePersonHandler : IDeletePersonHandler
         _personRepository = personRepository;
     }
 
-    public async Task<PersonDto?> HandleDeletePerson(PersonDto personDto)
+    public async Task<DeletePersonCommand?> HandleDeletePerson(DeletePersonCommand personDto)
     {
         var person = personDto.Adapt<Person>();
         var removed = await _personRepository.Remove(person);
-        return removed?.Adapt<PersonDto>();
+        return removed?.Adapt<DeletePersonCommand>();
     }
 }

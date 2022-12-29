@@ -10,12 +10,12 @@ import {ToastrService} from "ngx-toastr";
 })
 export class AdministrateDishesComponent implements OnInit{
   dishes: Dish[];
-  categories: string[];
+    categories: string[];
   @ViewChild('readOnlyTemplate', {static: false}) readOnlyTemplate: TemplateRef<any>|undefined;
   @ViewChild('editTemplate', {static: false}) editTemplate: TemplateRef<any>|undefined;
   editedDish: Dish|null = null;
   isNewRecord: boolean = false;
-  constructor(private dataDishesService: DataDishesService, private toast: ToastrService) {
+  constructor(private dataDishesService: DataDishesService, private toast: ToastrService) {4
     this.dishes = new Array<Dish>();
     this.categories = new Array<string>();
   }
@@ -36,7 +36,6 @@ export class AdministrateDishesComponent implements OnInit{
 
   public saveDish() {
     if (this.isNewRecord) {
-      // добавляем пользователя
       this.dataDishesService.createDish(this.editedDish as Dish).subscribe(_ => {
         this.toast.success('Данные успешно добавлены')
           this.getDishes();
@@ -44,8 +43,7 @@ export class AdministrateDishesComponent implements OnInit{
       this.isNewRecord = false;
       this.editedDish = null;
     } else {
-      // изменяем пользователя
-      this.dataDishesService.updateDish(this.editedDish as Dish).subscribe(_ => {
+      this.dataDishesService.updateDish(this.editedDish.id, this.editedDish as Dish).subscribe(_ => {
         this.toast.success('Данные успешно обновлены')
           this.getDishes();
       });
@@ -65,10 +63,9 @@ export class AdministrateDishesComponent implements OnInit{
     this.isNewRecord = true;
   }
   public editDish(dish: Dish) {
-    this.editedDish={
+    this.editedDish = {
       id: dish.id,
       name: dish.name,
-      dishCategoryName: dish.dishCategoryName,
       dishCategoryId: dish.dishCategoryId,
       dishPrice: dish.dishPrice
     }

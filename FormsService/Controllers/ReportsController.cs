@@ -8,14 +8,14 @@ namespace FormsService.API.Controllers;
 
 [ApiController]
 [Route("/api/[controller]/")]
-public class ReportController : Controller
+public class ReportsController : Controller
 {
     private readonly IDishOrderRepository _dishOrderRepository;
     private readonly IOrderRepository _ordersRepository;
     private readonly IPersonRepository _personsRepository;
     private readonly IServiceProvider _serviceProvider;
 
-    public ReportController(IOrderRepository ordersRepository,
+    public ReportsController(IOrderRepository ordersRepository,
         IDishOrderRepository dishOrderRepository,
         IPersonRepository personsRepository,
         IServiceProvider serviceProvider)

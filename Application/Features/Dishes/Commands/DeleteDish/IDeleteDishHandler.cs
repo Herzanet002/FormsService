@@ -4,5 +4,5 @@ namespace Application.Features.Dishes.Commands.DeleteDish;
 
 public interface IDeleteDishHandler : IHandler
 {
-    Task<DishDto?> HandleDeleteDish(int id);
+    Task<DeleteDishCommand?> HandleDeleteDish(int id);
 }

@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Application.Features.Dishes;
+using Application.Features.Dishes.Queries;
 using Application.Features.Orders;
 using Domain.Entities;
 using Mapster;
@@ -15,7 +16,7 @@ public static class MapsterConfiguration
             .NewConfig()
             .Map(dest => dest.PersonId, src => src.Person.Id);
 
-        TypeAdapterConfig<Dish, DishDto>
+        TypeAdapterConfig<Dish, GetDishCommand>
             .NewConfig()
             .Map(dest => dest.DishCategoryName, src => src.Category!.Name);
 

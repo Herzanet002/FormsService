@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Features.Persons.Queries;
+using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Mapster;
 
@@ -13,10 +14,10 @@ public class UpdatePersonHandler : IUpdatePersonHandler
         _personRepository = personRepository;
     }
 
-    public async Task<PersonDto?> HandleUpdatePerson(PersonDto personDto)
+    public async Task<GetPersonCommand?> HandleUpdatePerson(GetPersonCommand personDto)
     {
         var person = personDto.Adapt<Person>();
         var updated = await _personRepository.Update(person);
-        return updated.Adapt<PersonDto>();
+        return updated.Adapt<GetPersonCommand>();
     }
 }

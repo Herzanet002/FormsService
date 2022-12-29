@@ -12,9 +12,9 @@ public class GetAllPersonsHandler : IGetAllPersonsHandler
         _personRepository = personRepository;
     }
 
-    public async Task<IEnumerable<PersonDto>> HandleGetAllPersons()
+    public async Task<IEnumerable<GetPersonCommand>> HandleGetAllPersons()
     {
         var persons = await _personRepository.GetAll();
-        return persons.Adapt<IEnumerable<PersonDto>>();
+        return persons.Adapt<IEnumerable<GetPersonCommand>>();
     }
 }

@@ -4,5 +4,5 @@ namespace Application.Features.Persons.Commands.DeletePerson;
 
 public interface IDeletePersonHandler : IHandler
 {
-    Task<PersonDto?> HandleDeletePerson(PersonDto personDto);
+    Task<DeletePersonCommand?> HandleDeletePerson(DeletePersonCommand personDto);
 }

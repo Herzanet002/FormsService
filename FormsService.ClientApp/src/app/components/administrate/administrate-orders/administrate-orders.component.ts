@@ -27,7 +27,7 @@ export class AdministrateOrdersComponent implements OnInit{
     return this.editedOrder && this.editedOrder.id === order.id? this.editTemplate: this.readOnlyTemplate;
   }
   saveOrder() {
-      this.dataOrdersService.updateOrder(this.editedOrder as Order).subscribe(_ => {
+      this.dataOrdersService.updateOrder(this.editedOrder.id, this.editedOrder as Order).subscribe(_ => {
         this.toast.success('Данные успешно обновлены')
           this.getOrders();
       });

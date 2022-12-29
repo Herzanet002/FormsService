@@ -1,4 +1,5 @@
-﻿using Application.Features.Dishes.Commands.CreateDish;
+﻿using Application.Features.Categories.Queries.GetCategories;
+using Application.Features.Dishes.Commands.CreateDish;
 using Application.Features.Dishes.Commands.DeleteDish;
 using Application.Features.Dishes.Commands.UpdateDish;
 using Application.Features.Dishes.Queries.GetDishes;
@@ -26,6 +27,7 @@ public static class ConfigureServices
             .AddScoped<IGetAllDishesHandler, GetAllDishesHandler>()
             .AddScoped<IGetDishesByCategoriesHandler, GetDishesByCategoriesHandler>()
             .AddScoped<IUpdateDishHandler, UpdateDishHandler>()
+            .AddScoped<IGetDishByIdHandler, GetDishByIdHandler>()
             .AddScoped<ICreateOrderHandler, CreateOrderHandler>()
             .AddScoped<IDeleteOrderHandler, DeleteOrderHandler>()
             .AddScoped<IDeleteOrderByIdHandler, DeleteOrderByIdHandler>()
@@ -38,6 +40,7 @@ public static class ConfigureServices
             .AddScoped<IUpdatePersonHandler, UpdatePersonHandler>()
             .AddScoped<IGetAllPersonsHandler, GetAllPersonsHandler>()
             .AddScoped<IGetPersonByIdHandler, GetPersonByIdHandler>()
+            .AddScoped<IGetAllCategoriesHandler, GetAllCategoriesHandler>()
             ;
 
         services.RegisterMapsterConfiguration();

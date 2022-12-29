@@ -1,7 +1,7 @@
-﻿using Application.Features.Persons;
-using Application.Features.Persons.Commands.CreatePerson;
+﻿using Application.Features.Persons.Commands.CreatePerson;
 using Application.Features.Persons.Commands.DeletePerson;
 using Application.Features.Persons.Commands.UpdatePerson;
+using Application.Features.Persons.Queries;
 using Application.Features.Persons.Queries.GetAllPersons;
 using Application.Features.Persons.Queries.GetPersonById;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FormsService.API.Controllers;
 [ApiController]
 [Route("/api/[controller]/")]
-public class PersonController : Controller
+public class PersonsController : Controller
 {
     private readonly ICreatePersonHandler _createPersonHandler;
     private readonly IUpdatePersonHandler _updatePersonHandler;
@@ -18,7 +18,7 @@ public class PersonController : Controller
     private readonly IGetPersonByIdHandler _getPersonByIdHandler;
     private readonly IDeletePersonByIdHandler _deletePersonByIdHandler;
 
-    public PersonController(ICreatePersonHandler createPersonHandler,
+    public PersonsController(ICreatePersonHandler createPersonHandler,
         IUpdatePersonHandler updatePersonHandler,
         IDeletePersonHandler deletePersonHandler,
         IGetAllPersonsHandler getAllPersonsHandler,
@@ -34,7 +34,6 @@ public class PersonController : Controller
     }
 
     [HttpGet]
-    [Route("getAll")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     public async Task<IActionResult> GetAll()
     {
@@ -42,7 +41,7 @@ public class PersonController : Controller
     }
 
     [HttpGet]
-    [Route("getById/{id:int}")]
+    [Route("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(int id)
@@ -51,25 +50,29 @@ public class PersonController : Controller
     }
 
     [HttpPost]
-    [Route("create")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreatePerson([FromBody] PersonDto person)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreatePerson([FromBody] CreatePersonCommand person)
     {
         return Ok(await _createPersonHandler.HandleCreatePerson(person));
     }
 
     [HttpPut]
-    [Route("update")]
+    [Route("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> UpdatePerson([FromBody] PersonDto person)
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdatePerson(int id, [FromBody] GetPersonCommand personDto)
     {
-        var updatedPerson = await _updatePersonHandler.HandleUpdatePerson(person);
+        if (id != personDto.Id) return BadRequest();
+
+        var updatedPerson = await _updatePersonHandler.HandleUpdatePerson(personDto);
         return Ok(updatedPerson);
     }
 
     [HttpDelete]
-    [Route("delete/{id:int}")]
+    [Route("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeletePersonById(int id)
     {
         var deletedPerson = await _deletePersonByIdHandler.HandleDeletePersonById(id);
@@ -77,9 +80,9 @@ public class PersonController : Controller
     }
 
     [HttpDelete]
-    [Route("delete")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> DeletePerson([FromBody] PersonDto person)
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeletePerson([FromBody] DeletePersonCommand person)
     {
         var deletedPerson = await _deletePersonHandler.HandleDeletePerson(person);
         return Ok(deletedPerson);

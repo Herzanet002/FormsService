@@ -3,40 +3,41 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {CategoryResponse} from "../models/CategoryResponse";
 import {Dish} from "../models/Dish";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataDishesService {
-  private readonly port = "https://localhost:7234/api/"
+  private readonly baseUrl = environment.baseUrl + "api/";
   constructor(private httpClient: HttpClient) { }
 
   public getDishesByCategory(): Observable<CategoryResponse[]> {
-    let route = "Dish/getByCategories/";
-    return this.httpClient.get<CategoryResponse[]>(this.port + route);
+    let route = "Dishes/getByCategories/";
+    return this.httpClient.get<CategoryResponse[]>(this.baseUrl + route);
   }
 
   public getDishes(): Observable<Dish[]> {
-    let route = "Dish/getAll/";
-    return this.httpClient.get<Dish[]>(this.port + route);
+    let route = "Dishes/";
+    return this.httpClient.get<Dish[]>(this.baseUrl + route);
   }
 
   public deleteDish(id: number){
-    let route = "Dish/delete/";
-    return this.httpClient.delete<Dish>(this.port + route + id);
+    let route = "Dishes/";
+    return this.httpClient.delete<Dish>(this.baseUrl + route + id);
   }
 
-  public updateDish(dish: Dish){
-    let route = "Dish/update/";
+  public updateDish(id:number, dish: Dish){
+    let route = "Dishes/";
     const headers = new HttpHeaders().set("Content-Type", "application/json");
     console.log(JSON.stringify(dish));
-    return this.httpClient.put<Dish>(this.port + route, JSON.stringify(dish), {headers: headers});
+    return this.httpClient.put<Dish>(this.baseUrl + route + id, JSON.stringify(dish), {headers: headers});
   }
 
   public createDish(dish: Dish) {
-    let route = "Dish/create/";
+    let route = "Dishes";
     const headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.httpClient.post<Dish>(this.port + route, JSON.stringify(dish), {headers: headers});
+    return this.httpClient.post<Dish>(this.baseUrl + route, JSON.stringify(dish), {headers: headers});
 
   }
 }

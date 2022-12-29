@@ -4,5 +4,5 @@ export interface Dish extends NamedEntity {
   id: number,
   dishPrice: number
   dishCategoryId: number
-  dishCategoryName: string
+  dishCategoryName?: string
 }
