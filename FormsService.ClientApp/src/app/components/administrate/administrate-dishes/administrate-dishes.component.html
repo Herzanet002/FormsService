@@ -64,8 +64,8 @@
         m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
   </td>
   <td>
-    <select class="selector" [(ngModel)]="editedDish.dishCategoryName">
-      <option *ngFor="let category of categories" [ngValue]="category">{{category}}</option>
+    <select class="selector" [(ngModel)]="editedDish.dishCategoryId">
+      <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
     </select>
   </td>
   <td>

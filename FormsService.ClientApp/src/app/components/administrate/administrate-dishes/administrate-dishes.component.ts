@@ -2,6 +2,8 @@ import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { Dish } from 'src/app/models/Dish';
 import {DataDishesService} from "../../../services/data-dishes.service";
 import {ToastrService} from "ngx-toastr";
+import {DishCategory} from "../../../models/DishCategory";
+import {DataCategoriesService} from "../../../services/data-categories.service";
 
 @Component({
   selector: 'app-administrate-dishes',
@@ -10,23 +12,25 @@ import {ToastrService} from "ngx-toastr";
 })
 export class AdministrateDishesComponent implements OnInit{
   dishes: Dish[];
-    categories: string[];
+  categories: DishCategory[];
   @ViewChild('readOnlyTemplate', {static: false}) readOnlyTemplate: TemplateRef<any>|undefined;
   @ViewChild('editTemplate', {static: false}) editTemplate: TemplateRef<any>|undefined;
   editedDish: Dish|null = null;
   isNewRecord: boolean = false;
-  constructor(private dataDishesService: DataDishesService, private toast: ToastrService) {4
+  constructor(private dataDishesService: DataDishesService, private toast: ToastrService, private dataCategoriesService: DataCategoriesService) {
     this.dishes = new Array<Dish>();
-    this.categories = new Array<string>();
+    this.categories = new Array<DishCategory>();
   }
 
   private getDishes(){
     this.dataDishesService.getDishes().subscribe((data:Dish[]) => {
       this.dishes = data;
-      this.dishes.forEach((x) => {
-        if(!this.categories.find(el => el === x.dishCategoryName))
-        this.categories.push(x.dishCategoryName);
-      });
+    });
+  }
+
+  private getCategories(){
+    this.dataCategoriesService.getCategories().subscribe((data:DishCategory[])=>{
+      this.categories = data;
     });
   }
 
@@ -56,7 +60,6 @@ export class AdministrateDishesComponent implements OnInit{
       id:0,
       name:"",
       dishCategoryId:0,
-      dishCategoryName:"",
       dishPrice : 0
     };
     this.dishes.push(this.editedDish);
@@ -79,7 +82,6 @@ export class AdministrateDishesComponent implements OnInit{
     });
   }
   cancel() {
-    // если отмена при добавлении, удаляем последнюю запись
     if (this.isNewRecord) {
       this.dishes.pop();
       this.isNewRecord = false;
@@ -87,6 +89,7 @@ export class AdministrateDishesComponent implements OnInit{
     this.editedDish = null;
   }
   ngOnInit(): void {
+    this.getCategories();
     this.getDishes();
   }
 }
