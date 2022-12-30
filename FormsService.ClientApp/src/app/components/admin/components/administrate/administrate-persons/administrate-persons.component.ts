@@ -1,6 +1,6 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {Person} from "../../../models/Person";
-import {DataPersonsService} from "../../../services/data-persons.service";
+import {Person} from "../../../../../models/Person";
+import {DataPersonsService} from "../../../../../services/data-persons.service";
 import {ToastrService} from "ngx-toastr";
 
 @Component({

@@ -1,6 +1,6 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {Order} from "../../../models/Order";
-import {DataOrdersService} from "../../../services/data-orders.service";
+import {Order} from "../../../../../models/Order";
+import {DataOrdersService} from "../../../../../services/data-orders.service";
 import {ToastrService} from "ngx-toastr";
 
 @Component({

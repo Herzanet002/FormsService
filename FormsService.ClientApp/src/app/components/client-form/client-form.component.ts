@@ -12,7 +12,7 @@ import {DataDishesService} from "../../services/data-dishes.service";
   styleUrls: ['./client-form.component.css']
 })
 export class ClientFormComponent implements OnInit{
-  dates = '06.12-12.12'
+  dates = '26.12-30.12'
   constructor(private dataPersonsService: DataPersonsService,
               private dataDishesService: DataDishesService,
               private formBuilder: FormBuilder) {

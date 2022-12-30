@@ -1,9 +1,9 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { Dish } from 'src/app/models/Dish';
-import {DataDishesService} from "../../../services/data-dishes.service";
+import {DataDishesService} from "../../../../../services/data-dishes.service";
 import {ToastrService} from "ngx-toastr";
-import {DishCategory} from "../../../models/DishCategory";
-import {DataCategoriesService} from "../../../services/data-categories.service";
+import {DishCategory} from "../../../../../models/DishCategory";
+import {DataCategoriesService} from "../../../../../services/data-categories.service";
 
 @Component({
   selector: 'app-administrate-dishes',

@@ -1,10 +1,9 @@
-<div class="relative bg-white mb-10">
+<div class="relative bg-white">
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
     <div class="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
       <div class="flex justify-start lg:w-0 lg:flex-1">
-        <a routerLink="/client-form" class="flex items-center">
-          <img class="mr-3 h-6 sm:h-9" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">
-          <span class="self-center text-xl whitespace-nowrap dark:text-white">Forms Service</span>
+        <a href="#">
+          <img class="h-8 w-auto sm:h-10" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">
         </a>
       </div>
       <div class="-my-2 -mr-2 md:hidden">
@@ -15,15 +14,18 @@
         </button>
       </div>
       <nav class="hidden space-x-10 md:flex">
+        <a routerLink="./dishes" class="text-base font-medium text-gray-500 hover:text-gray-900">Блюда</a>
+        <a routerLink="./orders" class="text-base font-medium text-gray-500 hover:text-gray-900">Заказы</a>
+        <a routerLink="./persons" class="text-base font-medium text-gray-500 hover:text-gray-900">Сотрудники</a>
         <div class="relative">
           <div class="absolute left-1/2 z-10 mt-3 w-screen max-w-md -translate-x-1/2 transform px-2 sm:px-0">
           </div>
         </div>
-        <div class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
-          <a routerLink="/admin-form" class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent
-         px-4 py-2 text-base font-medium hover:bg-gray-200 text-indigo-800 text-">Admin's</a>
-        </div>
       </nav>
+      <div class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
+        <a href="#" class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent
+        bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Выход</a>
+      </div>
     </div>
   </div>
 </div>
