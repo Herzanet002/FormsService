@@ -6,13 +6,18 @@ import {AdministrateOrdersComponent} from "./components/administrate/administrat
 import {
   AdministratePersonsComponent
 } from "./components/administrate/administrate-persons/administrate-persons.component";
+import {
+  AdministrateDashboardComponent
+} from "./components/administrate/administrate-dashboard/administrate-dashboard.component";
 
 const routes: Routes = [
   {path:'', component: AdminFormComponent,
     children:[
+      {path: "dashboard", component:AdministrateDashboardComponent},
       {path: "dishes", component: AdministrateDishesComponent},
       {path: "orders", component: AdministrateOrdersComponent},
       {path: "persons", component: AdministratePersonsComponent},
+      {path:"", component:AdministrateDashboardComponent}
     ]
   }
 ];

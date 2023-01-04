@@ -1,8 +1,8 @@
 <app-header></app-header>
 <div class="flex justify-center">
-<div class="block p-12 rounded-lg shadow-lg bg-white w-7/12">
+<div class="block p-10 rounded-lg shadow-lg bg-white md:w-7/12">
   <div class="text-center bg-slate-100 text-gray-600 py-10 rounded-lg">
-    <h1 class="text-4xl font-bold mt-0">Заказ обеда {{dates}}</h1>
+    <h1 class="text-4xl font-bold mt-0 p-5">Заказ обеда {{dates}}</h1>
   </div>
 
   <form [formGroup]="clientForm" (ngSubmit)="onSubmitForm(clientForm)">
@@ -10,25 +10,29 @@
       <div class="mb-6" *ngIf="personsSource.length != 0">
         <label class="form-label inline-block mb-2 text-gray-700 required">Сотрудник</label>
         <select class="selector form-select" required  formControlName="person">
-          <option value="" disabled selected>--</option>
+          <option value="" disabled selected>---</option>
           <option *ngFor="let item of personsSource" [ngValue]="item">{{item.name}}</option>
         </select>
       </div>
 
       <div class="mb-6">
         <label class="form-label inline-block mb-2 text-gray-700 required">Где обедаю</label>
-        <select class="selector form-select" required  formControlName="location">
-          <option value="" disabled selected>--</option>
-<!--          <option *ngFor="let item of locationsSource" [ngValue]="item">{{item}}</option>-->
+        <select class="selector form-select" required formControlName="location">
+          <option value="" disabled selected>---</option>
+          <option *ngFor="let location of locationsSource" [ngValue]="location.id">{{location.name}}</option>
         </select>
       </div>
-      <div class="mb-6" *ngFor="let category of dishesSource; let idx=index">
-        <label class="form-label inline-block mb-2 text-gray-700">{{category.categoryTitle}}</label>
-        <select class="selector form-select" required formControlName="dish{{idx+1}}">
-          <option value="" disabled selected>--</option>
-          <option *ngFor="let item of category.dishes" [ngValue]="item">{{item.name}}</option>
-        </select>
-      </div>
+      <div formArrayName="dishes">
+        <div class="mb-6" *ngFor="let group of dishes.controls; let idx=index">
+          <div [formGroupName]="idx">
+            <label class="form-label inline-block mb-2 text-gray-700">{{dishesSource[idx].categoryTitle}}</label>
+            <select class="selector form-select" formControlName="id">
+              <option value="" disabled selected>---</option>
+              <option *ngFor="let item of dishesSource[idx].dishes" [ngValue]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+          </div>
+        </div>
     </div>
 
     <div class="flex space-x-2 justify-center">
@@ -39,6 +43,6 @@
     </div>
   </form>
   <br>
-<!--  <pre>{{clientForm.value | json }}</pre>-->
+  <pre>{{clientForm.value | json }}</pre>
 </div>
 </div>

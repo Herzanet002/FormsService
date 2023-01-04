@@ -5,7 +5,6 @@
       <button class="btn-primary col-start-4" (click)="addDish()">Добавить блюдо</button>
     </div>
 
-
     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
       <div class="overflow-hidden">
         <table class="min-w-full">
@@ -44,12 +43,16 @@
     <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{dish.name}}</td>
     <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{dish.dishCategoryName}}</td>
     <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{dish.dishPrice}}</td>
-    <td>
-      <input type="button" value="Изменить" class="btn-info-outline" (click)="editDish(dish)">
-    </td>
-    <td>
-      <input type="button" value="Удалить" class="btn-danger-outline" (click)="deleteDish(dish)">
-    </td>
+  <td>
+    <button title="Редактировать" (click)="editDish(dish)" class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+    </button>
+  </td>
+  <td>
+    <button title="Удалить" (click)="deleteDish(dish)" class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </button>
+  </td>
 
 </ng-template>
 
@@ -75,10 +78,14 @@
      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
   </td>
   <td>
-    <button type="button" class="btn-success" (click)="saveDish()">Сохранить</button>
+    <button title="Сохранить" (click)="saveDish()" class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    </button>
   </td>
   <td>
-    <button type="button" class="btn-warning" (click)="cancel()">Отмена</button>
+    <button title="Отмена" (click)="cancel()" class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-yellow-500 bg-yellow-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+    </button>
   </td>
 
 </ng-template>

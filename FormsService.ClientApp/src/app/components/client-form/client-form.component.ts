@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Person} from "../../models/Person";
 import {CategoryResponse} from "../../models/CategoryResponse";
 import {Location} from "../../models/Location";
@@ -11,16 +11,23 @@ import {DataDishesService} from "../../services/data-dishes.service";
   templateUrl: './client-form.component.html',
   styleUrls: ['./client-form.component.css']
 })
-export class ClientFormComponent implements OnInit{
-  dates = '26.12-30.12'
+export class ClientFormComponent implements OnInit, OnChanges {
   constructor(private dataPersonsService: DataPersonsService,
               private dataDishesService: DataDishesService,
               private formBuilder: FormBuilder) {
   }
+  dates = '26.12-30.12'
   clientForm: FormGroup
   personsSource: Array<Person> = [];
   dishesSource: CategoryResponse[] = [];
-  // locationsSource = Location;
+  locationsSource = [
+    {id : 0, name : "В кафе"},
+    {id : 1, name : "Возьму с собой"}
+  ];
+  ngOnChanges(changes: SimpleChanges): void {
+
+  }
+
   public onSubmitForm(form: FormGroup){
     console.log(form);
   }
@@ -30,12 +37,21 @@ export class ClientFormComponent implements OnInit{
       {
         person: ['', [Validators.required]],
         location:['',[Validators.required]],
+        dishes: this.formBuilder.array([])
       });
   }
 
+  get dishes() : FormArray {
+    return <FormArray>this.clientForm.controls["dishes"];
+  }
+
+
   private addDishControls(source: CategoryResponse[]){
     for(let i = 0; i<source.length; i++){
-      this.clientForm.addControl(`dish${i+1}`, new FormControl(''));
+      const dishGroup = this.formBuilder.group({
+        id: [''],
+      });
+      this.dishes.push(dishGroup);
     }
   }
   ngOnInit(): void {

@@ -7,5 +7,6 @@ public class ClientSettings
     public string? Password { get; set; }
     public int Port { get; set; }
     public bool Ssl { get; set; }
+    public bool IsActive { get; set; }
     public int EmailReadInterval { get; set; }
 }

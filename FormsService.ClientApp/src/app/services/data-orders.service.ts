@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { Order } from '../models/Order';
 import {environment} from "../../environments/environment";
+import {DatesRange} from "../models/DatesRange";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,10 @@ export class DataOrdersService {
     return this.httpClient.put<Order>(this.baseUrl + route + id, JSON.stringify(order), {headers: myHeaders});
   }
 
+  public getDatesRange(){
+    let route = "Orders/get-dates";
+    return this.httpClient.get<DatesRange>(this.baseUrl + route);
+  }
   public createOrder(order: Order) {
     let route = "Orders/";
     const headers = new HttpHeaders().set("Content-Type", "application/json");

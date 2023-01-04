@@ -1,29 +1,31 @@
-<div class="relative bg-white mb-10">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6">
-    <div class="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 mb-10">
+    <div class="container flex flex-wrap items-center justify-between border-b-2 border-gray-100 py-6">
       <div class="flex justify-start lg:w-0 lg:flex-1">
-        <a routerLink="/client-form" class="flex items-center">
+        <a routerLink="/client-form" class="flex">
           <img class="mr-3 h-6 sm:h-9" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">
           <span class="self-center text-xl whitespace-nowrap dark:text-white">Forms Service</span>
         </a>
       </div>
-      <div class="-my-2 -mr-2 md:hidden">
-        <button type="button" class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-expanded="false">
-          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-        </button>
-      </div>
-      <nav class="hidden space-x-10 md:flex">
-        <div class="relative">
-          <div class="absolute left-1/2 z-10 mt-3 w-screen max-w-md -translate-x-1/2 transform px-2 sm:px-0">
+
+      <nav class="space-x-10 md:flex">
+        <div class="container flex flex-wrap items-center justify-between mx-auto">
+          <button type="button" data-dropdown-toggle="navbar-hamburger" class="inline-flex items-center p-2 ml-3 text-gray-500 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+          </button>
+          <!-- Dropdown -->
+          <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700" id="navbar-hamburger">
+            <ul class="py-2">
+              <li>
+                <a routerLink="/admin-form" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
+                  <div class="inline-flex items-center">
+                    Панель администратора
+                  </div>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
-        <div class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
-          <a routerLink="/admin-form" class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent
-         px-4 py-2 text-base font-medium hover:bg-gray-200 text-indigo-800 text-">Admin's</a>
-        </div>
+
       </nav>
     </div>
   </div>
-</div>

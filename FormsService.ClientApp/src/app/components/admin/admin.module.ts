@@ -8,8 +8,9 @@ import {
   AdministratePersonsComponent
 } from "./components/administrate/administrate-persons/administrate-persons.component";
 import {AdminFormComponent} from "./components/admin-form/admin-form.component";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AdminHeaderComponent } from './components/admin-header/admin-header.component';
+import { AdministrateDashboardComponent } from './components/administrate/administrate-dashboard/administrate-dashboard.component';
 
 
 @NgModule({
@@ -18,13 +19,15 @@ import { AdminHeaderComponent } from './components/admin-header/admin-header.com
     AdministrateOrdersComponent,
     AdministratePersonsComponent,
     AdminFormComponent,
-    AdminHeaderComponent
+    AdminHeaderComponent,
+    AdministrateDashboardComponent
   ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    FormsModule,
+    imports: [
+        CommonModule,
+        AdminRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
 
-  ]
+    ]
 })
 export class AdminModule { }

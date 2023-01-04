@@ -8,7 +8,7 @@ public interface IImapClient
 {
     void InitializeClient(ClientSettings clientSettings, FormsConfiguration formsConfiguration);
 
-    Task<List<MessageModel>> ReceiveItem();
+    Task<List<MessageModel>> ReceiveItemsAsync();
 
     Task MarkItemAsProcessed(UniqueId uid);
 }

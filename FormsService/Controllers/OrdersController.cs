@@ -47,7 +47,18 @@ public class OrdersController : Controller
         return Ok(await _getAllOrdersHandler.HandleGetAllOrders());
     }
 
-    [HttpGet]
+    [HttpGet("get-dates")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public IActionResult GetDates()
+    {
+	    return Ok(new DateRange
+	    {
+            startDate = DateOnly.FromDateTime(DateTime.Now),
+            endDate = DateOnly.FromDateTime(DateTime.Now.AddDays(5))
+	    });
+    }
+
+	[HttpGet]
     [Route("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -80,6 +91,12 @@ public class OrdersController : Controller
     public async Task<IActionResult> DeleteOrderById(int id)
     {
         return Ok(await _deleteOrderByIdHandler.HandleDeleteOrderById(id));
+    }
+
+    internal class DateRange
+    {
+	    public DateOnly startDate { get; set; }
+	    public DateOnly endDate { get; set; }
     }
 
 }
