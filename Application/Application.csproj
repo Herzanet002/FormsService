@@ -18,6 +18,7 @@
 
 	<ItemGroup>
 		<Folder Include="Features\Categories\Commands\CreateCategory\" />
+		<Folder Include="Features\Reports\" />
 	</ItemGroup>
 
 	<ItemGroup>

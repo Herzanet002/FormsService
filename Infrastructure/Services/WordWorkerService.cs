@@ -1,13 +1,20 @@
-﻿using Domain.Entities;
+﻿using Application.Interfaces.Services;
+using Domain.Entities;
 using Domain.Enums;
-using FormsService.API.Services.Interfaces;
 using TemplateEngine.Docx;
 
-namespace FormsService.API.Services;
+namespace Infrastructure.Services;
 
 public class WordWorkerServiceService<T> : IWordWorkerService<T> where T : Order
 {
-    public Content CreateReport(IEnumerable<T> orders, DateOnly reportDate, string outputPath)
+    private Content _valuesToFill;
+
+    public WordWorkerServiceService()
+    {
+        _valuesToFill = new Content();
+    }
+
+    public IWordWorkerService<T> CreateReport(IEnumerable<T> orders, DateOnly reportDate)
     {
         var tableContent = new TableContent("OrdersTable");
 
@@ -23,17 +30,16 @@ public class WordWorkerServiceService<T> : IWordWorkerService<T> where T : Order
             currentOrderNumber++;
         }
 
-        var valuesToFill = new Content(tableContent);
-        valuesToFill.Fields.Add(new FieldContent("ReportDate", reportDate.ToShortDateString()));
-        return valuesToFill;
+        _valuesToFill = new Content(tableContent);
+        _valuesToFill.Fields.Add(new FieldContent("ReportDate", reportDate.ToShortDateString()));
+        return this;
     }
 
-    public TemplateProcessor SaveCreatedReport(Content valuesToFill, string outputPath)
+    public void SaveReport(string outputPath)
     {
         using var outputDocument = new TemplateProcessor(outputPath)
             .SetRemoveContentControls(true);
-        outputDocument.FillContent(valuesToFill);
+        outputDocument.FillContent(_valuesToFill);
         outputDocument.SaveChanges();
-        return outputDocument;
     }
 }
