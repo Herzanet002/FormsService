@@ -1,4 +1,4 @@
-﻿namespace MailService.Configurations;
+﻿namespace Application.Common.Configurations;
 
 public class FormsConfiguration
 {

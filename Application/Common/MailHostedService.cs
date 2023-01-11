@@ -1,11 +1,12 @@
-﻿using MailService.Configurations;
-using MailService.Services.Interfaces;
+﻿using Application.Common.Configurations;
+using Application.Interfaces.Services;
+using MailService.Configurations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace MailService.Services.Hosted;
+namespace Application.Common;
 
 public class MailHostedService : BackgroundService
 {

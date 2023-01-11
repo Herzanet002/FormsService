@@ -1,8 +1,9 @@
-﻿using MailKit;
+﻿using Application.Common.Configurations;
+using MailKit;
 using MailService.Configurations;
 using MailService.Models;
 
-namespace MailService.Services.Interfaces;
+namespace Application.Interfaces.Services;
 
 public interface IImapClient
 {

@@ -7,11 +7,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Common\**" />
 	  <Compile Remove="Features\Reports\**" />
-	  <EmbeddedResource Remove="Common\**" />
 	  <EmbeddedResource Remove="Features\Reports\**" />
-	  <None Remove="Common\**" />
 	  <None Remove="Features\Reports\**" />
 	</ItemGroup>
 
@@ -24,9 +21,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="MailKit" Version="3.4.3" />
 		<PackageReference Include="Mapster.Core" Version="1.2.0" />
 		<PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
 		<PackageReference Include="Mapster.EFCore" Version="5.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
 	</ItemGroup>
 
 </Project>
