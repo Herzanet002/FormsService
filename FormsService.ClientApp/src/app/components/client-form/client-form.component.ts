@@ -16,7 +16,6 @@ export class ClientFormComponent implements OnInit, OnChanges {
               private dataDishesService: DataDishesService,
               private formBuilder: FormBuilder) {
   }
-  dates = '26.12-30.12'
   clientForm: FormGroup
   personsSource: Array<Person> = [];
   dishesSource: CategoryResponse[] = [];

@@ -3,6 +3,7 @@
     <div class="grid grid-cols-4">
       <h1 class="text-3xl font-bold mt-0 mb-6 text-center col-span-3">Редактирование блюд</h1>
       <button class="btn-primary col-start-4" (click)="addDish()">Добавить блюдо</button>
+      <input #searchInput type="text" placeholder="Поиск блюд" (input)="filterItem(searchInput.value)"  class="col-span-4 bg-gray-50 m-5 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
     </div>
 
     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -25,7 +26,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" *ngFor="let dish of dishes">
+          <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" *ngFor="let dish of filteredItems">
             <ng-template [ngTemplateOutlet]="loadTemplate(dish)"
                          [ngTemplateOutletContext]="{ $implicit: dish}">
             </ng-template>

@@ -1,4 +1,4 @@
-﻿namespace Application.Features.Categories.Queries
+﻿namespace Application.Features.Categories.Queries.GetCategories
 {
     public record GetCategoryCommand
     {

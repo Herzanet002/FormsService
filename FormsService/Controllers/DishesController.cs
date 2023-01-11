@@ -2,13 +2,11 @@
 using Application.Features.Dishes.Commands.DeleteDish;
 using Application.Features.Dishes.Commands.UpdateDish;
 using Application.Features.Dishes.Queries.GetDishes;
+using FormsService.API.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FormsService.API.Controllers;
-
-[ApiController]
-[Route("/api/[controller]/")]
-public class DishesController : Controller
+public class DishesController : ApiControllerBase
 {
     private readonly ICreateDishHandler _createDishHandler;
     private readonly IDeleteDishHandler _deleteDishHandler;

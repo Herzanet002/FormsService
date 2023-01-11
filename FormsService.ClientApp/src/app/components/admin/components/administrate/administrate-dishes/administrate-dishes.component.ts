@@ -12,6 +12,7 @@ import {DataCategoriesService} from "../../../../../services/data-categories.ser
 })
 export class AdministrateDishesComponent implements OnInit{
   dishes: Dish[];
+  filteredItems: Dish[];
   categories: DishCategory[];
   @ViewChild('readOnlyTemplate', {static: false}) readOnlyTemplate: TemplateRef<any>|undefined;
   @ViewChild('editTemplate', {static: false}) editTemplate: TemplateRef<any>|undefined;
@@ -22,12 +23,24 @@ export class AdministrateDishesComponent implements OnInit{
     this.categories = new Array<DishCategory>();
   }
 
+  private assignCopy(){
+    this.filteredItems = Object.assign([], this.dishes);
+  }
   private getDishes(){
     this.dataDishesService.getDishes().subscribe((data:Dish[]) => {
       this.dishes = data;
+      this.assignCopy();
     });
   }
 
+  public filterItem(value){
+    if(!value){
+      this.assignCopy();
+    } // when nothing has typed
+    this.filteredItems = Object.assign([], this.dishes).filter(
+      item => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1
+    )
+  }
   private getCategories(){
     this.dataCategoriesService.getCategories().subscribe((data:DishCategory[])=>{
       this.categories = data;
@@ -81,7 +94,7 @@ export class AdministrateDishesComponent implements OnInit{
         this.getDishes();
     });
   }
-  cancel() {
+  public cancel() {
     if (this.isNewRecord) {
       this.dishes.pop();
       this.isNewRecord = false;

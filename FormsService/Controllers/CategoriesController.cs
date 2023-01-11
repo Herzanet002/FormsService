@@ -1,25 +1,23 @@
 ﻿using Application.Features.Categories.Queries.GetCategories;
+using FormsService.API.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FormsService.API.Controllers
+namespace FormsService.API.Controllers;
+
+public class CategoriesController : ApiControllerBase
 {
-    [ApiController]
-    [Route("/api/[controller]/")]
-    public class CategoriesController : Controller
+    private readonly IGetAllCategoriesHandler _getAllCategoriesHandler;
+
+    public CategoriesController(IGetAllCategoriesHandler getAllCategoriesHandler)
     {
-        private readonly IGetAllCategoriesHandler _getAllCategoriesHandler;
+        _getAllCategoriesHandler = getAllCategoriesHandler;
+    }
 
-        public CategoriesController(IGetAllCategoriesHandler getAllCategoriesHandler)
-        {
-            _getAllCategoriesHandler = getAllCategoriesHandler;
-        }
-
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
-        public async Task<IActionResult> GetAllCategories()
-        {
-            var handleGetAllCategories = await _getAllCategoriesHandler.HandleGetAllCategories();
-            return Ok(handleGetAllCategories);
-        }
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> GetAllCategories()
+    {
+        var handleGetAllCategories = await _getAllCategoriesHandler.HandleGetAllCategories();
+        return Ok(handleGetAllCategories);
     }
 }

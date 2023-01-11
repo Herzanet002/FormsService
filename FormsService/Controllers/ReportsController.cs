@@ -1,14 +1,12 @@
 ﻿using Application.Interfaces.Services;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using FormsService.API.Controllers.Base;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FormsService.API.Controllers;
-
-[ApiController]
-[Route("/api/[controller]/")]
-public class ReportsController : Controller
+public class ReportsController : ApiControllerBase
 {
 	private readonly IDishOrderRepository _dishOrderRepository;
 	private readonly IOrderRepository _ordersRepository;

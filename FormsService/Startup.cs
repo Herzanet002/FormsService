@@ -14,13 +14,14 @@ public class Startup
 		Configuration = configuration;
 	}
 
-	public IConfiguration Configuration { get; }
+	private IConfiguration Configuration { get; }
 
 	public void ConfigureServices(IServiceCollection services)
 	{
 		services.AddCors();
 
 		services.AddPostresqlDatabase(Configuration);
+        services.AddRepositories(Configuration);
 		services.AddCommandHandlers();
 		services.AddControllers()
 			.AddJsonOptions(o =>

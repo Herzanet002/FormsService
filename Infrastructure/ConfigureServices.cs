@@ -21,13 +21,18 @@ public static class ConfigureServices
 					.UseSnakeCaseNamingConvention()
 					.EnableSensitiveDataLogging();
 			});
-		services.AddScoped<IDishRepository, DishRepository>();
-		services.AddScoped<IOrderRepository, OrderRepository>();
-		services.AddScoped<IDishOrderRepository, DishOrderRepository>();
-		services.AddScoped<IPersonRepository, PersonRepository>();
-		services.AddScoped<IDishCategoryRepository, DishCategoryRepository>();
-		return services;
+        return services;
 	}
+
+    public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<IDishRepository, DishRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IDishOrderRepository, DishOrderRepository>();
+        services.AddScoped<IPersonRepository, PersonRepository>();
+        services.AddScoped<IDishCategoryRepository, DishCategoryRepository>();
+        return services;
+    }
 
 	public static IServiceCollection AddReportsServices(this IServiceCollection services)
 	{

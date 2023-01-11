@@ -34,7 +34,8 @@ export class AdministrateDashboardComponent implements OnInit{
     this.adminForm = this.formBuilder.group(
       {
         startPicker: [''],
-        endPicker: ['']
+        endPicker: [''],
+        price:['']
       });
   }
 

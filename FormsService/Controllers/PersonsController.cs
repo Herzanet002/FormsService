@@ -4,12 +4,11 @@ using Application.Features.Persons.Commands.UpdatePerson;
 using Application.Features.Persons.Queries;
 using Application.Features.Persons.Queries.GetAllPersons;
 using Application.Features.Persons.Queries.GetPersonById;
+using FormsService.API.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FormsService.API.Controllers;
-[ApiController]
-[Route("/api/[controller]/")]
-public class PersonsController : Controller
+public class PersonsController : ApiControllerBase
 {
     private readonly ICreatePersonHandler _createPersonHandler;
     private readonly IUpdatePersonHandler _updatePersonHandler;

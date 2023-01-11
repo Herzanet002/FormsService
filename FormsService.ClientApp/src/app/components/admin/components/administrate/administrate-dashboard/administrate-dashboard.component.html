@@ -1,13 +1,19 @@
 <div class="flex justify-center mt-10">
   <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 block p-12 rounded-lg shadow-lg bg-white w-9/12">
     <form [formGroup]="adminForm" (ngSubmit)="onSubmitForm(adminForm)">
-      <div>
-        <h1 class="text-3xl font-bold mt-0 mb-6 text-center col-span-3">Текущая неделя</h1>
-        <span class="mx-4 text-gray-500">с</span>
-        <input type="date" class="datepicker-input" formControlName="startPicker">
-        <span class="mx-4 text-gray-500">по</span>
-        <input type="date" class="datepicker-input" formControlName="endPicker">
-        <button type="submit" class="btn-primary">Установить</button>
+      <div class="container items-center">
+        <h1 class="text-3xl font-bold mt-0 mb-6 text-center">Текущая неделя</h1>
+        <div class="flex justify-center items-baseline">
+          <span class="mx-4 text-gray-500">с</span>
+          <input type="date" class="datepicker-input" formControlName="startPicker">
+          <span class="mx-4 text-gray-500">по</span>
+          <input type="date" class="datepicker-input" formControlName="endPicker">
+          <button type="submit" class="ml-6 btn-primary">Установить</button>
+        </div>
+        <h1 class="text-3xl font-bold mt-0 mb-6 text-center mt-6">Лимит цены заказа</h1>
+        <div class="flex justify-center items-baseline">
+          <input formControlName="price" type="number" class="max-w-min bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
       </div>
     </form>
 

@@ -3,13 +3,11 @@ using Application.Features.Orders.Commands.CreateOrder;
 using Application.Features.Orders.Commands.DeleteOrder;
 using Application.Features.Orders.Commands.UpdateOrder;
 using Application.Features.Orders.Queries.GetOrders;
+using FormsService.API.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FormsService.API.Controllers;
-
-[ApiController]
-[Route("/api/[controller]/")]
-public class OrdersController : Controller
+public class OrdersController : ApiControllerBase
 {
     private readonly ICreateOrderHandler _createOrderHandler;
     private readonly IUpdateOrderHandler _updateOrderHandler;
