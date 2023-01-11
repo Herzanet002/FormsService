@@ -1,6 +1,5 @@
 ﻿using Application.Interfaces.Services;
 using Domain.Entities;
-using Domain.Enums;
 using TemplateEngine.Docx;
 
 namespace Infrastructure.Services;
@@ -24,7 +23,7 @@ public class WordWorkerServiceService<T> : IWordWorkerService<T> where T : Order
         {
             tableContent.AddRow(new FieldContent("Number", currentOrderNumber.ToString()),
                 new FieldContent("Name", order.Person.Name),
-                new FieldContent("YesNo", order.Location == Location.WithMe ? "Да" : "Нет"),
+                new FieldContent("YesNo", order.LocationId == 1 ? "Да" : "Нет"),
                 new FieldContent("Dishes", string.Join(".\n", order.Dishes.Select(x => x.Name))),
                 new FieldContent("VisitTime", "С 12ч. до 13ч."));
             currentOrderNumber++;

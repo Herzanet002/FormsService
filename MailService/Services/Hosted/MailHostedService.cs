@@ -13,7 +13,7 @@ public class MailHostedService : BackgroundService
 	private readonly FormsConfiguration _formsConfiguration;
 	private readonly ILogger<MailHostedService> _logger;
 	private readonly IServiceProvider _services;
-	private IImapClient? mailServiceClient;
+	private IImapClient? _mailServiceClient;
 
 	public MailHostedService(ILogger<MailHostedService> logger,
 		IServiceProvider services,
@@ -34,8 +34,9 @@ public class MailHostedService : BackgroundService
 
 	public override Task StartAsync(CancellationToken cancellationToken)
 	{
-		mailServiceClient = _services.GetRequiredService<IImapClient>();
-		mailServiceClient.InitializeClient(_clientSettings, _formsConfiguration);
+		if (!_clientSettings.IsActive) return Task.CompletedTask;
+		_mailServiceClient = _services.GetRequiredService<IImapClient>();
+		_mailServiceClient.InitializeClient(_clientSettings, _formsConfiguration);
 		_logger.LogInformation($"{nameof(MailHostedService)} started");
 
 		return base.StartAsync(cancellationToken);
@@ -43,12 +44,11 @@ public class MailHostedService : BackgroundService
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 	{
-		if (!_clientSettings.IsActive) return;
-		if(mailServiceClient is null)
+		if(_mailServiceClient is null)
 			throw new NullReferenceException("IMapClient is not initialized");
 		do
 		{
-			await mailServiceClient.ReceiveItemsAsync();
+			await _mailServiceClient.ReceiveItemsAsync();
 			await Task.Delay(TimeSpan.FromSeconds(_clientSettings.EmailReadInterval), stoppingToken);
 		} while (!stoppingToken.IsCancellationRequested);
 	}

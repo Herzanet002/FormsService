@@ -1,6 +1,4 @@
-﻿using Domain.Enums;
-
-namespace Infrastructure.Persistence.Seeding;
+﻿namespace Infrastructure.Persistence.Seeding;
 
 public class TestDataSeed
 {
@@ -33,7 +31,7 @@ public class TestDataSeed
             {
                 Id = i,
                 PersonId = i,
-                Location = i % 2 == 0 ? Location.WithMe : Location.InCafe,
+                LocationId = i % 2 == 0 ? 1 : 2,
                 DateForming = DateTimeOffset.Now.AddDays(-Random.Next(1, 15))
             };
     }

@@ -1,4 +1,4 @@
-export enum Location {
-  WithMe,
-  InCafe
+export interface Location{
+  id: number,
+  name: string
 }

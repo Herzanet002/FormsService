@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 using Domain.Entities;
-using Domain.Enums;
 
 namespace MailService.Models;
 
@@ -12,14 +11,14 @@ public class MenuModel
     public Person Person { get; set; }
 
     [JsonPropertyName("Где обедаю?")]
-    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
+    [JsonConverter(typeof(JsonLocationConverter))]
     public Location Location { get; set; }
 
-    [JsonIgnore] public List<DishWithPrice> Dishes { get; set; } = new();
+    [JsonIgnore] public List<Dish> Dishes { get; set; } = new();
 
     [JsonPropertyName("Салат")]
-    [JsonConverter(typeof(JsonDishConverter<DishWithPrice>))]
-    public DishWithPrice? Salad
+    [JsonConverter(typeof(JsonDishConverter<Dish>))]
+    public Dish? Salad
     {
         set
         {
@@ -28,9 +27,9 @@ public class MenuModel
         }
     }
 
-    [JsonConverter(typeof(JsonDishConverter<DishWithPrice>))]
+    [JsonConverter(typeof(JsonDishConverter<Dish>))]
     [JsonPropertyName("Суп")]
-    public DishWithPrice? Soup
+    public Dish? Soup
     {
         set
         {
@@ -40,8 +39,8 @@ public class MenuModel
     }
 
     [JsonPropertyName("Горячее")]
-    [JsonConverter(typeof(JsonDishConverter<DishWithPrice>))]
-    public DishWithPrice? FirstCourse
+    [JsonConverter(typeof(JsonDishConverter<Dish>))]
+    public Dish? FirstCourse
     {
         set
         {

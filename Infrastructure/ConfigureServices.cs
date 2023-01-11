@@ -31,6 +31,7 @@ public static class ConfigureServices
         services.AddScoped<IDishOrderRepository, DishOrderRepository>();
         services.AddScoped<IPersonRepository, PersonRepository>();
         services.AddScoped<IDishCategoryRepository, DishCategoryRepository>();
+        services.AddScoped<ILocationRepository, LocationRepository>();
         return services;
     }
 

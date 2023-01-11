@@ -7,5 +7,5 @@ public class DishCategory : BaseEntity
 {
     public string Name { get; set; }
 
-    [JsonIgnore] public virtual ICollection<Dish>? Dishes { get; set; }
+    public virtual ICollection<Dish>? Dishes { get; set; }
 }

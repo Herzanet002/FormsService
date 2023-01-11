@@ -8,8 +8,11 @@
 
 	<ItemGroup>
 	  <Compile Remove="Common\**" />
+	  <Compile Remove="Features\Reports\**" />
 	  <EmbeddedResource Remove="Common\**" />
+	  <EmbeddedResource Remove="Features\Reports\**" />
 	  <None Remove="Common\**" />
+	  <None Remove="Features\Reports\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -18,7 +21,6 @@
 
 	<ItemGroup>
 		<Folder Include="Features\Categories\Commands\CreateCategory\" />
-		<Folder Include="Features\Reports\" />
 	</ItemGroup>
 
 	<ItemGroup>

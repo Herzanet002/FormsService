@@ -1,14 +1,15 @@
-﻿using System.Text.Json;
+﻿using Domain.Entities;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace MailService.Models;
 
-public class JsonDishConverter<T> : JsonConverter<T> where T : DishWithPrice
+public class JsonDishConverter<T> : JsonConverter<T> where T : Dish
 {
     private readonly Regex _patternRegex = new(@"[\w+\-*\s*]+\/\s*\d+");
 
-    private DishWithPrice? CreateDish(string readerString)
+    private Dish? CreateDish(string readerString)
     {
         var match = _patternRegex.Match(readerString);
         if (!match.Success) return null;
@@ -17,10 +18,10 @@ public class JsonDishConverter<T> : JsonConverter<T> where T : DishWithPrice
         var dishName = info[0].TrimEnd();
         var dishPrice = int.Parse(info[1]);
 
-        var dish = new DishWithPrice
+        var dish = new Dish
         {
             Name = dishName,
-            Price = dishPrice
+            DishPrice = dishPrice
         };
         return dish;
     }

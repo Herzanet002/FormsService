@@ -18,6 +18,7 @@ public sealed class DatabaseContext : DbContext
     public DbSet<Order> Orders { get; set; }
     public DbSet<DishOrder> DishOrders { get; set; }
     public DbSet<DishCategory> Categories { get; set; }
+    public DbSet<Location> Locations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,5 +33,6 @@ public sealed class DatabaseContext : DbContext
         modelBuilder.Entity<Person>().HasData(RealDataSeed.GetAllPersons());
         modelBuilder.Entity<Dish>().HasData(RealDataSeed.GetAllDishes());
         modelBuilder.Entity<DishCategory>().HasData(RealDataSeed.GetAllDishCategories());
+        modelBuilder.Entity<Location>().HasData(RealDataSeed.GetAllLocations());
     }
 }

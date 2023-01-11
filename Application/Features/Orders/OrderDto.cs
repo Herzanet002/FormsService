@@ -1,4 +1,4 @@
-﻿using Domain.Enums;
+﻿using Domain.Entities;
 
 namespace Application.Features.Orders;
 

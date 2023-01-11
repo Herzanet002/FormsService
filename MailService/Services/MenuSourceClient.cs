@@ -54,8 +54,10 @@ public class MenuSourceClient : IImapClient
 								throw new NullReferenceException($"{nameof(IPersonRepository)} is null");
 		var dishesRepository = scope.ServiceProvider.GetService<IDishRepository>() ??
 							   throw new NullReferenceException($"{nameof(IDishRepository)} is null");
+		var locationsRepository = scope.ServiceProvider.GetService<ILocationRepository>() ??
+                                  throw new NullReferenceException($"{nameof(ILocationRepository)} is null");
 
-		foreach (var message in inboxMessages)
+        foreach (var message in inboxMessages)
 		{
 			if (!MessageValidation(message)) continue;
 
@@ -73,41 +75,40 @@ public class MenuSourceClient : IImapClient
 			var menuModel = GetItemInfo(messageModel.Content);
 			if (menuModel is null)
 			{
-				_logger.LogWarning("Message is nullable");
+				_logger.LogWarning("The message is nullable");
 				continue;
 			}
 
 			_logger.LogInformation(
-				$"Message in inbox folder: UniqID: {messageModel.UniqueId}, sent: {messageModel.Date}");
+				"Message in inbox folder: UniqID: {id}, sent: {date}", messageModel.UniqueId, messageModel.Date);
 			messages.Add(messageModel);
 
 			var person = personsRepository.GetByFilter(p => p.Name == menuModel.Person.Name).FirstOrDefault();
-
-			if (person is null) continue;
-
-			ICollection<Dish> listOfDishes = menuModel.Dishes
-				.Where(containingDish => containingDish != null)
-				.Select(dish => dishesRepository.GetByFilter(x => x.Name == dish.Name)
-					.FirstOrDefault())
-				.ToList()!;
-
-			var order = new Order
+			if (person is null)
+			{
+				_logger.LogWarning("The person is nullable");
+				continue;
+			};
+            var location = locationsRepository.GetByFilter(x => x.Name == menuModel.Location.Name).FirstOrDefault();
+            
+            ICollection<Dish> listOfDishes = menuModel.Dishes
+	            .Where(containingDish => containingDish != null)
+	            .Select(dish => dishesRepository.GetByFilter(x => x.Name == dish.Name).FirstOrDefault())
+	            .ToList()!;
+            
+            var order = new Order
 			{
 				Dishes = listOfDishes,
 				DateForming = message.Date.UtcDateTime,
 				Person = person,
-				Location = menuModel.Location
+				Location = location!
 			};
 
 			if (ordersRepository
 				.GetByFilter(o => o.DateForming == order.DateForming && o.Person.Name == order.Person.Name)
 				.Any()) continue;
-			var query = await ordersRepository.PreCommit(order);
-			foreach (var dish in menuModel.Dishes.Where(_ => query.DishOrders != null))
-				if (query.DishOrders != null)
-					query.DishOrders.Single(x => x.Dish.Name == dish.Name).Price = dish.Price;
 
-			await ordersRepository.Add(query);
+            await ordersRepository.Add(order);
 
 			//await MarkItemAsProcessed(message.UniqueId);
 		}

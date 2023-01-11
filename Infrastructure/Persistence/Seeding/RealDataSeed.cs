@@ -114,6 +114,22 @@ public class RealDataSeed
         return allPossiblePersons;
     }
 
+    public static IEnumerable<Location> GetAllLocations()
+    {
+        var allPossibleLocations = new List<Location>
+        {
+            new Location
+            {
+                Id = 1, Name = "В кафе"
+            },
+            new Location
+            {
+                Id = 2, Name = "Возьму с собой"
+            }
+        };
+        return allPossibleLocations;
+    }
+
     public static IEnumerable<DishCategory> GetAllDishCategories()
     {
         var categoriesList = new List<DishCategory>

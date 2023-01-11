@@ -5,6 +5,8 @@ import {CategoryResponse} from "../../models/CategoryResponse";
 import {Location} from "../../models/Location";
 import {DataPersonsService} from "../../services/data-persons.service";
 import {DataDishesService} from "../../services/data-dishes.service";
+import {DataLocationsService} from "../../services/data-locations.service";
+import {data} from "autoprefixer";
 
 @Component({
   selector: 'app-client-form',
@@ -14,15 +16,13 @@ import {DataDishesService} from "../../services/data-dishes.service";
 export class ClientFormComponent implements OnInit, OnChanges {
   constructor(private dataPersonsService: DataPersonsService,
               private dataDishesService: DataDishesService,
+              private dataLocationsService: DataLocationsService,
               private formBuilder: FormBuilder) {
   }
   clientForm: FormGroup
   personsSource: Array<Person> = [];
   dishesSource: CategoryResponse[] = [];
-  locationsSource = [
-    {id : 0, name : "В кафе"},
-    {id : 1, name : "Возьму с собой"}
-  ];
+  locationsSource : Location[] = [];
   ngOnChanges(changes: SimpleChanges): void {
 
   }
@@ -56,9 +56,16 @@ export class ClientFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.createForm();
     this.getPersons();
+    this.getLocations();
     this.getDishes();
   }
 
+  private getLocations(){
+    this.dataLocationsService.getLocations()
+      .subscribe((data: Location[]) =>{
+        return this.locationsSource = data;
+      })
+  }
   private getPersons() {
     this.dataPersonsService.getPersons()
       .subscribe((data:Person[]) => {

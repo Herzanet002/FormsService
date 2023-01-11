@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230111090808_DishWithIsActive")]
+    partial class DishWithIsActive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,6 +47,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnName("is_active");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("name");
 
@@ -180,37 +184,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("dish_orders", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Entities.Location", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id")
-                        .HasName("pk_locations");
-
-                    b.ToTable("locations", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "В кафе"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Возьму с собой"
-                        });
-                });
-
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -224,9 +197,9 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("date_forming");
 
-                    b.Property<int>("LocationId")
+                    b.Property<int>("Location")
                         .HasColumnType("integer")
-                        .HasColumnName("location_id");
+                        .HasColumnName("location");
 
                     b.Property<int>("PersonId")
                         .HasColumnType("integer")
@@ -234,9 +207,6 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_orders");
-
-                    b.HasIndex("LocationId")
-                        .HasDatabaseName("ix_orders_location_id");
 
                     b.HasIndex("PersonId")
                         .HasDatabaseName("ix_orders_person_id");
@@ -346,21 +316,12 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
-                    b.HasOne("Domain.Entities.Location", "Location")
-                        .WithMany("Orders")
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_orders_locations_location_id");
-
                     b.HasOne("Domain.Entities.Person", "Person")
                         .WithMany("Orders")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_orders_persons_person_id");
-
-                    b.Navigation("Location");
 
                     b.Navigation("Person");
                 });
@@ -373,11 +334,6 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.DishCategory", b =>
                 {
                     b.Navigation("Dishes");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Location", b =>
-                {
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
